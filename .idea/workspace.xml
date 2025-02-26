@@ -5,13 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="54ac482a-96b0-4220-98ac-bf0da4538b45" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b/storage_v2/_src_/database/local_papo.BCizTQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b/storage_v2/_src_/database/local_papo.BCizTQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,13 +32,14 @@
   "keyToString": {
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Downloaded.Files.Path.Enabled": "false",
+    "JPA.DatabaseSchemaImportDialog": "17d78907-3122-4371-a935-aabc9cd0ee6b",
     "Repository.Attach.Annotations": "false",
     "Repository.Attach.JavaDocs": "false",
     "Repository.Attach.Sources": "false",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
+    "RequestMappingsPanelWidth0": "15",
+    "RequestMappingsPanelWidth1": "15",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
@@ -70,6 +67,9 @@
     <key name="CopyFile.RECENT_KEYS">
       <recent name="S:\A_project\Java project\back-projectpapo\src\main\java\com\example\backprojectpapo" />
       <recent name="S:\A_project\Java project\back-projectpapo\src\test" />
+    </key>
+    <key name="ImportMappingsDialog.RecentPackages">
+      <recent name="" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -112,7 +112,7 @@
       <updated>1740555216525</updated>
       <workItem from="1740555217701" duration="708000" />
       <workItem from="1740555949474" duration="1322000" />
-      <workItem from="1740557307125" duration="1134000" />
+      <workItem from="1740557307125" duration="4742000" />
     </task>
     <servers />
   </component>
