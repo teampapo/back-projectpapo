@@ -5,19 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="54ac482a-96b0-4220-98ac-bf0da4538b45" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/AddressRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/AddressTypeRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/AggregatorSpecialistRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/ConnectionRequestRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/CustomerRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/OrganizationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/ServiceDetailRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/ServiceRequestRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/backprojectpapo/repository/TypeOfServiceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/amplicode-jpa.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/amplicode-settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b/storage_v2/_src_/database/local_papo.BCizTQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b/storage_v2/_src_/database/local_papo.BCizTQ/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b/storage_v2/_src_/database/local_papo.BCizTQ/schema/pg_catalog.0S1ZNQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/17d78907-3122-4371-a935-aabc9cd0ee6b/storage_v2/_src_/database/local_papo.BCizTQ/schema/public.abK9xQ.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
@@ -42,18 +39,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "EliseevIlya"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;EliseevIlya&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/teampapo/back-projectpapo.git",
-    "accountId": "99d6cf5d-b3f3-4ff9-a8b8-85658cd10eec"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/teampapo/back-projectpapo.git&quot;,
+    &quot;accountId&quot;: &quot;99d6cf5d-b3f3-4ff9-a8b8-85658cd10eec&quot;
   }
-}]]></component>
+}</component>
   <component name="GradleModuleStateConfig" initialized="true" />
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -83,9 +80,9 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.Application.executor": "Run",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "repositories",
+    "git-widget-placeholder": "test",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "S:/A_project/Java project/back-projectpapo/src/main/java/com/example/backprojectpapo",
+    "last_opened_file_path": "D:/4_курс_семестр_2/ПАПО/Project/back-projectpapo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -162,6 +159,7 @@
       <workItem from="1740555949474" duration="1322000" />
       <workItem from="1740557307125" duration="4742000" />
       <workItem from="1740584761145" duration="1316000" />
+      <workItem from="1740588984646" duration="985000" />
     </task>
     <servers />
   </component>
