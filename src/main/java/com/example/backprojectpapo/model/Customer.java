@@ -33,6 +33,9 @@ public class Customer {
     @Column(name = "customer_phone_number")
     private String phoneNumber;
 
+    @Column(name = "customer_email", nullable = false)
+    private String email;
+
     @Column(name = "add_info")
     private String addInfo;
 
