@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.model;
 
+import com.example.backprojectpapo.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,7 +43,7 @@ public class ConnectionRequest {
 
     @NonNull
     @Column(name = "status")
-    private String status;
+    private Status status;
 
     @Column(name = "add_info")
     private String addInfo;
