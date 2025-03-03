@@ -43,6 +43,9 @@ public class    AggregatorSpecialist {
     @Column(name = "aggregator_specialist_phone_number")
     private String phoneNumber;
 
+    @Column(name = "aggregator_specialist_email", nullable = false)
+    private String email;
+
     @Column(name = "add_info")
     private String addInfo;
 
