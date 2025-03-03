@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface ConnectionRequestService {
     //TODO Filter
     //Page<ConnectionRequest> findAll(Specification<ConnectionRequest> spec, Pageable pageable);
+    //TODO do we need Page<ConnectionRequest> findAll(Pageable pageable);
     ConnectionRequest save(ConnectionRequest connectionRequest);
     Optional<ConnectionRequest> findById(Integer id);
     List<ConnectionRequest> findAll();

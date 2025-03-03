@@ -40,9 +40,9 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
 
     @Override
     public ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria) {
-        Specification<ConnectionRequest> specification = ConnectionRequestSpecification.byCriteria(criteria);
+        Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
-        return new ResponseDto<>(connectionRequestRepository.findAll(specification,pageable));
+        return new ResponseDto<>(connectionRequestRepository.findAll(spec,pageable));
     }
 
 
