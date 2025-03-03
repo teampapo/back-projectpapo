@@ -35,11 +35,11 @@ public class ServiceDetail {
 
     @NonNull
     @Column(name = "service_detail_cost")
-    private String cost;
+    private Integer cost;
 
     @NonNull
     @Column(name = "service_detail_duration")
-    private String duration;
+    private Integer duration;
 
     @Column(name = "add_info")
     private String addInfo;

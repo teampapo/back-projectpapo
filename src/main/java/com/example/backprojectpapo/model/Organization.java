@@ -53,7 +53,7 @@ public class Organization {
 
     @NonNull
     @Column(name = "responsible_person_email")
-    private String responsiblePersonemail;
+    private String responsiblePersonEmail;
 
     @NonNull
     @Column(name = "responsible_person_phone_number")
