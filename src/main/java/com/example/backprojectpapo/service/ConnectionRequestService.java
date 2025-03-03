@@ -1,5 +1,7 @@
 package com.example.backprojectpapo.service;
 
+import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +16,7 @@ public interface ConnectionRequestService {
     Optional<ConnectionRequest> findById(Integer id);
     List<ConnectionRequest> findAll();
     Page<ConnectionRequest> findAll(Pageable pageable);
+    ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria);
     void deleteById(int id);
 
 }

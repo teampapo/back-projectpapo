@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.model;
 
+import com.example.backprojectpapo.model.enums.TypeName;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ public class AddressType {
 
     @NonNull
     @Column(name = "address_type_name")
-    private String typeName;
+    private TypeName typeName;
 
     @Column(name = "add_info")
     private String addInfo;
