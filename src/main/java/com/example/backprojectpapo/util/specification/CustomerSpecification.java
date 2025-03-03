@@ -25,6 +25,9 @@ public class CustomerSpecification {
             if (criteria.getPhoneNumber() != null && !criteria.getPhoneNumber().isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("phoneNumber"), "%"+criteria.getPhoneNumber()+"%"));
             }
+            if (criteria.getEmail() != null && !criteria.getEmail().isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("email"), "%"+criteria.getEmail()+"%"));
+            }
 
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

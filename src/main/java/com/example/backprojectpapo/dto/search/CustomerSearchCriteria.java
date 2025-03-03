@@ -12,4 +12,5 @@ public class CustomerSearchCriteria extends BaseEntitySearchCriteria{
     private String name;
     private String patronymic;
     private String phoneNumber;
+    private String email;
 }
