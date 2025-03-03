@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.config.security;
 
+import com.example.backprojectpapo.config.security.components.JwtAuthenticationFilter;
 import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +43,9 @@ public class WebSecurityConfig {
     @Autowired
     CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
+    JwtAuthenticationFilter jwtAuthenticationFilter;
+
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -60,7 +64,7 @@ public class WebSecurityConfig {
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
-                //.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
