@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.model;
 
+import com.example.backprojectpapo.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "customer")
-public class Customer {
+public class Customer extends User {
     @Id
     @Column(name = "customer_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +34,8 @@ public class Customer {
     @Column(name = "customer_phone_number")
     private String phoneNumber;
 
-    @Column(name = "customer_email", nullable = false)
-    private String email;
+    //@Column(name = "customer_email", nullable = false)
+    //private String email;
 
     @Column(name = "add_info")
     private String addInfo;

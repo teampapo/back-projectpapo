@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.model;
 
+import com.example.backprojectpapo.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name ="aggregator_specialist")
-public class    AggregatorSpecialist {
+public class AggregatorSpecialist extends User {
     @Id
     @Column(name = "aggregator_specialists_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,9 +43,6 @@ public class    AggregatorSpecialist {
     @NonNull
     @Column(name = "aggregator_specialist_phone_number")
     private String phoneNumber;
-
-    @Column(name = "aggregator_specialist_email", nullable = false)
-    private String email;
 
     @Column(name = "add_info")
     private String addInfo;
