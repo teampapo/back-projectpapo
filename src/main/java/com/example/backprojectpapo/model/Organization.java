@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.model;
 
+import com.example.backprojectpapo.model.user.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Entity
 @Table(name = "organization")
-public class Organization {
+public class Organization extends User {
     @Id
     @Column(name = "organization_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
