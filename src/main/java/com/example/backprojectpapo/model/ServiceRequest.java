@@ -21,18 +21,15 @@ public class ServiceRequest {
     @Column(name ="service_request_id")
     private Integer id;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id",nullable = false)
     private Customer customer;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "organization_id")
+    @JoinColumn(name = "organization_id",nullable = false)
     private Organization organization;
 
-    @NonNull
-    @Column(name = "data_service")
+    @Column(name = "data_service",nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd.mm.yyyy hh:mm")
     private LocalDateTime dataService;
 
