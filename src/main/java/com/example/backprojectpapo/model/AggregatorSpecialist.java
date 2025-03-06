@@ -21,27 +21,22 @@ public class AggregatorSpecialist extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
-    @Column(name = "aggregator_specialist_surname")
+    @Column(name = "aggregator_specialist_surname",nullable = false)
     private String surname;
 
-    @NonNull
-    @Column(name = "aggregator_specialist_name")
+    @Column(name = "aggregator_specialist_name",nullable = false)
     private String name;
 
     @Column(name = "aggregator_specialist_patronymic")
     private String patronymic;
 
-    @NonNull
-    @Column(name = "aggregator_specialist_department")
+    @Column(name = "aggregator_specialist_department",nullable = false)
     private String department;
 
-    @NonNull
-    @Column(name = "aggregator_specialist_position")
+    @Column(name = "aggregator_specialist_position",nullable = false)
     private String position;
 
-    @NonNull
-    @Column(name = "aggregator_specialist_phone_number")
+    @Column(name = "aggregator_specialist_phone_number",nullable = false)
     private String phoneNumber;
 
     @Column(name = "add_info")

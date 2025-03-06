@@ -21,12 +21,10 @@ public class TypeOfService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
-    @Column(name = "type_code")
+    @Column(name = "type_code",nullable = false)
     private String code;
 
-    @NonNull
-    @Column(name = "type_name")
+    @Column(name = "type_name",nullable = false)
     private String name;
 
     @OneToMany(mappedBy = "type",cascade = CascadeType.PERSIST)

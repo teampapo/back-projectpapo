@@ -17,30 +17,24 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "organization_id")
+    @JoinColumn(name = "organization_id",nullable = false)
     private Organization organization;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "address_type_id")
+    @JoinColumn(name = "address_type_id",nullable = false)
     private AddressType addressType;
 
-    @NonNull
-    @Column(name = "subject_name")
+    @Column(name = "subject_name",nullable = false)
     private String subjectName;
 
-    @NonNull
-    @Column(name = "city_name")
+    @Column(name = "city_name",nullable = false)
     private String cityName;
 
-    @NonNull
-    @Column(name = "street_name")
+    @Column(name = "street_name",nullable = false)
     private String streetName;
 
-    @NonNull
-    @Column(name = "house_number")
+    @Column(name = "house_number",nullable = false)
     private String houseNumber;
 
     @Column(name = "add_info")

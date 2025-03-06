@@ -20,25 +20,20 @@ public class ServiceDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "type_id",nullable = false)
     private TypeOfService type;
 
-    @NonNull
-    @Column(name = "service_detail_code")
+    @Column(name = "service_detail_code",nullable = false)
     private String code;
 
-    @NonNull
-    @Column(name = "service_detail_name")
+    @Column(name = "service_detail_name",nullable = false)
     private String name;
 
-    @NonNull
-    @Column(name = "service_detail_cost")
+    @Column(name = "service_detail_cost",nullable = false)
     private Integer cost;
 
-    @NonNull
-    @Column(name = "service_detail_duration")
+    @Column(name = "service_detail_duration",nullable = false)
     private Integer duration;
 
     @Column(name = "add_info")

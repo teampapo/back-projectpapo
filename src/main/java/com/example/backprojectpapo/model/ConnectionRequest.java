@@ -23,17 +23,14 @@ public class ConnectionRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
     @ManyToOne
-    @JoinColumn(name = "organiztion_id")
+    @JoinColumn(name = "organiztion_id",nullable = false)
     private Organization organization;
 
-    @NonNull
-    @Column(name = "reg_number")
+    @Column(name = "reg_number",nullable = false)
     private String registrationNumber;
 
-    @NonNull
-    @Column(name = "date_begin")
+    @Column(name = "date_begin",nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.mm.yyyy")
     private LocalDate dateBegin;
 
@@ -41,8 +38,7 @@ public class ConnectionRequest {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.mm.yyyy")
     private LocalDate dateEnd;
 
-    @NonNull
-    @Column(name = "status")
+    @Column(name = "status",nullable = false)
     private Status status;
 
     @Column(name = "add_info")

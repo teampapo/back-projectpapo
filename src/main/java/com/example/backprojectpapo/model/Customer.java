@@ -30,12 +30,8 @@ public class Customer extends User {
     @Column(name = "customer_patronymic")
     private String patronymic;
 
-    @NonNull
-    @Column(name = "customer_phone_number")
+    @Column(name = "customer_phone_number",nullable = false)
     private String phoneNumber;
-
-    //@Column(name = "customer_email", nullable = false)
-    //private String email;
 
     @Column(name = "add_info")
     private String addInfo;

@@ -21,8 +21,7 @@ public class AddressType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
-    @Column(name = "address_type_name")
+    @Column(name = "address_type_name",nullable = false)
     private TypeName typeName;
 
     @Column(name = "add_info")

@@ -21,43 +21,34 @@ public class Organization extends User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @NonNull
-    @Column(name = "organization_full_name")
+    @Column(name = "organization_full_name",nullable = false)
     private String fullName;
 
-    @NonNull
-    @Column(name ="organization_short_name")
+    @Column(name ="organization_short_name",nullable = false)
     private String shortName;
 
-    @NonNull
-    @Column(name = "inn")
+    @Column(name = "inn",nullable = false)
     private String inn;
 
-    @NonNull
-    @Column(name = "kpp")
+    @Column(name = "kpp",nullable = false)
     private String kpp;
 
-    @NonNull
-    @Column(name = "ogrn")
+    @Column(name = "ogrn",nullable = false)
     private String ogrn;
 
-    @NonNull
-    @Column(name = "responsible_person_surname")
+    @Column(name = "responsible_person_surname",nullable = false)
     private String responsiblePersonSurname;
 
-    @NonNull
-    @Column(name = "responsible_person_name")
+    @Column(name = "responsible_person_name",nullable = false)
     private String responsiblePersonName;
 
     @Column(name = "responsible_person_patronymic")
     private String responsiblePersonPatronymic;
 
-    @NonNull
-    @Column(name = "responsible_person_email")
+    @Column(name = "responsible_person_email",nullable = false)
     private String responsiblePersonEmail;
 
-    @NonNull
-    @Column(name = "responsible_person_phone_number")
+    @Column(name = "responsible_person_phone_number",nullable = false)
     private String responsiblePersonPhoneNumber;
 
     @Column(name = "add_info")
