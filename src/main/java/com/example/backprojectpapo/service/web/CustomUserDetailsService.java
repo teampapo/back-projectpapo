@@ -2,33 +2,21 @@ package com.example.backprojectpapo.service.web;
 
 import com.example.backprojectpapo.config.security.components.CustomUserDetails;
 import com.example.backprojectpapo.dto.UserDto;
-import com.example.backprojectpapo.model.AggregatorSpecialist;
-import com.example.backprojectpapo.model.Customer;
-import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.user.User;
-import com.example.backprojectpapo.repository.AggregatorSpecialistRepository;
-import com.example.backprojectpapo.repository.CustomerRepository;
-import com.example.backprojectpapo.repository.OrganizationRepository;
 import com.example.backprojectpapo.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private final UserService userService;
-
     @Autowired
-    public CustomUserDetailsService(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @Override
     @Transactional
