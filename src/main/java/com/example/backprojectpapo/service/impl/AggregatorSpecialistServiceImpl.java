@@ -3,10 +3,12 @@ package com.example.backprojectpapo.service.impl;
 import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.repository.AggregatorSpecialistRepository;
 import com.example.backprojectpapo.service.AggregatorSpecialistService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AggregatorSpecialistServiceImpl implements AggregatorSpecialistService {
 
     private AggregatorSpecialistRepository aggregatorSpecialistRepository;

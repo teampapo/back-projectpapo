@@ -3,10 +3,12 @@ package com.example.backprojectpapo.service.impl;
 import com.example.backprojectpapo.model.AddressType;
 import com.example.backprojectpapo.repository.AddressTypeRepository;
 import com.example.backprojectpapo.service.AddressTypeService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AddressTypeServiceImpl implements AddressTypeService {
     private AddressTypeRepository addressTypeRepository;
     @Override
