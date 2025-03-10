@@ -1,7 +1,9 @@
 package com.example.backprojectpapo.util.specification;
 
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
+import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.model.ConnectionRequest;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -33,6 +35,10 @@ public class ConnectionRequestSpecification {
             }
             if (criteria.getStatus() != null){
                 predicates.add(criteriaBuilder.equal(root.get("status"), criteria.getStatus()));
+            }
+            if (criteria.getAggregatorSpecialistId() != null) {
+                Join<ConnectionRequest, AggregatorSpecialist> join = root.join("aggregatorSpecialists");
+                predicates.add(criteriaBuilder.equal(join.get("id"), criteria.getAggregatorSpecialistId()));
             }
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

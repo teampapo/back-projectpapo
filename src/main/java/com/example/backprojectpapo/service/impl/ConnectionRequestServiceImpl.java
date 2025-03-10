@@ -41,11 +41,13 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     }
 
     @Override
-    public ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria) {
+    public ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria, Integer aggregatorId) {
+        criteria.setAggregatorSpecialistId(aggregatorId);
         Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
         return new ResponseDto<>(connectionRequestRepository.findAll(spec,pageable));
     }
+
 
 
     @Override

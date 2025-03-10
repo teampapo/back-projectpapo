@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.service.impl;
 
+import com.example.backprojectpapo.dto.request.AggregatorSpecialistDTO;
 import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.repository.AggregatorSpecialistRepository;
 import com.example.backprojectpapo.service.AggregatorSpecialistService;
@@ -19,7 +20,23 @@ public class AggregatorSpecialistServiceImpl implements AggregatorSpecialistServ
     }
 
     @Override
-    public Optional<AggregatorSpecialist> findById(Integer id) {
+    public Optional<AggregatorSpecialistDTO> findByIdToDTO(Integer id) {
+        AggregatorSpecialist aggregatorSpecialist = aggregatorSpecialistRepository.findById(id).orElse(null);
+
+        assert aggregatorSpecialist != null;
+        return Optional.of(new AggregatorSpecialistDTO(
+                aggregatorSpecialist.getSurname(),
+                aggregatorSpecialist.getName(),
+                aggregatorSpecialist.getPatronymic(),
+                aggregatorSpecialist.getDepartment(),
+                aggregatorSpecialist.getPosition(),
+                aggregatorSpecialist.getPhoneNumber(),
+                aggregatorSpecialist.getAddInfo()
+        ));
+    }
+
+    @Override
+    public Optional<AggregatorSpecialist> findById(Integer id){
         return aggregatorSpecialistRepository.findById(id);
     }
 
