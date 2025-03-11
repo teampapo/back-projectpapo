@@ -1,20 +1,16 @@
 package com.example.backprojectpapo.controller;
 
 import com.example.backprojectpapo.dto.AggregatorSpecialistDto;
+import com.example.backprojectpapo.dto.CustomerDto;
 import com.example.backprojectpapo.dto.OrganizationDto;
-import com.example.backprojectpapo.dto.TestDto;
 import com.example.backprojectpapo.model.user.User;
 import com.example.backprojectpapo.service.web.AuthenticationService;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -33,18 +29,14 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
-    @PostMapping("/signUp/customer")
-    public ResponseEntity<String> signUpCustomer(@Valid @RequestBody TestDto testDto){
+    @PostMapping("/sign_up/customer")
+    public ResponseEntity<String> signUpCustomer(@RequestBody CustomerDto customerDto){
 
-        System.out.println(testDto);
-        System.out.println(testDto.getAboba());
-        System.out.println(testDto.getSrulic());
-        System.out.println(testDto.getLashka());
-//        Optional<User> optionalUser = Optional.ofNullable(authenticationService.signUpCustomer(customerDto));
-//        if(optionalUser.isEmpty()){
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User not create");
-//        }
-//
+        Optional<User> optionalUser = Optional.ofNullable(authenticationService.signUpCustomer(customerDto));
+        if(optionalUser.isEmpty()){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User not create");
+        }
+
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
@@ -71,22 +63,22 @@ public class AuthController {
     }
 
     @PostMapping("/sign_in/customer")
-    public ResponseEntity<String> signInCustomer(@RequestBody String email, @RequestBody String code){
-        String token = authenticationService.signInWithCode(email, code);
+    public ResponseEntity<String> signInCustomer(@RequestBody Map<String,String> data){
+        String token = authenticationService.signInWithCode(data.get("email"), data.get("code"));
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
 
     @PostMapping("/sign_in/organization")
-    public ResponseEntity<String> signInOrganization(@RequestBody String email, @RequestBody String code){
-        String token = authenticationService.signInWithCode(email, code);
+    public ResponseEntity<String> signInOrganization(@RequestBody Map<String,String> data){
+        String token = authenticationService.signInWithCode(data.get("email"), data.get("code"));
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
     @PostMapping("/sign_in/admin")
-    public ResponseEntity<String> signInAdmin(@RequestBody String email,@RequestBody String password,
-                                              @RequestBody String code){
-        String token = authenticationService.signInWithPasswordAndCode(email, password, code);
+    public ResponseEntity<String> signInAdmin(@RequestBody Map<String, String> data){
+        String token = authenticationService.signInWithPasswordAndCode(data.get("email"), data.get("password"),
+                data.get("code"));
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 }
