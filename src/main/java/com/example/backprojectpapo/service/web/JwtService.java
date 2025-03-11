@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    @Value("${token.signing.key")
+    @Value("${token.signing.key}")
     private String jwtSigningKey;
 
     /**
