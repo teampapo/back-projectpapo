@@ -104,6 +104,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         String code = String.format("%06d", new Random().nextInt(999999));
         verificationCodes.put(email,code);
         System.out.println(code);
-        //emailService.sendSimpleEmail(email, "verify code", "code: " + code);
+        emailService.sendSimpleEmail(email, "verify code", "code: " + code);
     }
 }
