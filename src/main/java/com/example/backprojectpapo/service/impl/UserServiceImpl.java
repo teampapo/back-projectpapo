@@ -4,6 +4,7 @@ import com.example.backprojectpapo.dto.AggregatorSpecialistDto;
 import com.example.backprojectpapo.dto.CustomerDto;
 import com.example.backprojectpapo.dto.OrganizationDto;
 import com.example.backprojectpapo.exception.UserAlreadyExistsException;
+import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.Organization;
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
             return Optional.of(organization.get());
         }
 
-        throw new RuntimeException("User with email " + email + " not found");
+        throw new UserNotFoundException("User with email " + email + " not found");
     }
 
     @Override
@@ -69,7 +70,7 @@ public class UserServiceImpl implements UserService {
         //TODO 09.03 add exceptions for empty required parameters
         aggregatorSpecialist.setEmail(dto.getEmail());
         Optional.ofNullable(dto.getPassword()).map(passwordEncoder::encode).ifPresent(aggregatorSpecialist::setPassword);
-        aggregatorSpecialist.setRole(dto.getRole());
+        aggregatorSpecialist.setRole(Role.ADMIN);
         aggregatorSpecialist.setIsActive(true);
 
         Optional.ofNullable(dto.getSurname()).ifPresent(aggregatorSpecialist::setSurname);
@@ -92,8 +93,7 @@ public class UserServiceImpl implements UserService {
 
         //TODO 09.03 add exceptions for empty required parameters
         customer.setEmail(dto.getEmail());
-        Optional.ofNullable(dto.getPassword()).map(passwordEncoder::encode).ifPresent(customer::setPassword);
-        customer.setRole(dto.getRole());
+        customer.setRole(Role.CUSTOMER);
         customer.setIsActive(true);
 
         Optional.ofNullable(dto.getSurname()).ifPresent(customer::setSurname);
@@ -114,8 +114,7 @@ public class UserServiceImpl implements UserService {
 
         //TODO 09.03 add exceptions for empty required parameters
         organization.setEmail(dto.getEmail());
-        Optional.ofNullable(dto.getPassword()).map(passwordEncoder::encode).ifPresent(organization::setPassword);
-        organization.setRole(dto.getRole());
+        organization.setRole(Role.ORGANIZATION);
         organization.setIsActive(true);
 
 
