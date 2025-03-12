@@ -76,7 +76,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String signInWithPasswordAndCode(String email, String verifyCode, String password) {
+    public String signInWithPasswordAndCode(String email, String password, String verifyCode) {
 
         String storedCode = verificationCodes.get(email);
         if(storedCode == null || !storedCode.equals(verifyCode)){

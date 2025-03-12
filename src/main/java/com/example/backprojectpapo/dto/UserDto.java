@@ -22,5 +22,5 @@ public class UserDto{
     private Role role;
     @NotNull
     @JsonProperty("isActive")
-    private Boolean isActive;
+    private Boolean isActive = true;
 }
