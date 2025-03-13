@@ -18,7 +18,7 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    @Value("${token.signing.key")
+    @Value("${token.signing.key}")
     private String jwtSigningKey;
 
     /**
@@ -40,8 +40,8 @@ public class JwtService {
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         if (userDetails instanceof CustomUserDetails customUserDetails) {
-            claims.put("login", customUserDetails.getUsername());
-            claims.put("role", customUserDetails.getAuthorities());
+            claims.put("email", customUserDetails.getUsername());
+            //claims.put("role", customUserDetails.getAuthorities());
         }
         return generateToken(claims, userDetails);
     }
