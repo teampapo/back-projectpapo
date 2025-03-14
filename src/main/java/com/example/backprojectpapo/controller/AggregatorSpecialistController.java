@@ -66,7 +66,8 @@ public class AggregatorSpecialistController {
     }
     //TODO жду security для получения и декомпозции JWT токена ( получить id )
     @GetMapping("/aggreagator")
-    public ResponseEntity<AggregatorSpecialistDTO> getAggregatorSpecialist(@RequestBody Integer aggregatorId) {
+    public ResponseEntity<AggregatorSpecialistDTO> getAggregatorSpecialist(@RequestBody Integer aggregatorId,
+                                                                           @RequestHeader("Authorization") String token) {
         Optional<AggregatorSpecialistDTO> aggregatorSpecialist = aggregatorSpecialistService.findByIdToDTO(aggregatorId);
         assert aggregatorSpecialist.isPresent(); //TODO заменить assert
 
@@ -76,7 +77,8 @@ public class AggregatorSpecialistController {
     //TODO жду security для получения и декомпозции JWT токена ( получить id )
     @PutMapping("/aggreagator")
     public ResponseEntity<String> updateAggregatorSpecialist(@RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
-                                                             @RequestParam Integer aggregatorId) {
+                                                             @RequestParam Integer aggregatorId,
+                                                             @RequestHeader("Authorization") String token) {
 
         Optional<AggregatorSpecialist> optionalSpecialist = aggregatorSpecialistService.findById(aggregatorId);
         if (optionalSpecialist.isEmpty()) {
@@ -88,7 +90,8 @@ public class AggregatorSpecialistController {
     //TODO жду security для получения и декомпозции JWT токена ( получить id )
     @GetMapping("/connectionRequest")
     public ResponseEntity<ResponseDto<ConnectionRequest>> searchConnectionRequests(@RequestBody ConnectionRequestSearchCriteria criteria,
-                                                                                   @RequestBody Integer aggregatorId) {
+                                                                                   @RequestBody Integer aggregatorId,
+                                                                                   @RequestHeader("Authorization") String token) {
         ResponseDto<ConnectionRequest> responseDto = connectionRequestService.search(criteria,aggregatorId);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
