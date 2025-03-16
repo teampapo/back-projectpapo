@@ -2,6 +2,9 @@ package com.example.backprojectpapo.service.web;
 
 import com.example.backprojectpapo.config.security.components.CustomUserDetails;
 import com.example.backprojectpapo.dto.UserDto;
+import com.example.backprojectpapo.model.AggregatorSpecialist;
+import com.example.backprojectpapo.model.Customer;
+import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.user.User;
 import com.example.backprojectpapo.service.UserService;
 import jakarta.transaction.Transactional;
@@ -33,6 +36,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         User usr = user.get();
         UserDto userDto = new UserDto();
+
+        // получение id пользователя
+        if(usr instanceof Customer customer){
+            userDto.setId(customer.getId());
+        } else if (usr instanceof AggregatorSpecialist aggregatorSpecialist) {
+            userDto.setId(aggregatorSpecialist.getId());
+        } else if (usr instanceof Organization organization) {
+            userDto.setId(organization.getId());
+        }
+
         userDto.setEmail(usr.getEmail());
         userDto.setPassword(usr.getPassword());
         userDto.setRole(usr.getRole());
