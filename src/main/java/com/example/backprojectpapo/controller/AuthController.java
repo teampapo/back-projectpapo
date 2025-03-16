@@ -3,6 +3,8 @@ package com.example.backprojectpapo.controller;
 import com.example.backprojectpapo.dto.AggregatorSpecialistDto;
 import com.example.backprojectpapo.dto.CustomerDto;
 import com.example.backprojectpapo.dto.OrganizationDto;
+import com.example.backprojectpapo.dto.request.SignInWithCodeAndPasswordRequest;
+import com.example.backprojectpapo.dto.request.SignInWithCodeRequest;
 import com.example.backprojectpapo.model.user.User;
 import com.example.backprojectpapo.service.web.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,22 +65,22 @@ public class AuthController {
     }
 
     @PostMapping("/sign_in/customer")
-    public ResponseEntity<String> signInCustomer(@RequestBody Map<String,String> data){
-        String token = authenticationService.signInWithCode(data.get("email"), data.get("code"));
+    public ResponseEntity<String> signInCustomer(@RequestBody SignInWithCodeRequest data){
+        String token = authenticationService.signInWithCode(data.getEmail(), data.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
 
     @PostMapping("/sign_in/organization")
-    public ResponseEntity<String> signInOrganization(@RequestBody Map<String,String> data){
-        String token = authenticationService.signInWithCode(data.get("email"), data.get("code"));
+    public ResponseEntity<String> signInOrganization(@RequestBody SignInWithCodeRequest data){
+        String token = authenticationService.signInWithCode(data.getEmail(), data.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
     @PostMapping("/sign_in/admin")
-    public ResponseEntity<String> signInAdmin(@RequestBody Map<String, String> data){
-        String token = authenticationService.signInWithPasswordAndCode(data.get("email"), data.get("password"),
-                data.get("code"));
+    public ResponseEntity<String> signInAdmin(@RequestBody SignInWithCodeAndPasswordRequest data){
+        String token = authenticationService.signInWithPasswordAndCode(data.getEmail(), data.getPassword(),
+                data.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 }
