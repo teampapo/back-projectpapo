@@ -9,6 +9,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(EmailException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<String> handleEmailException(EmailException exception){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(exception.getMessage());
+    }
+
     @ExceptionHandler(UserAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException exception){
