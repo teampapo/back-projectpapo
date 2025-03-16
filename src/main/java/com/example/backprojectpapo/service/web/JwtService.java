@@ -1,7 +1,8 @@
 package com.example.backprojectpapo.service.web;
 
 import com.example.backprojectpapo.config.security.components.CustomUserDetails;
-import com.example.backprojectpapo.service.UserService;
+import com.example.backprojectpapo.model.jwt.JwtData;
+import com.example.backprojectpapo.model.enums.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.impl.lang.Function;
 import io.jsonwebtoken.Jwts;
@@ -39,6 +40,7 @@ public class JwtService {
      * @return элек. почта
      */
     public String extractEmail(String token){
+
         return extractClaim(token,Claims::getSubject);
     }
 
@@ -49,7 +51,17 @@ public class JwtService {
      * @return ID пользователя
      */
     public Integer extractId(String token) {
+
         return extractClaim(token, claims -> claims.get("id", Integer.class));
+    }
+
+    public JwtData extractData(String token){
+        return JwtData.builder()
+                .id(extractId(token))
+                .email(extractEmail(token))
+                .role(extractClaim(token, claims -> claims.get("role", Role.class)))
+                .createdDateTime(extractClaim(token, claims -> claims.get("createdDateTime", LocalDateTime.class)))
+                .build();
     }
 
     /**
