@@ -20,6 +20,10 @@ public class ServiceDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "type_id",nullable = false)
+    private TypeOfService type;
+
     @Column(name = "service_detail_code",nullable = false)
     private String code;
 
@@ -37,12 +41,4 @@ public class ServiceDetail {
 
     @ManyToMany(mappedBy = "serviceDetails")
     private Set<ServiceRequest> serviceRequests = new HashSet<>();
-
-    @ManyToMany
-    @JoinTable(
-            name = "service_request_subservice",
-            joinColumns = @JoinColumn(name = "service_request_id"),
-            inverseJoinColumns = @JoinColumn(name = "subservice_id")
-    )
-    private Set<Subservice> subservices = new HashSet<>();
 }
