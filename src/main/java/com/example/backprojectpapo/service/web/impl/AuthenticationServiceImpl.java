@@ -66,10 +66,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(email);
-        String effectivePassword = Optional.ofNullable(customUserDetails.getPassword()).orElse("");
-        if(!passwordEncoder.matches("", effectivePassword) || effectivePassword.isEmpty()){
-            throw new PasswordIsMissingException("Password is required for this user");
-        }
         verificationCodes.remove(email);
 
         return jwtService.generateToken(customUserDetails);
@@ -103,7 +99,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String code = String.format("%06d", new Random().nextInt(999999));
         verificationCodes.put(email,code);
-        System.out.println(code);
         emailService.sendSimpleEmail(email, "verify code", "code: " + code);
     }
 }
