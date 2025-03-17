@@ -3,6 +3,7 @@ package com.example.backprojectpapo.service.impl;
 import com.example.backprojectpapo.model.AddressType;
 import com.example.backprojectpapo.repository.AddressTypeRepository;
 import com.example.backprojectpapo.service.AddressTypeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,7 +11,13 @@ import java.util.Optional;
 
 @Service
 public class AddressTypeServiceImpl implements AddressTypeService {
-    private AddressTypeRepository addressTypeRepository;
+    private final AddressTypeRepository addressTypeRepository;
+
+    @Autowired
+    public AddressTypeServiceImpl(AddressTypeRepository addressTypeRepository) {
+        this.addressTypeRepository = addressTypeRepository;
+    }
+
     @Override
     public AddressType save(AddressType addressType) {
         return addressTypeRepository.save(addressType);

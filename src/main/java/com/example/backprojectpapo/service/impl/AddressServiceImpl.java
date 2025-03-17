@@ -3,6 +3,7 @@ package com.example.backprojectpapo.service.impl;
 import com.example.backprojectpapo.model.Address;
 import com.example.backprojectpapo.repository.AddressRepository;
 import com.example.backprojectpapo.service.AddressService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,8 +11,12 @@ import java.util.Optional;
 
 @Service
 public class AddressServiceImpl implements AddressService {
+    private final AddressRepository addressRepository;
 
-    private AddressRepository addressRepository;
+    @Autowired
+    public AddressServiceImpl(AddressRepository addressRepository) {
+        this.addressRepository = addressRepository;
+    }
 
     @Override
     public Address save(Address address) {

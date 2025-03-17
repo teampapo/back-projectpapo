@@ -7,6 +7,7 @@ import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.repository.OrganizationRepository;
 import com.example.backprojectpapo.service.OrganizationService;
 import com.example.backprojectpapo.util.specification.OrganizationSpecification;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,12 @@ import java.util.Optional;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
-    private OrganizationRepository organizationRepository;
+    private final OrganizationRepository organizationRepository;
+
+    @Autowired
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository) {
+        this.organizationRepository = organizationRepository;
+    }
 
     @Override
     public Organization save(Organization organization) {

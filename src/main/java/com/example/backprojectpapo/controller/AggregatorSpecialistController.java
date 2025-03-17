@@ -8,7 +8,6 @@ import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
-import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.service.AggregatorSpecialistService;
 import com.example.backprojectpapo.service.ConnectionRequestService;
@@ -16,14 +15,13 @@ import com.example.backprojectpapo.service.CustomerService;
 
 import com.example.backprojectpapo.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
 @RestController
-@RequestMapping("/agregator")
+@RequestMapping("/api/aggreagator")
 public class AggregatorSpecialistController {
 
     private final AggregatorSpecialistService aggregatorSpecialistService;
@@ -42,57 +40,59 @@ public class AggregatorSpecialistController {
     }
 
     @GetMapping("/customers")
-    public ResponseEntity<ResponseDto<CustomerGetAggregatorDTO>> getCustomerAggregator(@RequestBody CustomerSearchCriteria criteria) {
+    public ResponseEntity<ResponseDto<CustomerGetAggregatorDTO>> getCustomerAggregator(@RequestBody(required = false) CustomerSearchCriteria criteria) {
+        if (criteria == null) {
+            criteria = new CustomerSearchCriteria();
+        }
         ResponseDto<CustomerGetAggregatorDTO> responseDto = customerService.getCustomerForAggregator(criteria);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @DeleteMapping("/customers")
-    public ResponseEntity<String> deleteCustomerAggregator(@RequestBody Integer customerId) {
+    public ResponseEntity<String> deleteCustomerAggregator(@RequestParam("customerId") Integer customerId) {
         customerService.deleteById(customerId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @GetMapping("/organization")
-    public ResponseEntity<ResponseDto<OrganizationGetAggregatorDTO>> getOrganizationAggregator(@RequestBody OrganizationSearchCriteria criteria) {
+    public ResponseEntity<ResponseDto<OrganizationGetAggregatorDTO>> getOrganizationAggregator(@RequestBody(required = false) OrganizationSearchCriteria criteria) {
+        if (criteria == null) {
+            criteria = new OrganizationSearchCriteria();
+        }
         ResponseDto<OrganizationGetAggregatorDTO> responseDto = organizationService.getOrganizationForAggregator(criteria);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 
     @DeleteMapping("/organization")
-    public ResponseEntity<String> deleteOrganizationAggregator(@RequestBody Integer organizationId) {
+    public ResponseEntity<String> deleteOrganizationAggregator(@RequestParam Integer organizationId) {
         organizationService.deleteById(organizationId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    //TODO жду security для получения и декомпозции JWT токена ( получить id )
-    @GetMapping("/aggreagator")
-    public ResponseEntity<AggregatorSpecialistDTO> getAggregatorSpecialist(@RequestBody Integer aggregatorId,
-                                                                           @RequestHeader("Authorization") String token) {
-        Optional<AggregatorSpecialistDTO> aggregatorSpecialist = aggregatorSpecialistService.findByIdToDTO(aggregatorId);
-        assert aggregatorSpecialist.isPresent(); //TODO заменить assert
 
-        return ResponseEntity.status(HttpStatus.OK).body(aggregatorSpecialist.get());
+    @GetMapping("/aggreagator")
+    public ResponseEntity<AggregatorSpecialistDTO> getAggregatorSpecialist(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+
+        AggregatorSpecialistDTO aggregatorSpecialist = aggregatorSpecialistService.findByIdToDTO(token.split(" ")[1]);
+
+        return ResponseEntity.status(HttpStatus.OK).body(aggregatorSpecialist);
     }
 
-    //TODO жду security для получения и декомпозции JWT токена ( получить id )
     @PutMapping("/aggreagator")
     public ResponseEntity<String> updateAggregatorSpecialist(@RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
-                                                             @RequestParam Integer aggregatorId,
-                                                             @RequestHeader("Authorization") String token) {
+                                                             @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
 
-        Optional<AggregatorSpecialist> optionalSpecialist = aggregatorSpecialistService.findById(aggregatorId);
-        if (optionalSpecialist.isEmpty()) {
-            return new ResponseEntity<>("AggregatorSpecialist not found", HttpStatus.NOT_FOUND);
-        }
-        aggregatorSpecialistService.save(aggregatorSpecialistDTO.toAggregatorSpecialist(optionalSpecialist.get()));
+        aggregatorSpecialistService.update(aggregatorSpecialistDTO, token.split(" ")[1]);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-    //TODO жду security для получения и декомпозции JWT токена ( получить id )
+
+
     @GetMapping("/connectionRequest")
-    public ResponseEntity<ResponseDto<ConnectionRequest>> searchConnectionRequests(@RequestBody ConnectionRequestSearchCriteria criteria,
-                                                                                   @RequestBody Integer aggregatorId,
-                                                                                   @RequestHeader("Authorization") String token) {
-        ResponseDto<ConnectionRequest> responseDto = connectionRequestService.search(criteria,aggregatorId);
+    public ResponseEntity<ResponseDto<ConnectionRequest>> searchConnectionRequests(@RequestBody(required = false) ConnectionRequestSearchCriteria criteria,
+                                                                                   @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        if (criteria == null) {
+            criteria = new ConnectionRequestSearchCriteria();
+        }
+        ResponseDto<ConnectionRequest> responseDto = connectionRequestService.search(criteria,token.split(" ")[1]);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 

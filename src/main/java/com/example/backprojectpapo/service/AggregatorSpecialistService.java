@@ -9,7 +9,10 @@ import java.util.Optional;
 public interface AggregatorSpecialistService {
 
     AggregatorSpecialist save(AggregatorSpecialist aggregatorSpecialist);
-    Optional<AggregatorSpecialistDTO> findByIdToDTO(Integer id);
+
+    AggregatorSpecialist update(AggregatorSpecialistDTO dto, String token);
+
+    AggregatorSpecialistDTO findByIdToDTO(String token);
 
     Optional<AggregatorSpecialist> findById(Integer id);
 

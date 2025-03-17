@@ -7,6 +7,7 @@ import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.repository.CustomerRepository;
 import com.example.backprojectpapo.service.CustomerService;
 import com.example.backprojectpapo.util.specification.CustomerSpecification;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,14 @@ import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
+
+    @Autowired
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
+        this.customerRepository = customerRepository;
+    }
+
+
     @Override
     public Customer save(Customer customer) {
         return customerRepository.save(customer);

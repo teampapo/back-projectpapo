@@ -17,14 +17,5 @@ public class AggregatorSpecialistDTO {
     private String phoneNumber;
     private String addInfo;
 
-    public AggregatorSpecialist toAggregatorSpecialist(AggregatorSpecialist existing){
-        existing.setSurname(surname);
-        existing.setName(name);
-        existing.setPatronymic(patronymic);
-        existing.setDepartment(department);
-        existing.setPosition(position);
-        existing.setPhoneNumber(phoneNumber);
-        existing.setAddInfo(addInfo);
-        return existing;
-    }
+
 }
