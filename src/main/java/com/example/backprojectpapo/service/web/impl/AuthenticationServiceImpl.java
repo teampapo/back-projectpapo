@@ -1,12 +1,11 @@
 package com.example.backprojectpapo.service.web.impl;
 
 import com.example.backprojectpapo.config.security.components.CustomUserDetails;
-import com.example.backprojectpapo.dto.AggregatorSpecialistDto;
-import com.example.backprojectpapo.dto.CustomerDto;
-import com.example.backprojectpapo.dto.OrganizationDto;
+import com.example.backprojectpapo.dto.request.AuthAggregatorSpecialistRequestDTO;
+import com.example.backprojectpapo.dto.request.AuthCustomerRequestDTO;
+import com.example.backprojectpapo.dto.request.AuthOrganizationRequestDTO;
 import com.example.backprojectpapo.exception.AuthenticationFailedException;
 import com.example.backprojectpapo.exception.InvalidVerificationCodeException;
-import com.example.backprojectpapo.exception.PasswordIsMissingException;
 import com.example.backprojectpapo.model.user.User;
 import com.example.backprojectpapo.service.UserService;
 import com.example.backprojectpapo.service.email.EmailService;
@@ -40,19 +39,19 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     private final Map<String, String> verificationCodes = new HashMap<>();
 
     @Override
-    public User signUpAggregatorSpecialist(AggregatorSpecialistDto dto) {
+    public User signUpAggregatorSpecialist(AuthAggregatorSpecialistRequestDTO dto) {
 
         return userService.registerAggregatorSpecialist(dto);
     }
 
     @Override
-    public User signUpCustomer(CustomerDto dto) {
+    public User signUpCustomer(AuthCustomerRequestDTO dto) {
 
         return userService.registerCustomer(dto);
     }
 
     @Override
-    public User signUpOrganization(OrganizationDto dto) {
+    public User signUpOrganization(AuthOrganizationRequestDTO dto) {
 
         return userService.registerOrganization(dto);
     }
@@ -99,7 +98,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         String code = String.format("%06d", new Random().nextInt(999999));
         verificationCodes.put(email,code);
-        System.out.println(code);
         emailService.sendSimpleEmail(email, "verify code", "code: " + code);
     }
 }

@@ -1,6 +1,7 @@
-package com.example.backprojectpapo.dto;
+package com.example.backprojectpapo.dto.request;
 
 
+import com.example.backprojectpapo.dto.UserDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -9,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class OrganizationDto extends UserDto {
+public class AuthOrganizationRequestDTO extends UserDto {
     private String fullName;
     private String shortName;
     private String inn;
