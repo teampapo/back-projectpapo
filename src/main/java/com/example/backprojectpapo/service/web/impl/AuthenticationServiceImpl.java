@@ -12,7 +12,7 @@ import com.example.backprojectpapo.service.email.EmailService;
 import com.example.backprojectpapo.service.web.AuthenticationService;
 import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import com.example.backprojectpapo.service.web.JwtService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,17 +26,26 @@ import java.util.Optional;
 import java.util.Random;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationServiceImpl implements AuthenticationService {
     private final AuthenticationManager authenticationManager;
     private final UserService userService;
     private final EmailService emailService;
     private final CustomUserDetailsService customUserDetailsService;
-    private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
     // Временное хранилище кодов (email -> code)
     private final Map<String, String> verificationCodes = new HashMap<>();
+
+    public AuthenticationServiceImpl(AuthenticationManager authenticationManager,
+                                     UserService userService, EmailService emailService,
+                                     @Qualifier("customUserDetailsService") CustomUserDetailsService customUserDetailsService,
+                                     PasswordEncoder passwordEncoder, JwtService jwtService) {
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.emailService = emailService;
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtService = jwtService;
+    }
 
     @Override
     public User signUpAggregatorSpecialist(AuthAggregatorSpecialistRequestDTO dto) {

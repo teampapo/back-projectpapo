@@ -59,8 +59,14 @@ public class JwtService {
         return JwtData.builder()
                 .id(extractId(token))
                 .email(extractEmail(token))
-                .role(extractClaim(token, claims -> claims.get("role", Role.class)))
-                .createdDateTime(extractClaim(token, claims -> claims.get("createdDateTime", LocalDateTime.class)))
+                .role(extractClaim(token, claims -> {
+                    String roleStr = claims.get("role", String.class);
+                    return roleStr != null ? Role.valueOf(roleStr) : null;
+                }))
+                .createdDateTime(extractClaim(token, claims -> {
+                    String cdts = claims.get("createdDateTime", String.class);
+                    return cdts != null ? LocalDateTime.parse(cdts) : null;
+                }))
                 .build();
     }
 
