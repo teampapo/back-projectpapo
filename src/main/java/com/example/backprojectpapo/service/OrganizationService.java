@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
 import com.example.backprojectpapo.model.Organization;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,9 @@ public interface OrganizationService {
     List<Organization> findAll();
     Page<Organization> findAll(Pageable pageable);
     ResponseDto<Organization> search(OrganizationSearchCriteria criteria);
+
+    ResponseDto<OrganizationGetAggregatorDTO> getOrganizationForAggregator(OrganizationSearchCriteria criteria);
+
     void deleteById(Integer id);
 
 }

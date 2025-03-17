@@ -6,16 +6,25 @@ import com.example.backprojectpapo.model.ServiceRequest;
 import com.example.backprojectpapo.repository.ServiceRequestRepository;
 import com.example.backprojectpapo.service.ServiceRequestService;
 import com.example.backprojectpapo.util.specification.ServiceRequestSpecification;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ServiceRequestServiceImpl implements ServiceRequestService {
-    private ServiceRequestRepository serviceRequestRepository;
+    private final ServiceRequestRepository serviceRequestRepository;
+
+    @Autowired
+    public ServiceRequestServiceImpl(ServiceRequestRepository serviceRequestRepository) {
+        this.serviceRequestRepository = serviceRequestRepository;
+    }
+
     @Override
     public ServiceRequest save(ServiceRequest serviceRequest) {
         return serviceRequestRepository.save(serviceRequest);

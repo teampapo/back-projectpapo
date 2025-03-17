@@ -17,7 +17,7 @@ public interface ConnectionRequestService {
     Optional<ConnectionRequest> findById(Integer id);
     List<ConnectionRequest> findAll();
     Page<ConnectionRequest> findAll(Pageable pageable);
-    ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria);
+    ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria, String token);
     void deleteById(int id);
 
 }
