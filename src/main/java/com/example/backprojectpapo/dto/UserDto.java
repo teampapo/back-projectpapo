@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 public class UserDto{
+    private Integer id;
     @NotBlank
     @JsonProperty("email")
     private String email;

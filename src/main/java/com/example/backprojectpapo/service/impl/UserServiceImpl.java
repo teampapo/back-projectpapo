@@ -1,8 +1,8 @@
 package com.example.backprojectpapo.service.impl;
 
-import com.example.backprojectpapo.dto.AggregatorSpecialistDto;
-import com.example.backprojectpapo.dto.CustomerDto;
-import com.example.backprojectpapo.dto.OrganizationDto;
+import com.example.backprojectpapo.dto.request.AuthAggregatorSpecialistRequestDTO;
+import com.example.backprojectpapo.dto.request.AuthCustomerRequestDTO;
+import com.example.backprojectpapo.dto.request.AuthOrganizationRequestDTO;
 import com.example.backprojectpapo.exception.UserAlreadyExistsException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.AggregatorSpecialist;
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User registerAggregatorSpecialist(AggregatorSpecialistDto dto) {
+    public User registerAggregatorSpecialist(AuthAggregatorSpecialistRequestDTO dto) {
         AggregatorSpecialist aggregatorSpecialist = new AggregatorSpecialist();
         if(aggregatorSpecialistRepository.findByEmail(dto.getEmail()).isPresent()){
             throw new UserAlreadyExistsException("Aggregator specialist is already exists");
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User registerCustomer(CustomerDto dto) {
+    public User registerCustomer(AuthCustomerRequestDTO dto) {
         Customer customer = new Customer();
         if(customerRepository.findByEmail(dto.getEmail()).isPresent()){
             throw new UserAlreadyExistsException("Customer is already exists");
@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User registerOrganization(OrganizationDto dto) {
+    public User registerOrganization(AuthOrganizationRequestDTO dto) {
         Organization organization = new Organization();
         if(organizationRepository.findByEmail(dto.getEmail()).isPresent()){
             throw new UserAlreadyExistsException("Organization is already exists");

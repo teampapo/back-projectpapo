@@ -27,6 +27,6 @@ public class TypeOfService {
     @Column(name = "type_name",nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "type", cascade = CascadeType.PERSIST)
-    private Set<Subservice> subservices = new HashSet<>();
+    @OneToMany(mappedBy = "type",cascade = CascadeType.PERSIST)
+    private Set<ServiceDetail> serviceDetails = new HashSet<>();
 }
