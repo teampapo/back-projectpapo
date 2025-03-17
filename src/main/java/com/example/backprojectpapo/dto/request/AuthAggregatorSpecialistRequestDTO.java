@@ -1,6 +1,6 @@
-package com.example.backprojectpapo.dto;
+package com.example.backprojectpapo.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.backprojectpapo.dto.UserDto;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -10,16 +10,17 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class CustomerDto extends UserDto{
-    @JsonProperty("surname")
+public class AuthAggregatorSpecialistRequestDTO extends UserDto {
+    @NotBlank
     private String surname;
-    @JsonProperty("name")
+    @NotBlank
     private String name;
-    @JsonProperty("patronymic")
     private String patronymic;
     @NotBlank
-    @JsonProperty("phoneNumber")
+    private String department;
+    @NotBlank
+    private String position;
+    @NotBlank
     private String phoneNumber;
-    @JsonProperty("addInfo")
     private String addInfo;
 }
