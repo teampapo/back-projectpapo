@@ -2,9 +2,7 @@ package com.example.backprojectpapo.model;
 
 import com.example.backprojectpapo.model.user.User;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.lang.NonNull;
 
 import java.util.HashSet;
@@ -13,8 +11,10 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@Builder
 @Entity
 @Table(name ="aggregator_specialist")
+@AllArgsConstructor
 public class AggregatorSpecialist extends User {
     @Id
     @Column(name = "aggregator_specialists_id")

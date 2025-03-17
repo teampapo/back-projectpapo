@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.model.Customer;
 import org.springframework.data.domain.Page;
@@ -17,6 +18,8 @@ public interface CustomerService {
     List<Customer> findAll();
     Page<Customer> findAll(Pageable pageable);
     ResponseDto<Customer> search(CustomerSearchCriteria criteria);
-    void deleteById(Integer id);
 
+    ResponseDto<CustomerGetAggregatorDTO> getCustomerForAggregator(CustomerSearchCriteria criteria);
+
+    void deleteById(Integer id);
 }

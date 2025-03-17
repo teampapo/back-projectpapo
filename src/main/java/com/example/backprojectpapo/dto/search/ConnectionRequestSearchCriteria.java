@@ -19,5 +19,5 @@ public class ConnectionRequestSearchCriteria extends BaseEntitySearchCriteria{
     private LocalDate fromDateEnd;
     private LocalDate toDateEnd;
     private String status;
-
+    private Integer aggregatorSpecialistId;
 }
