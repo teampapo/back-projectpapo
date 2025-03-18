@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.lang.NonNull;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -29,9 +28,9 @@ public class ServiceRequest {
     @JoinColumn(name = "organization_id",nullable = false)
     private Organization organization;
 
-    @Column(name = "data_service",nullable = false)
+    @Column(name = "date_service",nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME, pattern = "dd.mm.yyyy hh:mm")
-    private LocalDateTime dataService;
+    private LocalDateTime dateService;
 
     @Column(name = "add_info")
     private String addInfo;
