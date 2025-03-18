@@ -1,8 +1,10 @@
 package com.example.backprojectpapo.controller;
 
+import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
+import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.ServiceRequest;
 import com.example.backprojectpapo.model.jwt.JwtData;
@@ -10,6 +12,7 @@ import com.example.backprojectpapo.service.CustomerService;
 import com.example.backprojectpapo.service.UserService;
 import com.example.backprojectpapo.service.web.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,17 +50,20 @@ public class CustomerController {
     }
 
     @GetMapping("/service_requests")
-    public ResponseEntity<List<ServiceRequestCustomerResponseDTO>> getServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader){
+    public ResponseEntity<ResponseDto<ServiceRequestCustomerResponseDTO>> getServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody ServiceRequestSearchCriteria criteria){
 
+        if(criteria == null){
+            criteria = new ServiceRequestSearchCriteria();
+        }
         JwtData jwtData = extractJwtDataFromHeader(authorizationHeader);
-        List<ServiceRequest> serviceRequests = customerService.findServiceRequestByCustomerIdAfterDatetime(jwtData.getId(),
-                LocalDateTime.now());
+        Page<ServiceRequest> serviceRequests
+                = customerService.findServiceRequestByCustomerIdAfterDatetime(jwtData.getId(), LocalDateTime.now(),
+                criteria);
 
-        List<ServiceRequestCustomerResponseDTO> serviceRequestDTOS = serviceRequests
-                .stream().map(ServiceRequestCustomerResponseDTO::toDto)
-                .toList();
+        Page<ServiceRequestCustomerResponseDTO> serviceRequestDTOS =
+                serviceRequests.map(ServiceRequestCustomerResponseDTO::toDto);
 
-        return ResponseEntity.status(HttpStatus.OK).body(serviceRequestDTOS);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseDto<>(serviceRequestDTOS));
     }
 
     @PutMapping("/update")

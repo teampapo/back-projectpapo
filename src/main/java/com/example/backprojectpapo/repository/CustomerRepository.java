@@ -2,6 +2,8 @@ package com.example.backprojectpapo.repository;
 
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.ServiceRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +22,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>, Jp
             "   where c.id = :customer_id " +
             "and " +
             "   sr.dataService > :currentDate")
-    List<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(@Param("customer_id") Integer id,
-                                                                     @Param("date_time")LocalDateTime dateTime);
+    Page<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(@Param("customer_id") Integer id,
+                                                                     @Param("date_time")LocalDateTime dateTime,
+                                                                     Pageable pageable);
 }

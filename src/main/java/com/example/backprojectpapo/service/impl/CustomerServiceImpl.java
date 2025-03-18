@@ -6,6 +6,7 @@ import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
+import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.ServiceRequest;
@@ -14,6 +15,7 @@ import com.example.backprojectpapo.service.CustomerService;
 import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.CustomerSpecification;
+import com.example.backprojectpapo.util.specification.ServiceRequestSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -71,11 +73,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(Integer customerId,
-                                                                            LocalDateTime dateTime) {
+    public Page<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(Integer customerId,
+                                                                            LocalDateTime dateTime,
+                                                                            ServiceRequestSearchCriteria criteria) {
 
+        Specification<ServiceRequest> spec = ServiceRequestSpecification.byCriteria(criteria);
+        Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
-        return customerRepository.findServiceRequestByCustomerIdAfterDatetime(customerId, dateTime);
+        return customerRepository.findServiceRequestByCustomerIdAfterDatetime(customerId, dateTime, pageable);
     }
 
     @Override

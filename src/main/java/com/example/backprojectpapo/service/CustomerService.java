@@ -5,6 +5,7 @@ import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
+import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.ServiceRequest;
 import org.springframework.data.domain.Page;
@@ -25,7 +26,8 @@ public interface CustomerService {
     Page<Customer> findAll(Pageable pageable);
     ResponseDto<Customer> search(CustomerSearchCriteria criteria);
     ResponseDto<CustomerGetAggregatorDTO> getCustomerForAggregator(CustomerSearchCriteria criteria);
-    List<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(Integer customerId, LocalDateTime dateTime);
+    Page<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(Integer customerId, LocalDateTime dateTime,
+                                                                     ServiceRequestSearchCriteria criteria);
     CustomerResponseDTO update(Integer id, CustomerPutDTO dto);
     void deleteById(Integer id);
 }
