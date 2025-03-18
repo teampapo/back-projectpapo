@@ -62,4 +62,7 @@ public class Organization extends User {
 
     @OneToMany(mappedBy = "organization")
     private Set<ServiceRequest> serviceRequests = new HashSet<>();
+
+    @OneToMany(mappedBy = "organization")
+    private Set<ServiceDetail> serviceDetails = new HashSet<>();
 }
