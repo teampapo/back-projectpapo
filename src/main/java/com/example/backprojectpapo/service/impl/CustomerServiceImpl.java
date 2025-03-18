@@ -1,11 +1,18 @@
 package com.example.backprojectpapo.service.impl;
 
+import com.example.backprojectpapo.config.security.components.CustomUserDetails;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
+import com.example.backprojectpapo.dto.request.CustomerPutDTO;
+import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
+import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.Customer;
+import com.example.backprojectpapo.model.ServiceRequest;
 import com.example.backprojectpapo.repository.CustomerRepository;
 import com.example.backprojectpapo.service.CustomerService;
+import com.example.backprojectpapo.service.web.CustomUserDetailsService;
+import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.CustomerSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,18 +21,22 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtService jwtService;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService) {
         this.customerRepository = customerRepository;
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtService = jwtService;
     }
-
 
     @Override
     public Customer save(Customer customer) {
@@ -34,7 +45,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<Customer> findById(Integer id) {
-        return customerRepository.findById(id);
+
+        Optional<Customer> customer = customerRepository.findById(id);
+        return Optional.of(
+                customerRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("Customer not found"))
+        );
     }
 
     @Override
@@ -51,7 +67,46 @@ public class CustomerServiceImpl implements CustomerService {
     public ResponseDto<Customer> search(CustomerSearchCriteria criteria) {
         Specification<Customer> spec = CustomerSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
-        return new ResponseDto<>(customerRepository.findAll(spec,pageable));
+        return new ResponseDto<>(customerRepository.findAll(spec, pageable));
+    }
+
+    @Override
+    public List<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(Integer customerId,
+                                                                            LocalDateTime dateTime) {
+
+
+        return customerRepository.findServiceRequestByCustomerIdAfterDatetime(customerId, dateTime);
+    }
+
+    @Override
+    public CustomerResponseDTO update(Integer id, CustomerPutDTO dto) {
+        if (dto == null) {
+            throw new IllegalArgumentException("DTO cannot be null");
+        }
+
+        Customer customer = findById(id)
+                .orElseThrow(() -> new UserNotFoundException("This user not found"));
+
+        boolean emailChanged = dto.getEmail() != null && !dto.getEmail().equals(customer.getEmail());
+
+        Optional.ofNullable(dto.getEmail()).ifPresent(customer::setEmail);
+        Optional.ofNullable(dto.getSurname()).ifPresent(customer::setSurname);
+        Optional.ofNullable(dto.getName()).ifPresent(customer::setName);
+        Optional.ofNullable(dto.getPatronymic()).ifPresent(customer::setPatronymic);
+        Optional.ofNullable(dto.getPhoneNumber()).ifPresent(customer::setPhoneNumber);
+        Optional.ofNullable(dto.getAddInfo()).ifPresent(customer::setAddInfo);
+
+        Customer customer_ = customerRepository.save(customer);
+        CustomerResponseDTO customerResponseDTO = CustomerResponseDTO.toDto(customer_);
+
+        String newToken = null;
+        if(emailChanged){
+            CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(customer_.getEmail());
+            newToken = jwtService.generateToken(customUserDetails);
+            customerResponseDTO.setJwtToken(newToken);
+        }
+
+        return customerResponseDTO;
     }
 
     @Override
