@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
@@ -30,10 +32,12 @@ public class ConnectionRequest {
     @Column(name = "reg_number",nullable = false)
     private String registrationNumber;
 
+    @CreationTimestamp
     @Column(name = "date_begin",nullable = false)
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.mm.yyyy")
     private LocalDate dateBegin;
 
+    //@UpdateTimestamp
     @Column(name = "date_end")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "dd.mm.yyyy")
     private LocalDate dateEnd;
@@ -47,4 +51,11 @@ public class ConnectionRequest {
 
     @ManyToMany(mappedBy = "connectionRequests")
     private Set<AggregatorSpecialist> aggregatorSpecialists = new HashSet<>();
+
+    @PreUpdate
+    protected void onUpdate() {
+        if (this.status == Status.COMPLETED || this.status == Status.REJECTED) {
+            this.dateEnd = LocalDate.now();
+        }
+    }
 }
