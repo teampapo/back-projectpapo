@@ -18,6 +18,7 @@ public interface ConnectionRequestService {
     List<ConnectionRequest> findAll();
     Page<ConnectionRequest> findAll(Pageable pageable);
     ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria, String token);
+    ResponseDto<ConnectionRequest> findByStatus(ConnectionRequestSearchCriteria criteria);
     void deleteById(int id);
 
 }
