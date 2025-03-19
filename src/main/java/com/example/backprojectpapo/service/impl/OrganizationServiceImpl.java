@@ -109,10 +109,6 @@ public class OrganizationServiceImpl implements OrganizationService {
         return organizationResponseDTO;
     }
 
-    @Override
-    public void createConnectionRequest(OrganizationPostRequestDTO dto){
-        Organization organization = Organization.builder
-    }
 
     @Override
     public void deleteById(Integer id) {
