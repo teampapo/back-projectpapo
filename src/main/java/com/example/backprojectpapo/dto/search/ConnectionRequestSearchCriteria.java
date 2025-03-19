@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.dto.search;
 
 
+import com.example.backprojectpapo.model.enums.Status;
 import lombok.*;
 
 
@@ -18,6 +19,6 @@ public class ConnectionRequestSearchCriteria extends BaseEntitySearchCriteria{
     private LocalDate toDateBegin;
     private LocalDate fromDateEnd;
     private LocalDate toDateEnd;
-    private String status;
+    private Status status;
     private Integer aggregatorSpecialistId;
 }
