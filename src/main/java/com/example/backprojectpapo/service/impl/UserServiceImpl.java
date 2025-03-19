@@ -3,6 +3,7 @@ package com.example.backprojectpapo.service.impl;
 import com.example.backprojectpapo.dto.request.AuthAggregatorSpecialistRequestDTO;
 import com.example.backprojectpapo.dto.request.AuthCustomerRequestDTO;
 import com.example.backprojectpapo.dto.request.AuthOrganizationRequestDTO;
+import com.example.backprojectpapo.exception.PasswordIsMissingException;
 import com.example.backprojectpapo.exception.UserAlreadyExistsException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.AggregatorSpecialist;
@@ -69,7 +70,12 @@ public class UserServiceImpl implements UserService {
 
         //TODO 09.03 add exceptions for empty required parameters
         aggregatorSpecialist.setEmail(dto.getEmail());
-        Optional.ofNullable(dto.getPassword()).map(passwordEncoder::encode).ifPresent(aggregatorSpecialist::setPassword);
+        Optional.ofNullable(dto.getPassword())
+                .filter(password -> !password.trim().isEmpty())
+                .map(passwordEncoder::encode)
+                .ifPresentOrElse(aggregatorSpecialist::setPassword,() -> {
+                    throw new PasswordIsMissingException("a password is required to register a user");
+                });
         aggregatorSpecialist.setRole(Role.ADMIN);
         aggregatorSpecialist.setIsActive(true);
 
