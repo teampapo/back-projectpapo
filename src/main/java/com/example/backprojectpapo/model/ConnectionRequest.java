@@ -39,6 +39,7 @@ public class ConnectionRequest {
     private LocalDate dateEnd;
 
     @Column(name = "status",nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Column(name = "add_info")

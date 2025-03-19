@@ -3,12 +3,20 @@ package com.example.backprojectpapo.service.impl;
 import com.example.backprojectpapo.model.TypeOfService;
 import com.example.backprojectpapo.repository.TypeOfServiceRepository;
 import com.example.backprojectpapo.service.TypeOfServiceService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class TypeOfServiceServiceImpl implements TypeOfServiceService {
-    private TypeOfServiceRepository typeOfServiceRepository;
+    private final TypeOfServiceRepository typeOfServiceRepository;
+
+    @Autowired
+    public TypeOfServiceServiceImpl(TypeOfServiceRepository typeOfServiceRepository) {
+        this.typeOfServiceRepository = typeOfServiceRepository;
+    }
 
     @Override
     public TypeOfService save(TypeOfService typeOfService) {

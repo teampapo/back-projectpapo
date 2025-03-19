@@ -22,6 +22,7 @@ public class AddressType {
     private Integer id;
 
     @Column(name = "address_type_name",nullable = false)
+    @Enumerated(EnumType.STRING)
     private TypeName typeName;
 
     @Column(name = "add_info")
