@@ -21,6 +21,10 @@ public class ServiceDetail {
     private Integer id;
 
     @ManyToOne
+    @JoinColumn(name = "organization_id")
+    private Organization organization;
+
+    @ManyToOne
     @JoinColumn(name = "type_id",nullable = false)
     private TypeOfService type;
 
