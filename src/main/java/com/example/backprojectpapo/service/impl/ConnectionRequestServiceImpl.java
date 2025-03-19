@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,6 +67,14 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
         return new ResponseDto<>(connectionRequestRepository.findAll(spec,pageable));
+    }
+
+    @Override
+    public ArrayList<ConnectionRequest>  findByOrganization(ConnectionRequestSearchCriteria criteria){
+        Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
+
+        return (ArrayList<ConnectionRequest>) connectionRequestRepository.findAll(spec);
+
     }
 
     @Override

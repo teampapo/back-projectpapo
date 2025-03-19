@@ -6,6 +6,7 @@ import com.example.backprojectpapo.model.ConnectionRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +20,10 @@ public interface ConnectionRequestService {
     Page<ConnectionRequest> findAll(Pageable pageable);
     ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria, String token);
     ResponseDto<ConnectionRequest> findByStatus(ConnectionRequestSearchCriteria criteria);
+
+
+    ArrayList<ConnectionRequest> findByOrganization(ConnectionRequestSearchCriteria criteria);
+
     void deleteById(int id);
 
 }
