@@ -2,6 +2,7 @@ package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
+import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
@@ -13,6 +14,7 @@ import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.OrganizationService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.OrganizationSpecification;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Builder
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
     private final OrganizationRepository organizationRepository;
@@ -104,6 +107,11 @@ public class OrganizationServiceImpl implements OrganizationService {
         ArrayList<ConnectionRequest> connectionRequest = connectionRequestService.findByOrganization(criteria);
         organizationResponseDTO.setStatus(connectionRequest.get(connectionRequest.size()-1).getStatus());
         return organizationResponseDTO;
+    }
+
+    @Override
+    public void createConnectionRequest(OrganizationPostRequestDTO dto){
+        Organization organization = Organization.builder
     }
 
     @Override

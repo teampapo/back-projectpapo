@@ -1,15 +1,14 @@
 package com.example.backprojectpapo.controller;
 
+import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.service.OrganizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/organization")
@@ -27,5 +26,11 @@ public class OrganizationController {
 
         OrganizationResponseDTO dto = organizationService.getOrganization(token.split(" ")[1]);
         return ResponseEntity.ok().body(dto);
+    }
+
+    @PostMapping()
+    public ResponseEntity<String> createOrganizationConnectionRequest(@RequestBody OrganizationPostRequestDTO dto){
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
