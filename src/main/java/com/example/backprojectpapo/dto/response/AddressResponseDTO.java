@@ -9,15 +9,15 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class AddressCustomerResponseDTO {
+public class AddressResponseDTO {
     private String subjectName;
     private String cityName;
     private String streetName;
     private String houseNumber;
     private String addInfo;
 
-    public static AddressCustomerResponseDTO toDto(Address address){
-        return AddressCustomerResponseDTO.builder()
+    public static AddressResponseDTO toDto(Address address){
+        return AddressResponseDTO.builder()
                 .subjectName(address.getSubjectName())
                 .cityName(address.getCityName())
                 .streetName(address.getStreetName())
