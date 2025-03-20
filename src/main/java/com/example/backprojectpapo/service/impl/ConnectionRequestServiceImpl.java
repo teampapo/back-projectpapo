@@ -2,6 +2,7 @@ package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
+import com.example.backprojectpapo.exception.NotFoundException;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.repository.ConnectionRequestRepository;
 import com.example.backprojectpapo.service.ConnectionRequestService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,10 +60,29 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
         return new ResponseDto<>(connectionRequestRepository.findAll(spec,pageable));
     }
 
+    @Override
+    public ResponseDto<ConnectionRequest> findByStatus(ConnectionRequestSearchCriteria criteria) {
 
+        Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
+        Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
+
+        return new ResponseDto<>(connectionRequestRepository.findAll(spec,pageable));
+    }
+
+    @Override
+    public ArrayList<ConnectionRequest>  findByOrganization(ConnectionRequestSearchCriteria criteria){
+        Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
+
+        return (ArrayList<ConnectionRequest>) connectionRequestRepository.findAll(spec);
+
+    }
 
     @Override
     public void deleteById(int id) {
+
+        if(findById(id).isEmpty()){
+            throw new NotFoundException("this connection request not found");
+        }
         connectionRequestRepository.deleteById(id);
     }
 }

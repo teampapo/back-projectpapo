@@ -21,7 +21,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer>, Jp
             "join c.serviceRequests sr " +
             "   where c.id = :customer_id " +
             "and " +
-            "   sr.dataService > :currentDate")
+            "   sr.dateService > :currentDate")
     Page<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(@Param("customer_id") Integer id,
                                                                      @Param("date_time")LocalDateTime dateTime,
                                                                      Pageable pageable);

@@ -29,7 +29,7 @@ public class ServiceRequestCustomerResponseDTO {
         return ServiceRequestCustomerResponseDTO.builder()
                 .id(serviceRequest.getId())
                 .organization(OrganizationCustomerResponseDTO.toDto(serviceRequest.getOrganization()))
-                .dateService(serviceRequest.getDataService())
+                .dateService(serviceRequest.getDateService())
                 .addInfo(serviceRequest.getAddInfo())
                 .serviceDetails(serviceDetailDTOS)
                 .build();
