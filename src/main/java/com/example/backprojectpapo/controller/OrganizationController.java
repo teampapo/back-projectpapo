@@ -40,4 +40,6 @@ public class OrganizationController {
         return ResponseEntity.ok().body(response);
     }
 
+    /*@PutMapping("/update/organization")
+    public ResponseEntity<OrganizationResponseDTO>*/
 }

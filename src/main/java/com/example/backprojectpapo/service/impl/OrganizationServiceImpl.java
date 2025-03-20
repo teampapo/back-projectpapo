@@ -2,7 +2,6 @@ package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
-import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
@@ -105,7 +104,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         criteria.setOrganizationId(id);
         //criteria.setSortBy("dateBegin");
         ArrayList<ConnectionRequest> connectionRequest = connectionRequestService.findByOrganization(criteria);
-        organizationResponseDTO.setStatus(connectionRequest.get(connectionRequest.size()-1).getStatus());
+        organizationResponseDTO.setConnectionRequestStatus(connectionRequest.get(connectionRequest.size()-1).getStatus());
         return organizationResponseDTO;
     }
 
