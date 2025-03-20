@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.dto.response;
 
+import com.example.backprojectpapo.dto.AddressResponseDTO;
 import com.example.backprojectpapo.model.Organization;
 import lombok.*;
 

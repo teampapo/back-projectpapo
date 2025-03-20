@@ -1,13 +1,9 @@
 package com.example.backprojectpapo.dto.request;
 
-import com.example.backprojectpapo.dto.response.AddressResponseDTO;
-import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
-import com.example.backprojectpapo.model.Organization;
-import com.example.backprojectpapo.model.enums.Status;
+import com.example.backprojectpapo.dto.AddressResponseDTO;
 import lombok.*;
 
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter

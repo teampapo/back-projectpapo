@@ -1,4 +1,4 @@
-package com.example.backprojectpapo.dto.response;
+package com.example.backprojectpapo.dto;
 
 import com.example.backprojectpapo.model.Address;
 import lombok.*;

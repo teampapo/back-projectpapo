@@ -11,6 +11,7 @@ import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.ServiceRequest;
 import com.example.backprojectpapo.repository.CustomerRepository;
+import com.example.backprojectpapo.repository.ServiceRequestRepository;
 import com.example.backprojectpapo.service.CustomerService;
 import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import com.example.backprojectpapo.service.web.JwtService;
@@ -32,12 +33,14 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtService jwtService;
+    private final ServiceRequestRepository serviceRequestRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService, ServiceRequestRepository serviceRequestRepository) {
         this.customerRepository = customerRepository;
         this.customUserDetailsService = customUserDetailsService;
         this.jwtService = jwtService;
+        this.serviceRequestRepository = serviceRequestRepository;
     }
 
     @Override
@@ -77,10 +80,13 @@ public class CustomerServiceImpl implements CustomerService {
                                                                             LocalDateTime dateTime,
                                                                             ServiceRequestSearchCriteria criteria) {
 
+        criteria.setFromDateService(dateTime);
+        criteria.setCustomerId(customerId);
         Specification<ServiceRequest> spec = ServiceRequestSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
-        return customerRepository.findServiceRequestByCustomerIdAfterDatetime(customerId, dateTime, pageable);
+        //return customerRepository.findServiceRequestByCustomerIdAfterDatetime(customerId, dateTime, pageable);
+        return serviceRequestRepository.findAll(spec, pageable);
     }
 
     @Override

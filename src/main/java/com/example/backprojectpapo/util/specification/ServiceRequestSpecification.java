@@ -22,6 +22,13 @@ public class ServiceRequestSpecification {
             if (criteria.getStartDate() != null){
                 predicates.add(criteriaBuilder.equal(root.get("dataService"), criteria.getStartDate()));
             }
+            if (criteria.getFromDateService() != null){
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("dataService"), criteria.getFromDateService()));
+            }
+            if (criteria.getToDateService() != null){
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("dataService"), criteria.getToDateService()));
+            }
+
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

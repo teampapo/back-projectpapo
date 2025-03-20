@@ -50,7 +50,7 @@ public class CustomerController {
     }
 
     @GetMapping("/service_requests")
-    public ResponseEntity<ResponseDto<ServiceRequestCustomerResponseDTO>> getServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody ServiceRequestSearchCriteria criteria){
+    public ResponseEntity<ResponseDto<ServiceRequestCustomerResponseDTO>> getServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody(required = false) ServiceRequestSearchCriteria criteria){
 
         if(criteria == null){
             criteria = new ServiceRequestSearchCriteria();
