@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.controller;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.response.ServiceDetailResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceDetailSearchCriteria;
 import com.example.backprojectpapo.model.ServiceDetail;
 import com.example.backprojectpapo.service.ServiceDetailService;
@@ -21,12 +22,12 @@ public class ServiceDetailController {
         this.serviceDetailService = serviceDetailService;
     }
 
-    @GetMapping()
-    public ResponseEntity<ResponseDto<ServiceDetail>> getServiceDetail(@RequestBody(required = false) ServiceDetailSearchCriteria criteria) {
+    @GetMapping("/get_all_services")
+    public ResponseEntity<ResponseDto<ServiceDetailResponseDTO>> getServiceDetail(@RequestBody(required = false) ServiceDetailSearchCriteria criteria) {
         if (criteria == null) {
             criteria = new ServiceDetailSearchCriteria();
         }
-        ResponseDto<ServiceDetail> responseDto = serviceDetailService.search(criteria);
+        ResponseDto<ServiceDetailResponseDTO> responseDto = serviceDetailService.getAllServiceDetailByCriteria(criteria);
         return ResponseEntity.ok().body(responseDto);
     }
 }
