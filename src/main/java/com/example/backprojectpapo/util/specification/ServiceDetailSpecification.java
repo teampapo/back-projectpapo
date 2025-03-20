@@ -13,6 +13,9 @@ public class ServiceDetailSpecification {
       return (root, query, criteriaBuilder) -> {
           List<Predicate> predicates = new ArrayList<>();
 
+          if (criteria.getOrganizationId() != null){
+              predicates.add(criteriaBuilder.equal(root.get("organization").get("id"), criteria.getOrganizationId()));
+          }
           if (criteria.getTypeId() != null){
               predicates.add(criteriaBuilder.equal(root.get("typeOfService").get("id"), criteria.getTypeId()));
           }

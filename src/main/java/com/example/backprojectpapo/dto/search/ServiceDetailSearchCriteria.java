@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ServiceDetailSearchCriteria extends BaseEntitySearchCriteria{
+    private Integer organizationId;
     private Integer typeId;
     private String code;
     private String name;
