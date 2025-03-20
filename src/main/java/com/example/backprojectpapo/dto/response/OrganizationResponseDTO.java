@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.dto.response;
 
+import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.enums.Status;
 import lombok.*;
@@ -26,14 +27,14 @@ public class OrganizationResponseDTO {
     private String responsiblePersonPhoneNumber;
     private String addInfo;
     private String email;
-    private Set<AddressResponseDTO> addresses;
+    private Set<AddressDTO> addresses;
     private Status status;
     private String jwtToken;
 
 
     public static OrganizationResponseDTO toDto(Organization organization) {
-        Set<AddressResponseDTO> addressDTOs = organization.getAddresses()
-                .stream().map(AddressResponseDTO::toDto)
+        Set<AddressDTO> addressDTOs = organization.getAddresses()
+                .stream().map(AddressDTO::toDto)
                 .collect(Collectors.toSet());
 
         return OrganizationResponseDTO.builder()

@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.dto.request;
 
 
+import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.dto.UserDto;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -21,5 +22,6 @@ public class AuthOrganizationRequestDTO extends UserDto {
     private String responsiblePersonPatronymic;
     private String responsiblePersonEmail;
     private String responsiblePersonPhoneNumber;
+    private AddressDTO address;
     private String addInfo;
 }
