@@ -20,7 +20,7 @@ public class ServiceRequestCustomerResponseDTO {
     private String addInfo;
     private Set<ServiceDetailCustomerResponseDTO> serviceDetails;
 
-    public static ServiceRequestCustomerResponseDTO toDto(ServiceRequest serviceRequest){
+    public static ServiceRequestCustomerResponseDTO toDto(ServiceRequest serviceRequest) {
         Set<ServiceDetailCustomerResponseDTO> serviceDetailDTOS = serviceRequest
                 .getServiceDetails()
                 .stream().map(ServiceDetailCustomerResponseDTO::toDto)
@@ -28,7 +28,8 @@ public class ServiceRequestCustomerResponseDTO {
 
         return ServiceRequestCustomerResponseDTO.builder()
                 .id(serviceRequest.getId())
-                .organization(OrganizationCustomerResponseDTO.toDto(serviceRequest.getOrganization()))
+                .organization(OrganizationCustomerResponseDTO
+                        .toDto(serviceRequest.getOrganization()))
                 .dateService(serviceRequest.getDateService())
                 .addInfo(serviceRequest.getAddInfo())
                 .serviceDetails(serviceDetailDTOS)
