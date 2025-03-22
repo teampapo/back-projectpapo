@@ -1,6 +1,5 @@
 package com.example.backprojectpapo.dto.response;
 
-
 import com.example.backprojectpapo.model.ServiceDetail;
 import lombok.*;
 
@@ -17,11 +16,8 @@ public class ServiceDetailResponseDTO {
     private Integer cost;
     private Integer duration;
     private String addInfo;
-    private OrganizationCustomerResponseDTO organizationCustomer;
 
-    public static ServiceDetailResponseDTO toDTO(ServiceDetail serviceDetail) {
-        OrganizationCustomerResponseDTO organizationCustomerResponseDTO = OrganizationCustomerResponseDTO.toDto(serviceDetail.getOrganization());
-
+    public static ServiceDetailResponseDTO toDto(ServiceDetail serviceDetail){
         return ServiceDetailResponseDTO.builder()
                 .id(serviceDetail.getId())
                 .code(serviceDetail.getCode())
@@ -29,7 +25,6 @@ public class ServiceDetailResponseDTO {
                 .cost(serviceDetail.getCost())
                 .duration(serviceDetail.getDuration())
                 .addInfo(serviceDetail.getAddInfo())
-                .organizationCustomer(organizationCustomerResponseDTO)
                 .build();
     }
 }
