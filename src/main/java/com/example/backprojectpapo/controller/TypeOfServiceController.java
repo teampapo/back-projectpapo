@@ -1,5 +1,7 @@
 package com.example.backprojectpapo.controller;
 
+import com.example.backprojectpapo.dto.request.TypeOfServiceRequestDTO;
+import com.example.backprojectpapo.dto.response.TypeOfServiceResponseDTO;
 import com.example.backprojectpapo.model.TypeOfService;
 import com.example.backprojectpapo.service.TypeOfServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +24,20 @@ public class TypeOfServiceController {
 
 
     @GetMapping
-    public ResponseEntity<List<TypeOfService>> getTypeOfService() {
+    public ResponseEntity<List<TypeOfServiceResponseDTO>> getTypeOfService() {
         return ResponseEntity.ok().body(typeOfServiceService.findAll());
     }
     @PostMapping()
-    public ResponseEntity<TypeOfService> createTypeOfService(@RequestBody TypeOfService typeOfService) {
-        return ResponseEntity.ok().body(typeOfServiceService.save(typeOfService));
+    public ResponseEntity<TypeOfServiceResponseDTO> createTypeOfService(@RequestBody TypeOfServiceRequestDTO requestDTO) {
+        return ResponseEntity.ok().body(typeOfServiceService.save(requestDTO));
     }
     @PutMapping()
-    public ResponseEntity<TypeOfService> updateTypeOfService(@RequestBody TypeOfService typeOfService) {
-        return ResponseEntity.ok().body(typeOfServiceService.save(typeOfService));
+    public ResponseEntity<TypeOfServiceResponseDTO> updateTypeOfService(@RequestBody TypeOfServiceRequestDTO requestDTO) {
+        return ResponseEntity.ok().body(typeOfServiceService.update(requestDTO));
     }
     @DeleteMapping()
     public ResponseEntity<String> deleteTypeOfService(@RequestParam(name = "typeOfServiceId") Integer typeOfServiceId) {
+        typeOfServiceService.deleteById(typeOfServiceId);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
