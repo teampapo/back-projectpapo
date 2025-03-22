@@ -2,6 +2,7 @@ package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
+import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
 import com.example.backprojectpapo.model.Organization;
@@ -23,6 +24,8 @@ public interface OrganizationService {
     ResponseDto<OrganizationGetAggregatorDTO> getOrganizationForAggregator(OrganizationSearchCriteria criteria);
 
     OrganizationResponseDTO getOrganization(String token);
+
+    OrganizationResponseDTO updateOrganization(OrganizationPostRequestDTO dto, String token);
 
     void deleteById(Integer id);
 

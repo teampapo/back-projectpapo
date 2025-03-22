@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 @ToString
 public class AddressResponseDTO {
+    private Integer id;
     private String subjectName;
     private String cityName;
     private String streetName;

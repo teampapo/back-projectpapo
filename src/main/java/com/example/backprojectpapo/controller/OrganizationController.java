@@ -40,6 +40,9 @@ public class OrganizationController {
         return ResponseEntity.ok().body(response);
     }
 
-    /*@PutMapping("/update/organization")
-    public ResponseEntity<OrganizationResponseDTO>*/
+    @PutMapping("/update/organization")
+    public ResponseEntity<OrganizationResponseDTO> updateOrganization(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody OrganizationPostRequestDTO organizationPostRequestDTO) {
+        OrganizationResponseDTO responseDTO = organizationService.updateOrganization(organizationPostRequestDTO,token.split(" ")[1]);
+        return ResponseEntity.ok().body(responseDTO);
+    }
 }
