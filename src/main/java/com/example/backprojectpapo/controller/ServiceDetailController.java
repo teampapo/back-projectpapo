@@ -1,16 +1,14 @@
 package com.example.backprojectpapo.controller;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.request.ServiceDetailPostRequestDTO;
 import com.example.backprojectpapo.dto.response.ServiceDetailResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceDetailSearchCriteria;
 import com.example.backprojectpapo.model.ServiceDetail;
 import com.example.backprojectpapo.service.ServiceDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/service_detail")
@@ -30,4 +28,9 @@ public class ServiceDetailController {
         ResponseDto<ServiceDetailResponseDTO> responseDto = serviceDetailService.getAllServiceDetailByCriteria(criteria);
         return ResponseEntity.ok().body(responseDto);
     }
+/*
+    @PostMapping()
+    public ResponseEntity<ServiceDetailResponseDTO> createService(@RequestBody ServiceDetailPostRequestDTO dto){
+
+    }*/
 }
