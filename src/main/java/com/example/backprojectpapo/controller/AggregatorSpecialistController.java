@@ -1,7 +1,8 @@
 package com.example.backprojectpapo.controller;
 
 import com.example.backprojectpapo.dto.ResponseDto;
-import com.example.backprojectpapo.dto.request.AggregatorSpecialistDTO;
+import com.example.backprojectpapo.dto.AggregatorSpecialistDTO;
+import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
@@ -64,7 +65,7 @@ public class AggregatorSpecialistController {
     }
 
     @DeleteMapping("/organization")
-    public ResponseEntity<String> deleteOrganizationAggregator(@RequestParam Integer organizationId) {
+    public ResponseEntity<String> deleteOrganizationAggregator(@RequestParam(name = "organizationId") Integer organizationId) {
         organizationService.deleteById(organizationId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -78,13 +79,18 @@ public class AggregatorSpecialistController {
     }
 
     @PutMapping("/aggreagator")
-    public ResponseEntity<String> updateAggregatorSpecialist(@RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
+    public ResponseEntity<AggregatorSpecialistDTO> updateAggregatorSpecialist(@RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
                                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
 
-        aggregatorSpecialistService.update(aggregatorSpecialistDTO, token.split(" ")[1]);
-        return new ResponseEntity<>(HttpStatus.OK);
+        AggregatorSpecialistDTO response = aggregatorSpecialistService.update(aggregatorSpecialistDTO, token.split(" ")[1]);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @DeleteMapping("/aggreagator")
+    public ResponseEntity<String> deleteAggregatorSpecialist(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        aggregatorSpecialistService.deleteById(token.split(" ")[1]);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 
     @GetMapping("/connectionRequest")
     public ResponseEntity<ResponseDto<ConnectionRequest>> searchConnectionRequests(@RequestBody(required = false) ConnectionRequestSearchCriteria criteria,
@@ -97,8 +103,8 @@ public class AggregatorSpecialistController {
     }
 
     @PutMapping("/connectionRequest")
-    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequest connectionRequest) {
-        connectionRequestService.save(connectionRequest);
+    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequestRequestDTO requestDTO) {
+        connectionRequestService.updateConnectionRequestByAggregator(requestDTO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

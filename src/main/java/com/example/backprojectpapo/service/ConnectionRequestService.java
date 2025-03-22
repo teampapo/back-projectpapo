@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
@@ -25,6 +26,9 @@ public interface ConnectionRequestService {
 
     ArrayList<ConnectionRequest> findByOrganization(ConnectionRequestSearchCriteria criteria);
     Optional<ConnectionRequest> createConnectionRequest(Organization organization);
+
+    void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO);
+
     void deleteById(int id);
 
 }

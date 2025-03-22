@@ -1,10 +1,12 @@
 package com.example.backprojectpapo.service.impl;
 
-import com.example.backprojectpapo.dto.request.AggregatorSpecialistDTO;
+import com.example.backprojectpapo.config.security.components.CustomUserDetails;
+import com.example.backprojectpapo.dto.AggregatorSpecialistDTO;
 import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.repository.AggregatorSpecialistRepository;
 import com.example.backprojectpapo.service.AggregatorSpecialistService;
+import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import com.example.backprojectpapo.service.web.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +20,13 @@ public class AggregatorSpecialistServiceImpl implements AggregatorSpecialistServ
 
     private final AggregatorSpecialistRepository aggregatorSpecialistRepository;
     private final JwtService jwtService;
+    private final CustomUserDetailsService customUserDetailsService;
 
     @Autowired
-    public AggregatorSpecialistServiceImpl(AggregatorSpecialistRepository aggregatorSpecialistRepository, JwtService jwtService) {
+    public AggregatorSpecialistServiceImpl(AggregatorSpecialistRepository aggregatorSpecialistRepository, JwtService jwtService, CustomUserDetailsService customUserDetailsService) {
         this.aggregatorSpecialistRepository = aggregatorSpecialistRepository;
         this.jwtService = jwtService;
+        this.customUserDetailsService = customUserDetailsService;
     }
 
     @Override
@@ -31,11 +35,15 @@ public class AggregatorSpecialistServiceImpl implements AggregatorSpecialistServ
     }
 
     @Override
-    public AggregatorSpecialist update(AggregatorSpecialistDTO dto, String token){
+    public AggregatorSpecialistDTO update(AggregatorSpecialistDTO dto, String token){
         Integer id = jwtService.extractId(token);
         AggregatorSpecialist aggregatorSpecialist = aggregatorSpecialistRepository.findById(id).
                 orElseThrow(()-> new UserNotFoundException("AggregatorSpecialist not found"));
 
+        boolean emailChanged = dto.getEmail() != null && !dto.getEmail().equals(aggregatorSpecialist.getEmail());
+
+        Optional.ofNullable(aggregatorSpecialist.getEmail()).ifPresent(aggregatorSpecialist::setEmail);
+        Optional.ofNullable(aggregatorSpecialist.getPassword()).ifPresent(aggregatorSpecialist::setPassword);
         Optional.ofNullable(dto.getSurname()).ifPresent(aggregatorSpecialist::setSurname);
         Optional.ofNullable(dto.getName()).ifPresent(aggregatorSpecialist::setName);
         Optional.ofNullable(dto.getPatronymic()).ifPresent(aggregatorSpecialist::setPatronymic);
@@ -44,7 +52,17 @@ public class AggregatorSpecialistServiceImpl implements AggregatorSpecialistServ
         Optional.ofNullable(dto.getPhoneNumber()).ifPresent(aggregatorSpecialist::setPhoneNumber);
         Optional.ofNullable(dto.getAddInfo()).ifPresent(aggregatorSpecialist::setAddInfo);
 
-        return aggregatorSpecialistRepository.save(aggregatorSpecialist);
+        AggregatorSpecialist aggregatorSpecialist_ = aggregatorSpecialistRepository.save(aggregatorSpecialist);
+        AggregatorSpecialistDTO aggregatorSpecialistDTO =  AggregatorSpecialistDTO.toDTO(aggregatorSpecialist_);
+
+        String newToken = null;
+        if(emailChanged){
+            CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(aggregatorSpecialist_.getEmail());
+            newToken = jwtService.generateToken(customUserDetails);
+            aggregatorSpecialistDTO.setJwtToken(newToken);
+        }
+
+        return aggregatorSpecialistDTO;
 
     }
 
@@ -57,15 +75,7 @@ public class AggregatorSpecialistServiceImpl implements AggregatorSpecialistServ
         AggregatorSpecialist aggregatorSpecialist = aggregatorSpecialistRepository.findById(id).
                 orElseThrow(()-> new UserNotFoundException("AggregatorSpecialist not found"));
 
-        return new AggregatorSpecialistDTO(
-                aggregatorSpecialist.getSurname(),
-                aggregatorSpecialist.getName(),
-                aggregatorSpecialist.getPatronymic(),
-                aggregatorSpecialist.getDepartment(),
-                aggregatorSpecialist.getPosition(),
-                aggregatorSpecialist.getPhoneNumber(),
-                aggregatorSpecialist.getAddInfo()
-        );
+        return AggregatorSpecialistDTO.toDTO(aggregatorSpecialist);
     }
 
     @Override
@@ -79,7 +89,8 @@ public class AggregatorSpecialistServiceImpl implements AggregatorSpecialistServ
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(String token) {
+        Integer id = jwtService.extractId(token);
         aggregatorSpecialistRepository.deleteById(id);
     }
 
