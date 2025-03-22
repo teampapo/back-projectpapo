@@ -3,6 +3,7 @@ package com.example.backprojectpapo.service;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.model.ConnectionRequest;
+import com.example.backprojectpapo.model.Organization;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -23,7 +24,7 @@ public interface ConnectionRequestService {
 
 
     ArrayList<ConnectionRequest> findByOrganization(ConnectionRequestSearchCriteria criteria);
-
+    Optional<ConnectionRequest> createConnectionRequest(Organization organization);
     void deleteById(int id);
 
 }

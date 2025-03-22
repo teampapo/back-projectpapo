@@ -1,14 +1,15 @@
 package com.example.backprojectpapo.model;
 
+import com.example.backprojectpapo.model.enums.AddressType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.lang.NonNull;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "address")
 public class Address {
@@ -21,8 +22,7 @@ public class Address {
     @JoinColumn(name = "organization_id",nullable = false)
     private Organization organization;
 
-    @ManyToOne
-    @JoinColumn(name = "address_type_id",nullable = false)
+    @Column(name = "address_type", nullable = false)
     private AddressType addressType;
 
     @Column(name = "subject_name",nullable = false)

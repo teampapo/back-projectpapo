@@ -10,6 +10,7 @@ import lombok.*;
 @Builder
 @ToString
 public class ServiceDetailCustomerResponseDTO {
+    private Integer id;
     private String code;
     private String name;
     private Integer cost;
@@ -18,6 +19,7 @@ public class ServiceDetailCustomerResponseDTO {
 
     public static ServiceDetailCustomerResponseDTO toDto(ServiceDetail serviceDetail){
         return ServiceDetailCustomerResponseDTO.builder()
+                .id(serviceDetail.getId())
                 .code(serviceDetail.getCode())
                 .name(serviceDetail.getName())
                 .cost(serviceDetail.getCost())
