@@ -18,5 +18,8 @@ public interface ServiceRequestService {
     List<ServiceRequest> findAllList();
     Page<ServiceRequest> findAll(Pageable pageable);
     ResponseDto<ServiceRequest> search(ServiceRequestSearchCriteria criteria);
+
+    Page<ServiceRequest> getServiceRequestOrganizationByOrganizationId(Integer id);
+
     void deleteById(Integer id);
 }

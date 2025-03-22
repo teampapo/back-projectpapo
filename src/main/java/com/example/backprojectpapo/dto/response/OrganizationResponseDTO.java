@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.dto.response;
 
+
 import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.enums.Status;
@@ -28,7 +29,7 @@ public class OrganizationResponseDTO {
     private String addInfo;
     private String email;
     private Set<AddressDTO> addresses;
-    private Status status;
+    private Status connectionRequestStatus;
     private String jwtToken;
 
 

@@ -13,6 +13,9 @@ public class ServiceDetailSpecification {
       return (root, query, criteriaBuilder) -> {
           List<Predicate> predicates = new ArrayList<>();
 
+          if (criteria.getOrganizationId() != null){
+              predicates.add(criteriaBuilder.equal(root.get("organization").get("id"), criteria.getOrganizationId()));
+          }
           if (criteria.getTypeId() != null){
               predicates.add(criteriaBuilder.equal(root.get("typeOfService").get("id"), criteria.getTypeId()));
           }
@@ -27,6 +30,12 @@ public class ServiceDetailSpecification {
           }
           if (criteria.getDuration() != null){
               predicates.add(criteriaBuilder.equal(root.get("duration"), criteria.getDuration()));
+          }
+          if (criteria.getTypeName() != null && !criteria.getTypeName().isEmpty()){
+              predicates.add(criteriaBuilder.like(root.get("typeOfService").get("name"), "%"+criteria.getTypeName()+"%"));
+          }
+          if (criteria.getTypeCode() != null && !criteria.getTypeCode().isEmpty()){
+              predicates.add(criteriaBuilder.like(root.get("typeOfService").get("code"), "%"+criteria.getTypeName()+"%"));
           }
 
           predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
