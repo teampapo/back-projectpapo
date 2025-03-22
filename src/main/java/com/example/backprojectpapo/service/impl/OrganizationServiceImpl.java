@@ -5,15 +5,18 @@ import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
+import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
 import com.example.backprojectpapo.exception.NotFoundException;
 import com.example.backprojectpapo.model.Address;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
+import com.example.backprojectpapo.model.ServiceRequest;
 import com.example.backprojectpapo.repository.OrganizationRepository;
 import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.OrganizationService;
+import com.example.backprojectpapo.service.ServiceRequestService;
 import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.OrganizationSpecification;
@@ -35,15 +38,17 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final JwtService jwtService;
     private final ConnectionRequestService connectionRequestService;
     private final CustomUserDetailsService customUserDetailsService;
+    private final ServiceRequestService serviceRequestService;
 
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository, JwtService jwtService, ConnectionRequestService connectionRequestService, CustomUserDetailsService customUserDetailsService) {
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository, JwtService jwtService, ConnectionRequestService connectionRequestService, CustomUserDetailsService customUserDetailsService, ServiceRequestService serviceRequestService) {
         this.organizationRepository = organizationRepository;
         this.jwtService = jwtService;
         this.connectionRequestService = connectionRequestService;
 
         this.customUserDetailsService = customUserDetailsService;
+        this.serviceRequestService = serviceRequestService;
     }
 
     @Override
@@ -163,6 +168,16 @@ public class OrganizationServiceImpl implements OrganizationService {
         }
 
         return organizationResponseDTO;
+    }
+
+    @Override
+    public ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token){
+        Integer id = jwtService.extractId(token);
+
+        Page<ServiceRequest> serviceRequestsPage = serviceRequestService.getServiceRequestOrganizationByOrganizationId(id);
+        Page<ServiceRequestOrganizationResponseDTO> dtoPage = serviceRequestsPage.map(ServiceRequestOrganizationResponseDTO::toDTO);
+
+        return new ResponseDto<>(dtoPage);
     }
 
     @Override

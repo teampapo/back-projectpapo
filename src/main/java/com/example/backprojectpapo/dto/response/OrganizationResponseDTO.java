@@ -28,7 +28,7 @@ public class OrganizationResponseDTO {
     private String addInfo;
     private String email;
     private Set<AddressDTO> addresses;
-    private Status status;
+    private Status connectionRequestStatus;
     private String jwtToken;
 
 

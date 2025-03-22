@@ -53,6 +53,18 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     }
 
     @Override
+    public Page<ServiceRequest> getServiceRequestOrganizationByOrganizationId(Integer id){
+        ServiceRequestSearchCriteria criteria = new  ServiceRequestSearchCriteria();
+        criteria.setOrganizationId(id);
+
+        Specification<ServiceRequest> spec = ServiceRequestSpecification.byCriteria(criteria);
+        Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
+        Page<ServiceRequest> page = serviceRequestRepository.findAll(spec,pageable);
+
+        return page;
+    }
+
+    @Override
     public void deleteById(Integer id) {
         serviceRequestRepository.deleteById(id);
     }

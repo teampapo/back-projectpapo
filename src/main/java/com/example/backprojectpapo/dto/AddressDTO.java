@@ -11,6 +11,7 @@ import lombok.*;
 @Builder
 @ToString
 public class AddressDTO {
+    private Integer id;
     private String subjectName;
     private String cityName;
     private String streetName;

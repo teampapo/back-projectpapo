@@ -5,6 +5,7 @@ import com.example.backprojectpapo.dto.ServiceDetailOrganizationDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
+import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
 import com.example.backprojectpapo.model.ServiceDetail;
 import com.example.backprojectpapo.service.OrganizationService;
 import com.example.backprojectpapo.service.impl.ServiceDetailServiceImpl;
@@ -45,4 +46,12 @@ public class OrganizationController {
         OrganizationResponseDTO responseDTO = organizationService.updateOrganization(organizationPostRequestDTO,token.split(" ")[1]);
         return ResponseEntity.ok().body(responseDTO);
     }
+
+    @GetMapping("/get_organization_services_requests")
+    public ResponseEntity<ResponseDto<ServiceRequestOrganizationResponseDTO>> getOrganizationServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        ResponseDto<ServiceRequestOrganizationResponseDTO> responseDto = organizationService.getServiceRequestOrganization(token.split(" ")[1]);
+        return ResponseEntity.ok().body(responseDto);
+    }
+
+
 }
