@@ -11,6 +11,7 @@ import com.example.backprojectpapo.model.jwt.JwtData;
 import com.example.backprojectpapo.service.CustomerService;
 import com.example.backprojectpapo.service.UserService;
 import com.example.backprojectpapo.service.web.JwtService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -67,7 +68,7 @@ public class CustomerController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<CustomerResponseDTO> update(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,@RequestBody CustomerPutDTO customerPutDTO){
+    public ResponseEntity<CustomerResponseDTO> update(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @Valid @RequestBody CustomerPutDTO customerPutDTO){
 
         JwtData jwtData = extractJwtDataFromHeader(authorizationHeader);
         CustomerResponseDTO customerResponseDTO = customerService.update(jwtData.getId(), customerPutDTO);

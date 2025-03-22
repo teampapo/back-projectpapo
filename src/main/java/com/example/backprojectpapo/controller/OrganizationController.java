@@ -9,6 +9,7 @@ import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationRespon
 import com.example.backprojectpapo.model.ServiceDetail;
 import com.example.backprojectpapo.service.OrganizationService;
 import com.example.backprojectpapo.service.impl.ServiceDetailServiceImpl;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,7 +43,7 @@ public class OrganizationController {
     }
 
     @PutMapping("/update/organization")
-    public ResponseEntity<OrganizationResponseDTO> updateOrganization(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @RequestBody OrganizationPostRequestDTO organizationPostRequestDTO) {
+    public ResponseEntity<OrganizationResponseDTO> updateOrganization(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, @Valid @RequestBody OrganizationPostRequestDTO organizationPostRequestDTO) {
         OrganizationResponseDTO responseDTO = organizationService.updateOrganization(organizationPostRequestDTO,token.split(" ")[1]);
         return ResponseEntity.ok().body(responseDTO);
     }
