@@ -57,7 +57,7 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
     }
 
     @Override
-    public ResponseDto<ServiceDetailOrganizationDTO> getOrganizationServices(String token){
+    public ResponseDto<ServiceDetailOrganizationDTO> getOrganizationServices(String token) {
         Integer id = jwtService.extractId(token);
         ServiceDetailSearchCriteria criteria = new ServiceDetailSearchCriteria();
         criteria.setOrganizationId(id);
@@ -65,12 +65,14 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
         Specification<ServiceDetail> spec = ServiceDetailSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
-        Page<ServiceDetail> serviceDetails = serviceDetailRepository.findAll(spec,pageable);
+        Page<ServiceDetail> serviceDetails = serviceDetailRepository.findAll(spec, pageable);
 
         Page<ServiceDetailOrganizationDTO> serviceDetailOrganizationDTOS = serviceDetails.map(ServiceDetailOrganizationDTO::toDto);
 
         return new ResponseDto<>(serviceDetailOrganizationDTOS);
+    }
 
+    @Override
     public ResponseDto<ServiceDetailResponseDTO> getAllServiceDetailByCriteria(ServiceDetailSearchCriteria criteria){
         Specification<ServiceDetail> spec = ServiceDetailSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
