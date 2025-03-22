@@ -1,5 +1,9 @@
 package com.example.backprojectpapo.service.impl;
 
+import com.example.backprojectpapo.dto.request.TypeOfServiceRequestDTO;
+import com.example.backprojectpapo.dto.response.TypeOfServiceResponseDTO;
+import com.example.backprojectpapo.exception.UserAlreadyExistsException;
+import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.TypeOfService;
 import com.example.backprojectpapo.repository.TypeOfServiceRepository;
 import com.example.backprojectpapo.service.TypeOfServiceService;
@@ -19,8 +23,25 @@ public class TypeOfServiceServiceImpl implements TypeOfServiceService {
     }
 
     @Override
-    public TypeOfService save(TypeOfService typeOfService) {
-        return typeOfServiceRepository.save(typeOfService);
+    public TypeOfServiceResponseDTO save(TypeOfServiceRequestDTO requestDTO) {
+        TypeOfService typeOfService = new TypeOfService();
+        if (typeOfServiceRepository.findByCodeAndName(requestDTO.getCode(), requestDTO.getName()).isPresent()) {
+            throw new UserAlreadyExistsException("This type of service already exists");
+        }
+
+        typeOfService.setCode(requestDTO.getCode());
+        typeOfService.setName(requestDTO.getName());
+        TypeOfService typeOfService_ = typeOfServiceRepository.save(typeOfService);
+
+        return TypeOfServiceResponseDTO.toDTO(typeOfService_);
+    }
+
+    @Override
+    public TypeOfServiceResponseDTO update(TypeOfServiceRequestDTO requestDTO){
+        TypeOfService typeOfService = typeOfServiceRepository.findById(requestDTO.getId()).orElseThrow(()-> new UserNotFoundException("This type of service does not exist"));
+        Optional.ofNullable(requestDTO.getName()).ifPresent(typeOfService::setName);
+        Optional.ofNullable(requestDTO.getCode()).ifPresent(typeOfService::setCode);
+        return TypeOfServiceResponseDTO.toDTO(typeOfServiceRepository.save(typeOfService));
     }
 
     @Override
@@ -29,8 +50,10 @@ public class TypeOfServiceServiceImpl implements TypeOfServiceService {
     }
 
     @Override
-    public List<TypeOfService> findAll() {
-        return typeOfServiceRepository.findAll();
+    public List<TypeOfServiceResponseDTO> findAll() {
+        List<TypeOfService> typeOfService = typeOfServiceRepository.findAll();
+        List<TypeOfServiceResponseDTO> responseDTOS = typeOfService.stream().map(TypeOfServiceResponseDTO::toDTO).toList();
+        return responseDTOS;
     }
 
     @Override
