@@ -31,6 +31,12 @@ public class ServiceDetailSpecification {
           if (criteria.getDuration() != null){
               predicates.add(criteriaBuilder.equal(root.get("duration"), criteria.getDuration()));
           }
+          if (criteria.getTypeName() != null && !criteria.getTypeName().isEmpty()){
+              predicates.add(criteriaBuilder.like(root.get("typeOfService").get("name"), "%"+criteria.getTypeName()+"%"));
+          }
+          if (criteria.getTypeCode() != null && !criteria.getTypeCode().isEmpty()){
+              predicates.add(criteriaBuilder.like(root.get("typeOfService").get("code"), "%"+criteria.getTypeName()+"%"));
+          }
 
           predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
           return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

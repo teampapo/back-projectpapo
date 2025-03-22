@@ -14,4 +14,6 @@ public class ServiceDetailSearchCriteria extends BaseEntitySearchCriteria{
     private String name;
     private Integer cost;
     private Integer duration;
+    private String typeName;
+    private String typeCode;
 }

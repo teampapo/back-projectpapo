@@ -2,6 +2,7 @@ package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.ServiceDetailOrganizationDTO;
+import com.example.backprojectpapo.dto.response.ServiceDetailResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceDetailSearchCriteria;
 import com.example.backprojectpapo.model.ServiceDetail;
 import com.example.backprojectpapo.repository.ServiceDetailRepository;
@@ -69,6 +70,15 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
         Page<ServiceDetailOrganizationDTO> serviceDetailOrganizationDTOS = serviceDetails.map(ServiceDetailOrganizationDTO::toDto);
 
         return new ResponseDto<>(serviceDetailOrganizationDTOS);
+
+    public ResponseDto<ServiceDetailResponseDTO> getAllServiceDetailByCriteria(ServiceDetailSearchCriteria criteria){
+        Specification<ServiceDetail> spec = ServiceDetailSpecification.byCriteria(criteria);
+        Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
+
+        Page<ServiceDetail> serviceDetail = serviceDetailRepository.findAll(spec,pageable);
+
+        Page<ServiceDetailResponseDTO> serviceDetailResponseDTOs = serviceDetail.map(ServiceDetailResponseDTO::toDTO);
+        return new ResponseDto<>(serviceDetailResponseDTOs);
     }
 
     @Override
