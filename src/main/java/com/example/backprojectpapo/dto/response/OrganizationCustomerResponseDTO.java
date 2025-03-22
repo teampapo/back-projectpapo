@@ -1,6 +1,6 @@
 package com.example.backprojectpapo.dto.response;
 
-import com.example.backprojectpapo.dto.AddressResponseDTO;
+import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.model.Organization;
 import lombok.*;
 
@@ -14,17 +14,19 @@ import java.util.stream.Collectors;
 @Builder
 @ToString
 public class OrganizationCustomerResponseDTO {
+    private Integer id;
     private String fullName;
     private String shortName;
-    private Set<AddressResponseDTO> addresses;
+    private Set<AddressDTO> addresses;
     private String addInfo;
 
     public static OrganizationCustomerResponseDTO toDto(Organization organization){
-        Set<AddressResponseDTO> addressDTOs = organization.getAddresses()
-                .stream().map(AddressResponseDTO::toDto)
+        Set<AddressDTO> addressDTOs = organization.getAddresses()
+                .stream().map(AddressDTO::toDto)
                 .collect(Collectors.toSet());
 
         return OrganizationCustomerResponseDTO.builder()
+                .id(organization.getId())
                 .fullName(organization.getFullName())
                 .shortName(organization.getShortName())
                 .addresses(addressDTOs)

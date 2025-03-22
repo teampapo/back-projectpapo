@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.dto.request;
 
-import com.example.backprojectpapo.dto.AddressResponseDTO;
+
+import com.example.backprojectpapo.dto.AddressDTO;
 import lombok.*;
 
 import java.util.Set;
@@ -24,6 +25,6 @@ public class OrganizationPostRequestDTO {
     private String responsiblePersonPhoneNumber;
     private String addInfo;
     private String email;
-    private Set<AddressResponseDTO> addresses;
+    private Set<AddressDTO> addresses;
 
 }
