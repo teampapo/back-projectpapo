@@ -2,7 +2,9 @@ package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.ServiceDetailOrganizationDTO;
+import com.example.backprojectpapo.dto.request.ServiceDetailPutRequestDTO;
 import com.example.backprojectpapo.dto.response.ServiceDetailResponseDTO;
+import com.example.backprojectpapo.dto.response.ServiceDetailWithOrganizationAllResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceDetailSearchCriteria;
 import com.example.backprojectpapo.model.ServiceDetail;
 import org.springframework.data.domain.Page;
@@ -15,13 +17,16 @@ public interface ServiceDetailService {
     //TODO Filter
     //Page<ConnectionRequest> findAll(Specification<ConnectionRequest> spec, Pageable pageable);
     //TODO do we need Page<ServiceDetail> findAll(Pageable pageable);??
-    ServiceDetail save(ServiceDetail serviceDetail);
+    ServiceDetailResponseDTO save(ServiceDetail serviceDetail);
+
+    ServiceDetailResponseDTO update(ServiceDetailPutRequestDTO dto);
+
     Optional<ServiceDetail> findById(Integer id);
     List<ServiceDetail> findAllList();
     Page<ServiceDetail> findAll(Pageable pageable);
     ResponseDto<ServiceDetail> search(ServiceDetailSearchCriteria criteria);
     ResponseDto<ServiceDetailOrganizationDTO> getOrganizationServices(String token);
-    ResponseDto<ServiceDetailResponseDTO> getAllServiceDetailByCriteria(ServiceDetailSearchCriteria criteria);
+    ResponseDto<ServiceDetailWithOrganizationAllResponseDTO> getAllServiceDetailByCriteria(ServiceDetailSearchCriteria criteria);
 
     void deleteById(Integer id);
 }
