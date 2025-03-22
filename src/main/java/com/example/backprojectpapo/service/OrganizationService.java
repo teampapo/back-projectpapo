@@ -2,7 +2,9 @@ package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
+import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
+import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
 import com.example.backprojectpapo.model.Organization;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,10 @@ public interface OrganizationService {
     ResponseDto<OrganizationGetAggregatorDTO> getOrganizationForAggregator(OrganizationSearchCriteria criteria);
 
     OrganizationResponseDTO getOrganization(String token);
+
+    OrganizationResponseDTO updateOrganization(OrganizationPostRequestDTO dto, String token);
+
+    ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token);
 
     void deleteById(Integer id);
 
