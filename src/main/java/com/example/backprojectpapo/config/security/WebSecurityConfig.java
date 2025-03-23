@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.config.security;
 
 import com.example.backprojectpapo.config.security.components.JwtAuthenticationFilter;
+import com.example.backprojectpapo.model.enums.Role;
 import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,6 +73,12 @@ public class WebSecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(configurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers(
+                                "/api/aggreagator/**",
+                                "/api/connection_request/**"
+                        ).hasAuthority(Role.ADMIN.name())
+                        .requestMatchers("/api/customer/**").hasAuthority(Role.CUSTOMER.name())
+                        .requestMatchers("/api/organization/**").hasAuthority(Role.ORGANIZATION.name())
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
