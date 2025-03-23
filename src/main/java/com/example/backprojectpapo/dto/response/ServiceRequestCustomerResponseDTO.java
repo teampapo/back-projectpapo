@@ -18,12 +18,12 @@ public class ServiceRequestCustomerResponseDTO {
     private OrganizationCustomerResponseDTO organization;
     private LocalDateTime dateService;
     private String addInfo;
-    private Set<ServiceDetailCustomerResponseDTO> serviceDetails;
+    private Set<ServiceDetailResponseDTO> serviceDetails;
 
     public static ServiceRequestCustomerResponseDTO toDto(ServiceRequest serviceRequest) {
-        Set<ServiceDetailCustomerResponseDTO> serviceDetailDTOS = serviceRequest
+        Set<ServiceDetailResponseDTO> serviceDetailDTOS = serviceRequest
                 .getServiceDetails()
-                .stream().map(ServiceDetailCustomerResponseDTO::toDto)
+                .stream().map(ServiceDetailResponseDTO::toDto)
                 .collect(Collectors.toSet());
 
         return ServiceRequestCustomerResponseDTO.builder()
