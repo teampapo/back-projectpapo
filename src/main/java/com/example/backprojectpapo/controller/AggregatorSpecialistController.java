@@ -103,8 +103,8 @@ public class AggregatorSpecialistController {
     }
 
     @PutMapping("/connectionRequest")
-    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequestRequestDTO requestDTO) {
-        connectionRequestService.updateConnectionRequestByAggregator(requestDTO);
+    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequestRequestDTO requestDTO, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        connectionRequestService.updateConnectionRequestByAggregator(requestDTO,token.split(" ")[1]);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -27,7 +27,7 @@ public interface ConnectionRequestService {
     ArrayList<ConnectionRequest> findByOrganization(ConnectionRequestSearchCriteria criteria);
     Optional<ConnectionRequest> createConnectionRequest(Organization organization);
 
-    void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO);
+    void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO,String token);
 
     void deleteById(int id);
 

@@ -5,10 +5,13 @@ import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.exception.NotFoundException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
+import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.enums.Status;
+import com.example.backprojectpapo.repository.AggregatorSpecialistRepository;
 import com.example.backprojectpapo.repository.ConnectionRequestRepository;
+import com.example.backprojectpapo.service.AggregatorSpecialistService;
 import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.ConnectionRequestSpecification;
@@ -30,11 +33,13 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
 
     private final ConnectionRequestRepository connectionRequestRepository;
     private final JwtService jwtService;
+    private final AggregatorSpecialistRepository aggregatorSpecialistRepository;
 
     @Autowired
-    public ConnectionRequestServiceImpl(ConnectionRequestRepository connectionRequestRepository, JwtService jwtService) {
+    public ConnectionRequestServiceImpl(ConnectionRequestRepository connectionRequestRepository, JwtService jwtService, AggregatorSpecialistRepository aggregatorSpecialistRepository) {
         this.connectionRequestRepository = connectionRequestRepository;
         this.jwtService = jwtService;
+        this.aggregatorSpecialistRepository = aggregatorSpecialistRepository;
     }
 
     @Override
@@ -105,10 +110,19 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     }
 
     @Override
-    public void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO){
+    public void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO, String token){
+        Integer aggregatorId = jwtService.extractId(token);
+
+        AggregatorSpecialist aggregatorSpecialist = aggregatorSpecialistRepository.findById(aggregatorId).orElseThrow(() -> new UserNotFoundException("Aggregator Specialist not found"));
+
+
         ConnectionRequest connectionRequest = connectionRequestRepository.findById(requestDTO.getId()).orElseThrow(() -> new UserNotFoundException("connectionRequest not found"));
         Optional.ofNullable(requestDTO.getStatus()).ifPresent(connectionRequest::setStatus);
+        connectionRequest.getAggregatorSpecialists().add(aggregatorSpecialist);
         connectionRequestRepository.save(connectionRequest);
+
+        aggregatorSpecialist.getConnectionRequests().add(connectionRequest);
+        aggregatorSpecialistRepository.save(aggregatorSpecialist);
     }
 
     @Override
