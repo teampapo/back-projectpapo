@@ -10,7 +10,7 @@ import org.springframework.lang.NonNull;
 @Setter
 @MappedSuperclass
 public class User {
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     @Column(name = "password")
