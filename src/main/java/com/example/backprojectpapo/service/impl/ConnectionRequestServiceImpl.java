@@ -2,6 +2,7 @@ package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
+import com.example.backprojectpapo.dto.response.ConnectionRequestResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.exception.NotFoundException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
@@ -67,12 +68,15 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     }
 
     @Override
-    public ResponseDto<ConnectionRequest> findByStatus(ConnectionRequestSearchCriteria criteria) {
+    public ResponseDto<ConnectionRequestResponseDTO> findByStatus(ConnectionRequestSearchCriteria criteria) {
 
         Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
-        return new ResponseDto<>(connectionRequestRepository.findAll(spec, pageable));
+        Page<ConnectionRequest> page = connectionRequestRepository.findAll(spec,pageable);
+        Page<ConnectionRequestResponseDTO> pageDto = page.map(ConnectionRequestResponseDTO::toDto);
+
+        return new ResponseDto<>(pageDto);
     }
 
     @Override

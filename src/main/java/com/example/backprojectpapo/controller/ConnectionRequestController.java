@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.controller;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.response.ConnectionRequestResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.enums.Status;
@@ -22,17 +23,16 @@ public class ConnectionRequestController {
     }
 
     @GetMapping("/by_status")
-    public ResponseEntity<ResponseDto<ConnectionRequest>> getByStatus(@RequestBody Status status,
-                                                                                 @RequestBody ConnectionRequestSearchCriteria criteria) {
+    public ResponseEntity<ResponseDto<ConnectionRequestResponseDTO>> getByStatus(@RequestBody(required = false) ConnectionRequestSearchCriteria criteria) {
         criteria = criteria == null ? new ConnectionRequestSearchCriteria() : criteria;
-        criteria.setStatus(status == null ? Status.NEW : status);
+        criteria.setStatus(criteria.getStatus() == null ? Status.NEW : criteria.getStatus());
 
-        ResponseDto<ConnectionRequest> connectionRequests = connectionRequestService.findByStatus(criteria);
+        ResponseDto<ConnectionRequestResponseDTO> connectionRequests = connectionRequestService.findByStatus(criteria);
         return ResponseEntity.status(HttpStatus.OK).body(connectionRequests);
     }
 
     @DeleteMapping("/delete")
-    public ResponseEntity<String> delete(@RequestBody Integer id){
+    public ResponseEntity<String> delete(@RequestParam(name = "id") Integer id){
 
         connectionRequestService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
