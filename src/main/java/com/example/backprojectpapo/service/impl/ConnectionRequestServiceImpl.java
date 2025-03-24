@@ -2,13 +2,17 @@ package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
+import com.example.backprojectpapo.dto.response.ConnectionRequestResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.exception.NotFoundException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
+import com.example.backprojectpapo.model.AggregatorSpecialist;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.enums.Status;
+import com.example.backprojectpapo.repository.AggregatorSpecialistRepository;
 import com.example.backprojectpapo.repository.ConnectionRequestRepository;
+import com.example.backprojectpapo.service.AggregatorSpecialistService;
 import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.ConnectionRequestSpecification;
@@ -30,11 +34,13 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
 
     private final ConnectionRequestRepository connectionRequestRepository;
     private final JwtService jwtService;
+    private final AggregatorSpecialistRepository aggregatorSpecialistRepository;
 
     @Autowired
-    public ConnectionRequestServiceImpl(ConnectionRequestRepository connectionRequestRepository, JwtService jwtService) {
+    public ConnectionRequestServiceImpl(ConnectionRequestRepository connectionRequestRepository, JwtService jwtService, AggregatorSpecialistRepository aggregatorSpecialistRepository) {
         this.connectionRequestRepository = connectionRequestRepository;
         this.jwtService = jwtService;
+        this.aggregatorSpecialistRepository = aggregatorSpecialistRepository;
     }
 
     @Override
@@ -67,12 +73,15 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     }
 
     @Override
-    public ResponseDto<ConnectionRequest> findByStatus(ConnectionRequestSearchCriteria criteria) {
+    public ResponseDto<ConnectionRequestResponseDTO> findByStatus(ConnectionRequestSearchCriteria criteria) {
 
         Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
-        return new ResponseDto<>(connectionRequestRepository.findAll(spec, pageable));
+        Page<ConnectionRequest> page = connectionRequestRepository.findAll(spec,pageable);
+        Page<ConnectionRequestResponseDTO> pageDto = page.map(ConnectionRequestResponseDTO::toDto);
+
+        return new ResponseDto<>(pageDto);
     }
 
     @Override
@@ -105,11 +114,19 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     }
 
     @Override
-    public void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO){
+    public void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO, String token){
+        Integer aggregatorId = jwtService.extractId(token);
+
+        AggregatorSpecialist aggregatorSpecialist = aggregatorSpecialistRepository.findById(aggregatorId).orElseThrow(() -> new UserNotFoundException("Aggregator Specialist not found"));
+
+
         ConnectionRequest connectionRequest = connectionRequestRepository.findById(requestDTO.getId()).orElseThrow(() -> new UserNotFoundException("connectionRequest not found"));
         Optional.ofNullable(requestDTO.getStatus()).ifPresent(connectionRequest::setStatus);
-        connectionRequest.setDateEnd(LocalDate.now());
+        connectionRequest.getAggregatorSpecialists().add(aggregatorSpecialist);
         connectionRequestRepository.save(connectionRequest);
+
+        aggregatorSpecialist.getConnectionRequests().add(connectionRequest);
+        aggregatorSpecialistRepository.save(aggregatorSpecialist);
     }
 
     @Override

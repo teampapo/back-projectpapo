@@ -23,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/aggreagator")
+@RequestMapping("/api/aggregator")
 public class AggregatorSpecialistController {
 
     private final AggregatorSpecialistService aggregatorSpecialistService;
@@ -104,8 +104,8 @@ public class AggregatorSpecialistController {
     }
 
     @PutMapping("/connectionRequest")
-    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequestRequestDTO requestDTO) {
-        connectionRequestService.updateConnectionRequestByAggregator(requestDTO);
+    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequestRequestDTO requestDTO, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        connectionRequestService.updateConnectionRequestByAggregator(requestDTO,token.split(" ")[1]);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

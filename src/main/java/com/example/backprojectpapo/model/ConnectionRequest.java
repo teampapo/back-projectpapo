@@ -49,7 +49,7 @@ public class ConnectionRequest {
     @Column(name = "add_info")
     private String addInfo;
 
-    @ManyToMany(mappedBy = "connectionRequests")
+    @ManyToMany(mappedBy = "connectionRequests",cascade = CascadeType.PERSIST)
     private Set<AggregatorSpecialist> aggregatorSpecialists = new HashSet<>();
 
     @PreUpdate
