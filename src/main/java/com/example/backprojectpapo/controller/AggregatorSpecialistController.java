@@ -22,7 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/aggreagator")
+@RequestMapping("/api/aggregator")
 public class AggregatorSpecialistController {
 
     private final AggregatorSpecialistService aggregatorSpecialistService;

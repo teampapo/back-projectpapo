@@ -108,7 +108,6 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     public void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO){
         ConnectionRequest connectionRequest = connectionRequestRepository.findById(requestDTO.getId()).orElseThrow(() -> new UserNotFoundException("connectionRequest not found"));
         Optional.ofNullable(requestDTO.getStatus()).ifPresent(connectionRequest::setStatus);
-        connectionRequest.setDateEnd(LocalDate.now());
         connectionRequestRepository.save(connectionRequest);
     }
 
