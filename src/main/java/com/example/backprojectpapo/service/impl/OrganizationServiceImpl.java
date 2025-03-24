@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.config.security.components.CustomUserDetails;
+import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
@@ -8,12 +9,14 @@ import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
+import com.example.backprojectpapo.exception.InvalidRequestException;
 import com.example.backprojectpapo.exception.NotFoundException;
 import com.example.backprojectpapo.model.Address;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.ServiceRequest;
 import com.example.backprojectpapo.repository.OrganizationRepository;
+import com.example.backprojectpapo.service.AddressService;
 import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.OrganizationService;
 import com.example.backprojectpapo.service.ServiceRequestService;
@@ -39,16 +42,18 @@ public class OrganizationServiceImpl implements OrganizationService {
     private final ConnectionRequestService connectionRequestService;
     private final CustomUserDetailsService customUserDetailsService;
     private final ServiceRequestService serviceRequestService;
+    private final AddressService addressService;
 
 
     @Autowired
-    public OrganizationServiceImpl(OrganizationRepository organizationRepository, JwtService jwtService, ConnectionRequestService connectionRequestService, CustomUserDetailsService customUserDetailsService, ServiceRequestService serviceRequestService) {
+    public OrganizationServiceImpl(OrganizationRepository organizationRepository, JwtService jwtService, ConnectionRequestService connectionRequestService, CustomUserDetailsService customUserDetailsService, ServiceRequestService serviceRequestService, AddressService addressService) {
         this.organizationRepository = organizationRepository;
         this.jwtService = jwtService;
         this.connectionRequestService = connectionRequestService;
 
         this.customUserDetailsService = customUserDetailsService;
         this.serviceRequestService = serviceRequestService;
+        this.addressService = addressService;
     }
 
     @Override
@@ -123,7 +128,17 @@ public class OrganizationServiceImpl implements OrganizationService {
         Integer id = jwtService.extractId(token);
         Organization organization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException("Organization not found"));
 
-        boolean emailChanged = dto.getEmail() != null && !dto.getEmail().equals(organization.getEmail());
+        List<Address> addressOrganization = organization.getAddresses().stream().toList();
+        Integer addressOrganizationId = addressOrganization.get(0).getId();
+
+        List<AddressDTO> addressDto_ = dto.getAddresses().stream().toList();
+        Integer addressDtoId = addressDto_.get(0).getId();
+
+        if (dto.getAddresses().size() > 1 || !addressOrganizationId.equals(addressDtoId)) {
+            throw new InvalidRequestException("Invalid address");
+        }
+
+        boolean emailChanged = (dto.getEmail() != null && !dto.getEmail().equals(organization.getEmail())) || (dto.getResponsiblePersonEmail() != null && !dto.getResponsiblePersonEmail().equals(organization.getResponsiblePersonEmail()));
 
         Optional.ofNullable(dto.getFullName()).ifPresent(organization::setFullName);
         Optional.ofNullable(dto.getShortName()).ifPresent(organization::setShortName);
@@ -133,24 +148,35 @@ public class OrganizationServiceImpl implements OrganizationService {
         Optional.ofNullable(dto.getResponsiblePersonSurname()).ifPresent(organization::setResponsiblePersonSurname);
         Optional.ofNullable(dto.getResponsiblePersonName()).ifPresent(organization::setResponsiblePersonName);
         Optional.ofNullable(dto.getResponsiblePersonPatronymic()).ifPresent(organization::setResponsiblePersonPatronymic);
+
         Optional.ofNullable(dto.getResponsiblePersonEmail()).ifPresent(organization::setResponsiblePersonEmail);
+        Optional.ofNullable(dto.getResponsiblePersonEmail()).ifPresent(organization::setEmail);
+
         Optional.ofNullable(dto.getResponsiblePersonPhoneNumber()).ifPresent(organization::setResponsiblePersonPhoneNumber);
         Optional.ofNullable(dto.getAddInfo()).ifPresent(organization::setAddInfo);
+
         Optional.ofNullable(dto.getEmail()).ifPresent(organization::setEmail);
+        Optional.ofNullable(dto.getEmail()).ifPresent(organization::setResponsiblePersonEmail);
 
         // Обновление адресов
         Optional.ofNullable(dto.getAddresses()).ifPresent(newAddresses -> {
-            Map<Integer, Address> existingAddressesMap = organization.getAddresses().stream()
-                    .collect(Collectors.toMap(Address::getId, address -> address));
 
             Set<Address> updatedAddresses = newAddresses.stream().map(addressDto -> {
-                Address address = existingAddressesMap.getOrDefault(addressDto.getId(), new Address());
+
+                if (addressDto.getId() == null) {
+                    throw new InvalidRequestException("Address id requried");
+                }
+
+                Address address = addressService.findById(addressDto.getId()).orElseThrow(() -> new NotFoundException("Address not found"));
+
                 address.setOrganization(organization);
-                address.setSubjectName(addressDto.getSubjectName());
-                address.setCityName(addressDto.getCityName());
-                address.setStreetName(addressDto.getStreetName());
-                address.setHouseNumber(addressDto.getHouseNumber());
-                address.setAddInfo(addressDto.getAddInfo());
+                Optional.ofNullable(addressDto.getSubjectName()).ifPresent(address::setSubjectName);
+                Optional.ofNullable(address.getCityName()).ifPresent(address::setCityName);
+                Optional.ofNullable(addressDto.getStreetName()).ifPresent(address::setStreetName);
+                Optional.ofNullable(addressDto.getHouseNumber()).ifPresent(address::setHouseNumber);
+                Optional.ofNullable(addressDto.getAddInfo()).ifPresent(address::setAddInfo);
+
+
                 return address;
             }).collect(Collectors.toSet());
 
