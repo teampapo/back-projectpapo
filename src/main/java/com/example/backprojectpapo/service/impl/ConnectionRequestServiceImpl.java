@@ -1,8 +1,10 @@
 package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.exception.NotFoundException;
+import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.enums.Status;
@@ -10,7 +12,6 @@ import com.example.backprojectpapo.repository.ConnectionRequestRepository;
 import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.ConnectionRequestSpecification;
-import jakarta.persistence.SequenceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +24,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 public class ConnectionRequestServiceImpl implements ConnectionRequestService {
@@ -102,6 +102,14 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
                 .build());
 
         return Optional.ofNullable(connectionRequest);
+    }
+
+    @Override
+    public void updateConnectionRequestByAggregator(ConnectionRequestRequestDTO requestDTO){
+        ConnectionRequest connectionRequest = connectionRequestRepository.findById(requestDTO.getId()).orElseThrow(() -> new UserNotFoundException("connectionRequest not found"));
+        Optional.ofNullable(requestDTO.getStatus()).ifPresent(connectionRequest::setStatus);
+        connectionRequest.setDateEnd(LocalDate.now());
+        connectionRequestRepository.save(connectionRequest);
     }
 
     @Override
