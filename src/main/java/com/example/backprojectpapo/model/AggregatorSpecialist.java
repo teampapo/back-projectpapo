@@ -42,7 +42,7 @@ public class AggregatorSpecialist extends User {
     @Column(name = "add_info")
     private String addInfo;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "aggregator_specialist_connector_request",
             joinColumns = @JoinColumn(name = "aggregator_specialists_id"),

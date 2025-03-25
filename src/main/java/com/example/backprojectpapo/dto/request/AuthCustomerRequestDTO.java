@@ -3,6 +3,8 @@ package com.example.backprojectpapo.dto.request;
 import com.example.backprojectpapo.dto.UserDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
@@ -12,15 +14,16 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 public class AuthCustomerRequestDTO extends UserDto {
-    @JsonProperty("surname")
+    @Size(max = 50,message = "\"surname\" field should be no more than 50 characters long")
     private String surname;
-    @JsonProperty("name")
+    @Size(max = 50,message = "\"name\" field should be no more than 50 characters long")
     private String name;
-    @JsonProperty("patronymic")
+    @Size(max = 50,message = "\"patronymic\" field should be no more than 50 characters long")
     private String patronymic;
-    @NotBlank
-    @JsonProperty("phoneNumber")
+    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Invalid phone number format")
+    @Size(max = 20,message = "\"phoneNumber\" field should be no more than 20 characters long")
+    @NotBlank(message="The \"phoneNumber\" field must be filled in")
     private String phoneNumber;
-    @JsonProperty("addInfo")
+    @Size(max = 250, message = "\"addInfo\" field should be no more than 20 characters long")
     private String addInfo;
 }

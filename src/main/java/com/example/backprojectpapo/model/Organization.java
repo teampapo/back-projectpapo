@@ -54,15 +54,15 @@ public class Organization extends User {
     @Column(name = "add_info")
     private String addInfo;
 
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization", cascade = CascadeType.ALL)
     private Set<ConnectionRequest> connectionRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization",cascade = CascadeType.ALL)
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization",cascade = CascadeType.ALL)
     private Set<ServiceRequest> serviceRequests = new HashSet<>();
 
-    @OneToMany(mappedBy = "organization")
+    @OneToMany(mappedBy = "organization",cascade = CascadeType.ALL)
     private Set<ServiceDetail> serviceDetails = new HashSet<>();
 }

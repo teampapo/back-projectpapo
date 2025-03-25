@@ -15,6 +15,7 @@ import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.CustomerService;
 
 import com.example.backprojectpapo.service.OrganizationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/aggreagator")
+@RequestMapping("/api/aggregator")
 public class AggregatorSpecialistController {
 
     private final AggregatorSpecialistService aggregatorSpecialistService;
@@ -79,7 +80,7 @@ public class AggregatorSpecialistController {
     }
 
     @PutMapping("/aggreagator")
-    public ResponseEntity<AggregatorSpecialistDTO> updateAggregatorSpecialist(@RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
+    public ResponseEntity<AggregatorSpecialistDTO> updateAggregatorSpecialist(@Valid @RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
                                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
 
         AggregatorSpecialistDTO response = aggregatorSpecialistService.update(aggregatorSpecialistDTO, token.split(" ")[1]);
@@ -103,8 +104,8 @@ public class AggregatorSpecialistController {
     }
 
     @PutMapping("/connectionRequest")
-    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequestRequestDTO requestDTO) {
-        connectionRequestService.updateConnectionRequestByAggregator(requestDTO);
+    public ResponseEntity<String> updateConnectionRequest(@RequestBody ConnectionRequestRequestDTO requestDTO, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        connectionRequestService.updateConnectionRequestByAggregator(requestDTO,token.split(" ")[1]);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
