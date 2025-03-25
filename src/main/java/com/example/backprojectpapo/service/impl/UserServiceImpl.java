@@ -68,12 +68,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void verifyUserExistenceByEmail(String email) {
+        try{
+            if(findUserByEmail(email).isPresent()){
+                throw new UserAlreadyExistsException("User is already exists");
+            }
+        }catch (UserNotFoundException ignored){
+
+        }
+    }
+
+    @Override
     @Transactional
     public User registerAggregatorSpecialist(AuthAggregatorSpecialistRequestDTO dto) {
         AggregatorSpecialist aggregatorSpecialist = new AggregatorSpecialist();
-        if (aggregatorSpecialistRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException("Aggregator specialist is already exists");
-        }
+        verifyUserExistenceByEmail(dto.getEmail());
 
         //TODO 09.03 add exceptions for empty required parameters
         aggregatorSpecialist.setEmail(dto.getEmail());
@@ -100,9 +109,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User registerCustomer(AuthCustomerRequestDTO dto) {
         Customer customer = new Customer();
-        if (customerRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException("Customer is already exists");
-        }
+        verifyUserExistenceByEmail(dto.getEmail());
 
         //TODO 09.03 add exceptions for empty required parameters
         customer.setEmail(dto.getEmail());
@@ -121,9 +128,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public User registerOrganization(AuthOrganizationRequestDTO dto) {
         Organization organization = new Organization();
-        if (organizationRepository.findByEmail(dto.getEmail()).isPresent()) {
-            throw new UserAlreadyExistsException("Organization is already exists");
-        }
+        verifyUserExistenceByEmail(dto.getEmail());
 
         Address address = Address.builder()
                 .organization(organization)
