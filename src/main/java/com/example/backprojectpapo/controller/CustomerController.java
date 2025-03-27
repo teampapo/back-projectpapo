@@ -3,6 +3,7 @@ package com.example.backprojectpapo.controller;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
+import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.model.Customer;
@@ -11,6 +12,7 @@ import com.example.backprojectpapo.model.jwt.JwtData;
 import com.example.backprojectpapo.service.CustomerService;
 import com.example.backprojectpapo.service.UserService;
 import com.example.backprojectpapo.service.web.JwtService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
@@ -49,6 +51,12 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(CustomerResponseDTO.toDto(customer));
     }
 
+    @GetMapping("/service_type/organizations")
+    public ResponseEntity<ResponseDto<OrganizationCustomerResponseDTO>> getOrganizationsByType(@RequestParam(name = "typeOfServiceId") Integer typeOfServiceId){
+
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId));
+    }
+
     @GetMapping("/service_requests")
     public ResponseEntity<ResponseDto<ServiceRequestCustomerResponseDTO>> getServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody(required = false) ServiceRequestSearchCriteria criteria){
 
@@ -67,7 +75,7 @@ public class CustomerController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<CustomerResponseDTO> update(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader,@RequestBody CustomerPutDTO customerPutDTO){
+    public ResponseEntity<CustomerResponseDTO> update(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @Valid @RequestBody CustomerPutDTO customerPutDTO){
 
         JwtData jwtData = extractJwtDataFromHeader(authorizationHeader);
         CustomerResponseDTO customerResponseDTO = customerService.update(jwtData.getId(), customerPutDTO);

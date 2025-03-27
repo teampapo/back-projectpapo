@@ -5,6 +5,7 @@ import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
+import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.exception.UserNotFoundException;
@@ -34,13 +35,15 @@ public class CustomerServiceImpl implements CustomerService {
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtService jwtService;
     private final ServiceRequestRepository serviceRequestRepository;
+    private final OrganizationServiceImpl organizationService;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService, ServiceRequestRepository serviceRequestRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService, ServiceRequestRepository serviceRequestRepository, OrganizationServiceImpl organizationService) {
         this.customerRepository = customerRepository;
         this.customUserDetailsService = customUserDetailsService;
         this.jwtService = jwtService;
         this.serviceRequestRepository = serviceRequestRepository;
+        this.organizationService = organizationService;
     }
 
     @Override
@@ -140,6 +143,11 @@ public class CustomerServiceImpl implements CustomerService {
                 customer.getEmail(),
                 customer.getPhoneNumber()
         );
+    }
+
+    @Override
+    public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId){
+        return organizationService.getOrganizationsByServiceType(serviceTypeId);
     }
     @Override
     public void deleteById(Integer id) {

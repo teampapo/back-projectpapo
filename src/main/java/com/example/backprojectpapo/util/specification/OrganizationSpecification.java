@@ -43,6 +43,11 @@ public class OrganizationSpecification {
             if (criteria.getResponsiblePersonPhoneNumber() != null && !criteria.getResponsiblePersonPhoneNumber().isEmpty()) {
                 predicates.add(criteriaBuilder.like(root.get("responsiblePersonPhoneNumber"), "%"+criteria.getResponsiblePersonPhoneNumber()+"%"));
             }
+
+            if (criteria.getTypeOfServiceId() != null){
+                predicates.add(criteriaBuilder.equal(root.get("serviceDetail").get("id") , criteria.getTypeOfServiceId()));
+            }
+
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

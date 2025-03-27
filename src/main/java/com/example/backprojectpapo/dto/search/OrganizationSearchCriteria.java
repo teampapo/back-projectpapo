@@ -18,4 +18,5 @@ public class OrganizationSearchCriteria extends BaseEntitySearchCriteria{
     private String responsiblePersonPatronymic;
     private String responsiblePersonEmail;
     private String responsiblePersonPhoneNumber;
+    private Integer typeOfServiceId;
 }
