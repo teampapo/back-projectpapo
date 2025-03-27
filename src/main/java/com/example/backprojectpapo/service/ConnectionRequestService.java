@@ -2,6 +2,7 @@ package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
+import com.example.backprojectpapo.dto.response.ConnectionRequestResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
@@ -21,7 +22,7 @@ public interface ConnectionRequestService {
     List<ConnectionRequest> findAll();
     Page<ConnectionRequest> findAll(Pageable pageable);
     ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria, String token);
-    ResponseDto<ConnectionRequest> findByStatus(ConnectionRequestSearchCriteria criteria);
+    ResponseDto<ConnectionRequestResponseDTO> findByStatus(ConnectionRequestSearchCriteria criteria);
 
 
     ArrayList<ConnectionRequest> findByOrganization(ConnectionRequestSearchCriteria criteria);

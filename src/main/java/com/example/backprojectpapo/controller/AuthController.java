@@ -7,9 +7,12 @@ import com.example.backprojectpapo.dto.request.SignInWithCodeAndPasswordRequest;
 import com.example.backprojectpapo.dto.request.SignInWithCodeRequest;
 import com.example.backprojectpapo.model.user.User;
 import com.example.backprojectpapo.service.web.AuthenticationService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -25,13 +28,13 @@ public class AuthController {
     }
 
     @PostMapping("/sign_in/send_code")
-    public ResponseEntity<?> sendCode(@RequestParam(name = "email") String email){
+    public ResponseEntity<?> sendCode(@Email @RequestParam(name = "email") String email){
         authenticationService.sendVerificationCode(email);
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
 
     @PostMapping("/sign_up/customer")
-    public ResponseEntity<String> signUpCustomer(@RequestBody AuthCustomerRequestDTO authCustomerRequestDTO){
+    public ResponseEntity<String> signUpCustomer(@Valid @RequestBody AuthCustomerRequestDTO authCustomerRequestDTO){
 
         Optional<User> optionalUser = Optional.ofNullable(authenticationService.signUpCustomer(authCustomerRequestDTO));
         if(optionalUser.isEmpty()){
@@ -42,7 +45,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign_up/organization")
-    public ResponseEntity<?> signUpOrganization(@RequestBody AuthOrganizationRequestDTO authOrganizationRequestDTO){
+    public ResponseEntity<?> signUpOrganization(@Valid @RequestBody AuthOrganizationRequestDTO authOrganizationRequestDTO){
 
         Optional<User> optionalUser = Optional.ofNullable(authenticationService.signUpOrganization(authOrganizationRequestDTO));
         if(optionalUser.isEmpty()){
@@ -53,7 +56,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign_up/admin")
-    public ResponseEntity<?> signUpAggregatorSpecialist(@RequestBody AuthAggregatorSpecialistRequestDTO authAggregatorSpecialistRequestDTO){
+    public ResponseEntity<?> signUpAggregatorSpecialist(@Valid @RequestBody AuthAggregatorSpecialistRequestDTO authAggregatorSpecialistRequestDTO){
 
         Optional<User> optionalUser = Optional.ofNullable(authenticationService.signUpAggregatorSpecialist(authAggregatorSpecialistRequestDTO));
         if(optionalUser.isEmpty()){
@@ -64,20 +67,20 @@ public class AuthController {
     }
 
     @PostMapping("/sign_in/customer")
-    public ResponseEntity<String> signInCustomer(@RequestBody SignInWithCodeRequest data){
+    public ResponseEntity<String> signInCustomer(@Valid @RequestBody SignInWithCodeRequest data){
         String token = authenticationService.signInWithCode(data.getEmail(), data.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
 
     @PostMapping("/sign_in/organization")
-    public ResponseEntity<String> signInOrganization(@RequestBody SignInWithCodeRequest data){
+    public ResponseEntity<String> signInOrganization(@Valid @RequestBody SignInWithCodeRequest data){
         String token = authenticationService.signInWithCode(data.getEmail(), data.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 
     @PostMapping("/sign_in/admin")
-    public ResponseEntity<String> signInAdmin(@RequestBody SignInWithCodeAndPasswordRequest data){
+    public ResponseEntity<String> signInAdmin(@Valid @RequestBody SignInWithCodeAndPasswordRequest data){
         String token = authenticationService.signInWithPasswordAndCode(data.getEmail(), data.getPassword(),
                 data.getCode());
         return ResponseEntity.status(HttpStatus.OK).body(token);

@@ -15,6 +15,7 @@ import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.CustomerService;
 
 import com.example.backprojectpapo.service.OrganizationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -79,7 +80,7 @@ public class AggregatorSpecialistController {
     }
 
     @PutMapping("/aggreagator")
-    public ResponseEntity<AggregatorSpecialistDTO> updateAggregatorSpecialist(@RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
+    public ResponseEntity<AggregatorSpecialistDTO> updateAggregatorSpecialist(@Valid @RequestBody AggregatorSpecialistDTO aggregatorSpecialistDTO,
                                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
 
         AggregatorSpecialistDTO response = aggregatorSpecialistService.update(aggregatorSpecialistDTO, token.split(" ")[1]);

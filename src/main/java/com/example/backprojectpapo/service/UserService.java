@@ -14,5 +14,6 @@ public interface UserService {
     User registerAggregatorSpecialist(AuthAggregatorSpecialistRequestDTO user);
     User registerCustomer(AuthCustomerRequestDTO user);
     User registerOrganization(AuthOrganizationRequestDTO user);
+    void verifyUserExistenceByEmail(String email);
 }
 
