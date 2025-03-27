@@ -10,6 +10,7 @@ import com.example.backprojectpapo.model.ServiceDetail;
 import com.example.backprojectpapo.service.OrganizationService;
 import com.example.backprojectpapo.service.impl.ServiceDetailServiceImpl;
 import jakarta.validation.Valid;
+import com.example.backprojectpapo.service.web.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,13 @@ public class OrganizationController {
 
     private final OrganizationService organizationService;
     private final ServiceDetailServiceImpl serviceDetailService;
+    private final JwtService jwtService;
 
     @Autowired
-    public OrganizationController(OrganizationService organizationService, ServiceDetailServiceImpl serviceDetailService) {
+    public OrganizationController(OrganizationService organizationService, ServiceDetailServiceImpl serviceDetailService, JwtService jwtService) {
         this.organizationService = organizationService;
         this.serviceDetailService = serviceDetailService;
+        this.jwtService = jwtService;
     }
 
     @GetMapping("/get_organization")
@@ -53,6 +56,11 @@ public class OrganizationController {
         ResponseDto<ServiceRequestOrganizationResponseDTO> responseDto = organizationService.getServiceRequestOrganization(token.split(" ")[1]);
         return ResponseEntity.ok().body(responseDto);
     }
-
+    @DeleteMapping()
+    public ResponseEntity<String> deleteOrganization(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        Integer id = jwtService.extractId(token.split(" ")[1]);
+        organizationService.deleteById(id);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 
 }

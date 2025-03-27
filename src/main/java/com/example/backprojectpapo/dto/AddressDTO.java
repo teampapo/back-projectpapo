@@ -32,6 +32,7 @@ public class AddressDTO {
 
     public static AddressDTO toDto(Address address){
         return AddressDTO.builder()
+                .id(address.getId())
                 .subjectName(address.getSubjectName())
                 .cityName(address.getCityName())
                 .streetName(address.getStreetName())

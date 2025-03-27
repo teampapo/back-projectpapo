@@ -18,6 +18,7 @@ import java.util.Set;
 @ToString
 public class OrganizationPostRequestDTO {
     @Size(max = 150,message = "\"fullName\" field should be no more than 150 characters long")
+    private String fullName;
     @Size(max = 50,message = "\"shortName\" field should be no more than 50 characters long")
     private String shortName;
     @Size(max = 10,message = "\"inn\" field should be no more than 10 characters long")

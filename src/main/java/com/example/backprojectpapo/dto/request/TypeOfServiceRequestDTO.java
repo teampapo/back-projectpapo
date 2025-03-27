@@ -8,8 +8,8 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @ToString
-public class ServiceDetailPostRequestDTO {
-    private Integer organizationId;
-    private Integer typeId;
-
+public class TypeOfServiceRequestDTO {
+    private Integer id;
+    private String code;
+    private String name;
 }
