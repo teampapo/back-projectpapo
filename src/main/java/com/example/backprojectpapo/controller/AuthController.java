@@ -19,6 +19,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
+@Validated
 public class AuthController {
     private final AuthenticationService authenticationService;
 
@@ -28,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/sign_in/send_code")
-    public ResponseEntity<?> sendCode(@Email @RequestParam(name = "email") String email){
+    public ResponseEntity<?> sendCode(@Email(message = "Email should be valid") @RequestParam(name = "email") String email){
         authenticationService.sendVerificationCode(email);
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
