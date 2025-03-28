@@ -58,6 +58,11 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
         ServiceDetail serviceDetail_ = new ServiceDetail();
         serviceDetail_.setOrganization(organization_);
         serviceDetail_.setType(typeOfService_);
+        serviceDetail_.setCode(postRequestDTO.getCode());
+        serviceDetail_.setName(postRequestDTO.getName());
+        serviceDetail_.setCost(postRequestDTO.getCost());
+        serviceDetail_.setDuration(postRequestDTO.getDuration());
+        serviceDetail_.setAddInfo(postRequestDTO.getAddInfo());
 
         serviceDetail_ =  serviceDetailRepository.save(serviceDetail_);
 
