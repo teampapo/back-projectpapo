@@ -3,6 +3,7 @@ package com.example.backprojectpapo.controller;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
+import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.model.Customer;
@@ -48,6 +49,12 @@ public class CustomerController {
         JwtData jwtData = extractJwtDataFromHeader(authorizationHeader);
         Customer customer = customerService.findById(jwtData.getId()).get();
         return ResponseEntity.status(HttpStatus.OK).body(CustomerResponseDTO.toDto(customer));
+    }
+
+    @GetMapping("/service_type/organizations")
+    public ResponseEntity<ResponseDto<OrganizationCustomerResponseDTO>> getOrganizationsByType(@RequestParam(name = "typeOfServiceId") Integer typeOfServiceId){
+
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId));
     }
 
     @GetMapping("/service_requests")

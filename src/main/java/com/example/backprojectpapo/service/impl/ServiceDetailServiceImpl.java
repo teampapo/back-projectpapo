@@ -2,14 +2,21 @@ package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.ServiceDetailOrganizationDTO;
+import com.example.backprojectpapo.dto.request.ServiceDetailPostRequestDTO;
 import com.example.backprojectpapo.dto.request.ServiceDetailPutRequestDTO;
 import com.example.backprojectpapo.dto.response.ServiceDetailResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceDetailWithOrganizationAllResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceDetailSearchCriteria;
 import com.example.backprojectpapo.exception.InvalidRequestException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
+import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.ServiceDetail;
+import com.example.backprojectpapo.model.TypeOfService;
+import com.example.backprojectpapo.model.enums.Role;
+import com.example.backprojectpapo.model.jwt.JwtData;
+import com.example.backprojectpapo.repository.OrganizationRepository;
 import com.example.backprojectpapo.repository.ServiceDetailRepository;
+import com.example.backprojectpapo.repository.TypeOfServiceRepository;
 import com.example.backprojectpapo.service.ServiceDetailService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.ServiceDetailSpecification;
@@ -27,29 +34,50 @@ import java.util.Optional;
 public class ServiceDetailServiceImpl implements ServiceDetailService {
     private final ServiceDetailRepository serviceDetailRepository;
     private final JwtService jwtService;
+    private final OrganizationRepository organizationRepository;
+    private final TypeOfServiceRepository typeOfServiceRepository;
     @Autowired
-    public ServiceDetailServiceImpl(ServiceDetailRepository serviceDetailRepository, JwtService jwtService) {
+    public ServiceDetailServiceImpl(ServiceDetailRepository serviceDetailRepository, JwtService jwtService, OrganizationRepository organizationRepository, TypeOfServiceRepository typeOfServiceRepository) {
         this.serviceDetailRepository = serviceDetailRepository;
         this.jwtService = jwtService;
+        this.organizationRepository = organizationRepository;
+        this.typeOfServiceRepository = typeOfServiceRepository;
     }
 
     @Override
-    public ServiceDetailResponseDTO save(ServiceDetail serviceDetail) {
+    public ServiceDetailResponseDTO save(ServiceDetailPostRequestDTO postRequestDTO, String token) {
+        Integer id = jwtService.extractId(token);
 
-        if (serviceDetail.getOrganization() == null || serviceDetail.getOrganization().getId() == null) {
-            throw new InvalidRequestException("Organization ID is required");
-        }
-        if (serviceDetail.getType() == null || serviceDetail.getType().getId() == null) {
+        if (postRequestDTO.getTypeOfService() == null) {
             throw new InvalidRequestException("Type ID is required");
         }
 
-        ServiceDetail serviceDetail_ =  serviceDetailRepository.save(serviceDetail);
+        Organization organization_ = organizationRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Organization not found"));
+        TypeOfService typeOfService_ = typeOfServiceRepository.findById(postRequestDTO.getTypeOfService()).orElseThrow(() -> new UserNotFoundException("Type not found"));
+
+        ServiceDetail serviceDetail_ = new ServiceDetail();
+        serviceDetail_.setOrganization(organization_);
+        serviceDetail_.setType(typeOfService_);
+        serviceDetail_.setCode(postRequestDTO.getCode());
+        serviceDetail_.setName(postRequestDTO.getName());
+        serviceDetail_.setCost(postRequestDTO.getCost());
+        serviceDetail_.setDuration(postRequestDTO.getDuration());
+        serviceDetail_.setAddInfo(postRequestDTO.getAddInfo());
+
+        serviceDetail_ =  serviceDetailRepository.save(serviceDetail_);
+
         return ServiceDetailResponseDTO.toDto(serviceDetail_);
     }
 
     @Override
-    public ServiceDetailResponseDTO update(ServiceDetailPutRequestDTO dto){
+    public ServiceDetailResponseDTO update(ServiceDetailPutRequestDTO dto,String token){
+        Integer organizationId = jwtService.extractId(token);
+
         ServiceDetail serviceDetail = serviceDetailRepository.findById(dto.getId()).orElseThrow(()-> new UserNotFoundException("Service not found"));
+
+        if (! serviceDetail.getOrganization().getId().equals(organizationId)){
+            throw new InvalidRequestException("Wrong service");
+        }
 
         Optional.ofNullable(dto.getCode()).ifPresent(serviceDetail::setCode);
         Optional.ofNullable(dto.getName()).ifPresent(serviceDetail::setName);
@@ -101,7 +129,14 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
     }
 
     @Override
-    public ResponseDto<ServiceDetailWithOrganizationAllResponseDTO> getAllServiceDetailByCriteria(ServiceDetailSearchCriteria criteria){
+    public ResponseDto<ServiceDetailWithOrganizationAllResponseDTO> getAllServiceDetailByCriteria(ServiceDetailSearchCriteria criteria,String token){
+
+        JwtData jwtData = jwtService.extractData(token);
+
+        if (jwtData.getRole() == Role.ORGANIZATION){
+            criteria.setOrganizationId(jwtData.getId());
+        }
+
         Specification<ServiceDetail> spec = ServiceDetailSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 

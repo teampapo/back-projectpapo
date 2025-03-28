@@ -6,6 +6,7 @@ import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
+import com.example.backprojectpapo.dto.response.ConnectionRequestResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
@@ -94,12 +95,12 @@ public class AggregatorSpecialistController {
     }
 
     @GetMapping("/connectionRequest")
-    public ResponseEntity<ResponseDto<ConnectionRequest>> searchConnectionRequests(@RequestBody(required = false) ConnectionRequestSearchCriteria criteria,
-                                                                                   @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+    public ResponseEntity<ResponseDto<ConnectionRequestResponseDTO>> searchConnectionRequests(@RequestBody(required = false) ConnectionRequestSearchCriteria criteria,
+                                                                                              @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         if (criteria == null) {
             criteria = new ConnectionRequestSearchCriteria();
         }
-        ResponseDto<ConnectionRequest> responseDto = connectionRequestService.search(criteria,token.split(" ")[1]);
+        ResponseDto<ConnectionRequestResponseDTO> responseDto = connectionRequestService.search(criteria,token.split(" ")[1]);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 

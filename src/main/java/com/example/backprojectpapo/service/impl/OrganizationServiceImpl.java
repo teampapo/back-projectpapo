@@ -5,6 +5,7 @@ import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
+import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
@@ -202,6 +203,20 @@ public class OrganizationServiceImpl implements OrganizationService {
 
         Page<ServiceRequest> serviceRequestsPage = serviceRequestService.getServiceRequestOrganizationByOrganizationId(id);
         Page<ServiceRequestOrganizationResponseDTO> dtoPage = serviceRequestsPage.map(ServiceRequestOrganizationResponseDTO::toDTO);
+
+        return new ResponseDto<>(dtoPage);
+    }
+
+    @Override
+    public ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId){
+        OrganizationSearchCriteria criteria = new OrganizationSearchCriteria();
+        criteria.setTypeOfServiceId(serviceTypeId);
+
+        Specification<Organization> spec = OrganizationSpecification.byCriteria(criteria);
+        Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
+
+        Page<Organization> organization_ = organizationRepository.findAll(spec,pageable);
+        Page<OrganizationCustomerResponseDTO> dtoPage = organization_.map(OrganizationCustomerResponseDTO::toDto);
 
         return new ResponseDto<>(dtoPage);
     }

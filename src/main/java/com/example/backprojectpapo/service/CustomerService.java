@@ -4,6 +4,7 @@ import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
+import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.model.Customer;
@@ -29,5 +30,8 @@ public interface CustomerService {
     Page<ServiceRequest> findServiceRequestByCustomerIdAfterDatetime(Integer customerId, LocalDateTime dateTime,
                                                                      ServiceRequestSearchCriteria criteria);
     CustomerResponseDTO update(Integer id, CustomerPutDTO dto);
+
+    ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId);
+
     void deleteById(Integer id);
 }

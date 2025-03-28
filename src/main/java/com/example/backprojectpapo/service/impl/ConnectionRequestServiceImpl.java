@@ -64,12 +64,18 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     }
 
     @Override
-    public ResponseDto<ConnectionRequest> search(ConnectionRequestSearchCriteria criteria, String token) {
+    public ResponseDto<ConnectionRequestResponseDTO> search(ConnectionRequestSearchCriteria criteria, String token) {
         Integer aggregatorId = jwtService.extractId(token);
         criteria.setAggregatorSpecialistId(aggregatorId);
+
         Specification<ConnectionRequest> spec = ConnectionRequestSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
-        return new ResponseDto<>(connectionRequestRepository.findAll(spec, pageable));
+
+        Page<ConnectionRequest> connectionRequest = connectionRequestRepository.findAll(spec, pageable);
+
+        Page<ConnectionRequestResponseDTO> dtos = connectionRequest.map(ConnectionRequestResponseDTO::toDto);
+
+        return new ResponseDto<>(dtos);
     }
 
     @Override
