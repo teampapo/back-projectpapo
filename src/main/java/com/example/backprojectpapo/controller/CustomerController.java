@@ -2,6 +2,7 @@ package com.example.backprojectpapo.controller;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
+import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
@@ -55,6 +56,12 @@ public class CustomerController {
     public ResponseEntity<ResponseDto<OrganizationCustomerResponseDTO>> getOrganizationsByType(@RequestParam(name = "typeOfServiceId") Integer typeOfServiceId){
 
         return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId));
+    }
+
+    @PostMapping("/service_requests")
+    public ResponseEntity<ServiceRequestCustomerResponseDTO> addServicesToCustomer(@RequestBody @Valid ServiceRequestCustomerCreateRequestDTO requestDTO,@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(customerService.setServiceRequestForCustomer(requestDTO,token.split(" ")[1]));
     }
 
     @GetMapping("/service_requests")

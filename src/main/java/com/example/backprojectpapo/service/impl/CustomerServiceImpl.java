@@ -4,8 +4,10 @@ import com.example.backprojectpapo.config.security.components.CustomUserDetails;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
+import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
+import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
 import com.example.backprojectpapo.exception.UserNotFoundException;
@@ -36,14 +38,16 @@ public class CustomerServiceImpl implements CustomerService {
     private final JwtService jwtService;
     private final ServiceRequestRepository serviceRequestRepository;
     private final OrganizationServiceImpl organizationService;
+    private final ServiceRequestServiceImpl serviceRequestService;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService, ServiceRequestRepository serviceRequestRepository, OrganizationServiceImpl organizationService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService, ServiceRequestRepository serviceRequestRepository, OrganizationServiceImpl organizationService, ServiceRequestServiceImpl serviceRequestService) {
         this.customerRepository = customerRepository;
         this.customUserDetailsService = customUserDetailsService;
         this.jwtService = jwtService;
         this.serviceRequestRepository = serviceRequestRepository;
         this.organizationService = organizationService;
+        this.serviceRequestService = serviceRequestService;
     }
 
     @Override
@@ -154,5 +158,8 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.deleteById(id);
     }
 
-
+    @Override
+    public ServiceRequestCustomerResponseDTO setServiceRequestForCustomer(ServiceRequestCustomerCreateRequestDTO requestDTO,String token){
+        return serviceRequestService.save(requestDTO,token);
+    }
 }
