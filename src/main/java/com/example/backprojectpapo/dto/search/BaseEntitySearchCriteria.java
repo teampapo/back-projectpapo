@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
+@Builder
 @Getter
 @Setter
 @ToString
@@ -17,5 +18,6 @@ public class BaseEntitySearchCriteria {
     @Positive()
     private Integer size = 10;
 
-    private Boolean distinct;
+    @Builder.Default
+    private Boolean distinct = false;
 }
