@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.dto.response;
 
 import com.example.backprojectpapo.model.ServiceRequest;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -16,6 +17,7 @@ import java.util.stream.Collectors;
 public class ServiceRequestOrganizationResponseDTO {
     private Integer id;
     private CustomerOrganizationResponseDTO customerOrganizationResponseDTO;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime dateService;
     private String addInfo;
     private Set<ServiceDetailResponseDTO> serviceDetails;
