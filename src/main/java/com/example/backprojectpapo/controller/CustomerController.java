@@ -58,7 +58,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId));
     }
 
-    @PostMapping("/service_requests")
+    @PostMapping("/service_request/create")
     public ResponseEntity<ServiceRequestCustomerResponseDTO> addServicesToCustomer(@RequestBody @Valid ServiceRequestCustomerCreateRequestDTO requestDTO,@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
 
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.setServiceRequestForCustomer(requestDTO,token.split(" ")[1]));
