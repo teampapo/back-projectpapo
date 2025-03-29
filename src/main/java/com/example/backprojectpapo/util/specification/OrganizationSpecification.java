@@ -45,7 +45,7 @@ public class OrganizationSpecification {
             }
 
             if (criteria.getTypeOfServiceId() != null){
-                predicates.add(criteriaBuilder.equal(root.get("serviceDetails").get("id") , criteria.getTypeOfServiceId()));
+                predicates.add(criteriaBuilder.equal(root.get("serviceDetails").get("type").get("id") , criteria.getTypeOfServiceId()));
             }
 
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));

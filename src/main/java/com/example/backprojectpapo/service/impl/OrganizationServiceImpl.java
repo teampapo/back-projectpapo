@@ -214,8 +214,10 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId){
+        System.out.println(serviceTypeId);
         OrganizationSearchCriteria criteria = new OrganizationSearchCriteria();
         criteria.setTypeOfServiceId(serviceTypeId);
+        criteria.setDistinct(true);
 
         Specification<Organization> spec = OrganizationSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());

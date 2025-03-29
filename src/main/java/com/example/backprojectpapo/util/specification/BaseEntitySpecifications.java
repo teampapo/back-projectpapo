@@ -18,6 +18,9 @@ public class BaseEntitySpecifications {
         if (criteria.getId() != null){
             predicates.add(criteriaBuilder.equal(root.get("id"), criteria.getId()));
         }
+        if (criteria.getDistinct()) {
+            query.distinct(true);
+        }
         return predicates;
     }
 }

@@ -16,4 +16,6 @@ public class BaseEntitySearchCriteria {
 
     @Positive()
     private Integer size = 10;
+
+    private Boolean distinct;
 }
