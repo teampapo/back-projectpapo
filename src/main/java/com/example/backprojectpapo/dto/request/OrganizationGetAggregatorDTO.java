@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.dto.request;
 
+import com.example.backprojectpapo.model.enums.Status;
 import lombok.*;
 
 @Getter
@@ -19,5 +20,6 @@ public class OrganizationGetAggregatorDTO {
     private String responsiblePersonPatronymic;
     private String responsiblePersonEmail;
     private String responsiblePersonPhone;
+    private Status requestStatus;
 
 }

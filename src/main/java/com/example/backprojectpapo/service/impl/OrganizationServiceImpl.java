@@ -16,6 +16,7 @@ import com.example.backprojectpapo.model.Address;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.ServiceRequest;
+import com.example.backprojectpapo.model.enums.Status;
 import com.example.backprojectpapo.repository.OrganizationRepository;
 import com.example.backprojectpapo.service.AddressService;
 import com.example.backprojectpapo.service.ConnectionRequestService;
@@ -95,6 +96,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     private OrganizationGetAggregatorDTO convertToDto(Organization organization) {
+
+        List<ConnectionRequest> connectionRequest = organization.getConnectionRequests().stream().toList();
+        Status status = connectionRequest.get(connectionRequest.size()-1).getStatus();
         return new OrganizationGetAggregatorDTO(
                 organization.getId(),
                 organization.getFullName(),
@@ -106,7 +110,8 @@ public class OrganizationServiceImpl implements OrganizationService {
                 organization.getResponsiblePersonName(),
                 organization.getResponsiblePersonPatronymic(),
                 organization.getResponsiblePersonEmail(),
-                organization.getResponsiblePersonPhoneNumber()
+                organization.getResponsiblePersonPhoneNumber(),
+                status
         );
     }
 
