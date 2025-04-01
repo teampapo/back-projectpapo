@@ -24,7 +24,7 @@ public class ServiceDetailController {
         this.serviceDetailService = serviceDetailService;
     }
 
-    @GetMapping("/get_all_services")
+    @PostMapping("/get_all_services")
     public ResponseEntity<ResponseDto<ServiceDetailWithOrganizationAllResponseDTO>> getServiceDetailByCriteria(@RequestBody(required = false) ServiceDetailSearchCriteria criteria, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         if (criteria == null) {
             criteria = new ServiceDetailSearchCriteria();

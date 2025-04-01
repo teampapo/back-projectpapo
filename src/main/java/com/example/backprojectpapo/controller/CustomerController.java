@@ -2,6 +2,7 @@ package com.example.backprojectpapo.controller;
 
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
@@ -53,9 +54,9 @@ public class CustomerController {
     }
 
     @GetMapping("/service_type/organizations")
-    public ResponseEntity<ResponseDto<OrganizationCustomerResponseDTO>> getOrganizationsByType(@RequestParam(name = "typeOfServiceId") Integer typeOfServiceId){
+    public ResponseEntity<ResponseDto<OrganizationCustomerResponseDTO>> getOrganizationsByType(@RequestParam(name = "typeOfServiceId") Integer typeOfServiceId, PageParamsRequestDTO pageParamsRequestDTO){
 
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId));
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId,pageParamsRequestDTO));
     }
 
     @PostMapping("/service_request/create")
@@ -64,7 +65,7 @@ public class CustomerController {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerService.setServiceRequestForCustomer(requestDTO,token.split(" ")[1]));
     }
 
-    @GetMapping("/service_requests")
+    @PostMapping("/service_requests")
     public ResponseEntity<ResponseDto<ServiceRequestCustomerResponseDTO>> getServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorizationHeader, @RequestBody(required = false) ServiceRequestSearchCriteria criteria){
 
         if(criteria == null){

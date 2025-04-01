@@ -4,6 +4,7 @@ import com.example.backprojectpapo.config.security.components.CustomUserDetails;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
@@ -150,8 +151,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId){
-        return organizationService.getOrganizationsByServiceType(serviceTypeId);
+    public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO){
+        return organizationService.getOrganizationsByServiceType(serviceTypeId,pageParamsRequestDTO);
     }
     @Override
     public void deleteById(Integer id) {

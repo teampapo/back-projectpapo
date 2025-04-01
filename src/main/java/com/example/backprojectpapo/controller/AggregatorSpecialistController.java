@@ -42,7 +42,7 @@ public class AggregatorSpecialistController {
 
     }
 
-    @GetMapping("/customers")
+    @PostMapping("/customers")
     public ResponseEntity<ResponseDto<CustomerGetAggregatorDTO>> getCustomerAggregator(@RequestBody(required = false) CustomerSearchCriteria criteria) {
         if (criteria == null) {
             criteria = new CustomerSearchCriteria();
@@ -57,7 +57,7 @@ public class AggregatorSpecialistController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/organization")
+    @PostMapping("/organization")
     public ResponseEntity<ResponseDto<OrganizationGetAggregatorDTO>> getOrganizationAggregator(@RequestBody(required = false) OrganizationSearchCriteria criteria) {
         if (criteria == null) {
             criteria = new OrganizationSearchCriteria();
@@ -94,7 +94,7 @@ public class AggregatorSpecialistController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/connectionRequest")
+    @PostMapping("/connectionRequest")
     public ResponseEntity<ResponseDto<ConnectionRequestResponseDTO>> searchConnectionRequests(@RequestBody(required = false) ConnectionRequestSearchCriteria criteria,
                                                                                               @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         if (criteria == null) {

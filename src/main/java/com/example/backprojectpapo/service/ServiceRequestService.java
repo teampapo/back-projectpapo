@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
@@ -21,7 +22,7 @@ public interface ServiceRequestService {
     Page<ServiceRequest> findAll(Pageable pageable);
     ResponseDto<ServiceRequest> search(ServiceRequestSearchCriteria criteria);
 
-    Page<ServiceRequest> getServiceRequestOrganizationByOrganizationId(Integer id);
+    Page<ServiceRequest> getServiceRequestOrganizationByOrganizationId(Integer id, PageParamsRequestDTO pageParamsRequestDTO);
 
     void deleteById(Integer id);
 }
