@@ -18,6 +18,7 @@ import java.util.Set;
 public class ServiceRequest {
     @Id
     @Column(name ="service_request_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
