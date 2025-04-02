@@ -39,4 +39,6 @@ public interface CustomerService {
     void deleteById(Integer id);
 
     ServiceRequestCustomerResponseDTO setServiceRequestForCustomer(ServiceRequestCustomerCreateRequestDTO requestDTO, String token);
+
+    void deleteServiceRequest(String token, Integer serviceRequestId);
 }
