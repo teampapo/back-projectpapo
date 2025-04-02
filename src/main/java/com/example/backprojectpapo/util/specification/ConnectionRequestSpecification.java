@@ -42,7 +42,7 @@ public class ConnectionRequestSpecification {
                 predicates.add(criteriaBuilder.equal(join.get("id"), criteria.getAggregatorSpecialistId()));
             }
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
-            
+
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

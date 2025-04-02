@@ -11,7 +11,6 @@ import lombok.*;
 @ToString
 public class AggregatorSpecialistDTO {
     private String email;
-    //private String password;
     private String surname;
     private String name;
     private String patronymic;
@@ -24,7 +23,6 @@ public class AggregatorSpecialistDTO {
     public static AggregatorSpecialistDTO toDTO(AggregatorSpecialist aggregatorSpecialist) {
         return AggregatorSpecialistDTO.builder()
                 .email(aggregatorSpecialist.getEmail())
-                //.password(aggregatorSpecialist.getPassword())
                 .surname(aggregatorSpecialist.getSurname())
                 .name(aggregatorSpecialist.getName())
                 .patronymic(aggregatorSpecialist.getPatronymic())
