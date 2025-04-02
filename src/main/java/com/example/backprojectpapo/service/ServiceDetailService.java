@@ -29,5 +29,5 @@ public interface ServiceDetailService {
     ResponseDto<ServiceDetailOrganizationDTO> getOrganizationServices(String token);
     ResponseDto<ServiceDetailWithOrganizationAllResponseDTO> getAllServiceDetailByCriteria(ServiceDetailSearchCriteria criteria,String token);
 
-    void deleteById(Integer id);
+    void deleteById(Integer id,String token);
 }

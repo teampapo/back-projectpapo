@@ -9,11 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 public class ServiceDetailSearchCriteria extends BaseEntitySearchCriteria{
     private Integer organizationId;
-    private Integer typeId;
+    private Integer typeId; // id TypeOfServices
     private String code;
     private String name;
     private Integer cost;
     private Integer duration;
-    private String typeName;
-    private String typeCode;
+    private String typeName; // name TypeOfServices
+    private String typeCode; // code TypeOfServices
 }

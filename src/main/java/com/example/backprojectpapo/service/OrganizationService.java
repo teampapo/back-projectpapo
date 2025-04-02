@@ -3,6 +3,7 @@ package com.example.backprojectpapo.service;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
@@ -29,9 +30,9 @@ public interface OrganizationService {
 
     OrganizationResponseDTO updateOrganization(OrganizationPostRequestDTO dto, String token);
 
-    ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token);
+    ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token,PageParamsRequestDTO pageParamsRequestDTO);
 
-    ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId);
+    ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO);
 
     void deleteById(Integer id);
 

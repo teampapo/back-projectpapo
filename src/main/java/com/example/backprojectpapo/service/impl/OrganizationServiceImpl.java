@@ -5,6 +5,7 @@ import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
@@ -203,21 +204,24 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token){
+    public ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token,PageParamsRequestDTO pageParamsRequestDTO){
         Integer id = jwtService.extractId(token);
 
-        Page<ServiceRequest> serviceRequestsPage = serviceRequestService.getServiceRequestOrganizationByOrganizationId(id);
+        Page<ServiceRequest> serviceRequestsPage = serviceRequestService.getServiceRequestOrganizationByOrganizationId(id,pageParamsRequestDTO);
         Page<ServiceRequestOrganizationResponseDTO> dtoPage = serviceRequestsPage.map(ServiceRequestOrganizationResponseDTO::toDTO);
 
         return new ResponseDto<>(dtoPage);
     }
 
     @Override
-    public ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId){
-        System.out.println(serviceTypeId);
+    public ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO){
+
         OrganizationSearchCriteria criteria = new OrganizationSearchCriteria();
         criteria.setTypeOfServiceId(serviceTypeId);
         criteria.setDistinct(true);
+
+        Optional.ofNullable(pageParamsRequestDTO.getPage()).ifPresent(criteria::setPage);
+        Optional.ofNullable(pageParamsRequestDTO.getSize()).ifPresent(criteria::setSize);
 
         Specification<Organization> spec = OrganizationSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());

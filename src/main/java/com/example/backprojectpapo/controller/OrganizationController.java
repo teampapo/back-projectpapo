@@ -3,6 +3,7 @@ package com.example.backprojectpapo.controller;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.ServiceDetailOrganizationDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestOrganizationResponseDTO;
@@ -39,6 +40,7 @@ public class OrganizationController {
         return ResponseEntity.ok().body(dto);
     }
 
+    //TODO дубликат метода из ServiceDetailController. возращает все услуги организации без фильтра. Удалить ?
     @GetMapping("/get_organization_services")
     public ResponseEntity<ResponseDto<ServiceDetailOrganizationDTO>> getOrganizationServices(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         ResponseDto<ServiceDetailOrganizationDTO> response = serviceDetailService.getOrganizationServices(token.split(" ")[1]);
@@ -52,8 +54,8 @@ public class OrganizationController {
     }
 
     @GetMapping("/get_organization_services_requests")
-    public ResponseEntity<ResponseDto<ServiceRequestOrganizationResponseDTO>> getOrganizationServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
-        ResponseDto<ServiceRequestOrganizationResponseDTO> responseDto = organizationService.getServiceRequestOrganization(token.split(" ")[1]);
+    public ResponseEntity<ResponseDto<ServiceRequestOrganizationResponseDTO>> getOrganizationServiceRequests(@RequestHeader(HttpHeaders.AUTHORIZATION) String token, PageParamsRequestDTO pageParamsRequestDTO) {
+        ResponseDto<ServiceRequestOrganizationResponseDTO> responseDto = organizationService.getServiceRequestOrganization(token.split(" ")[1],pageParamsRequestDTO);
         return ResponseEntity.ok().body(responseDto);
     }
     @DeleteMapping()

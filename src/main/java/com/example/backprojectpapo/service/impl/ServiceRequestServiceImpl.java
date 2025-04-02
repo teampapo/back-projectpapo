@@ -1,6 +1,7 @@
 package com.example.backprojectpapo.service.impl;
 
 import com.example.backprojectpapo.dto.ResponseDto;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceDetailSearchCriteria;
@@ -74,7 +75,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
             List<ServiceDetail> foundServiceDetails  = serviceDetailRepository.findAll(spec);
 
             if (foundServiceDetails.isEmpty()) {
-                throw new UserNotFoundException("ServiceDetail wit ID: "+ serviceDetailId+" for Organiztion ID: "+ requestDTO.getOrganizationId()+" not found");
+                throw new UserNotFoundException("ServiceDetail with ID: "+ serviceDetailId+" for Organization ID: "+ requestDTO.getOrganizationId()+" not found");
             }
 
             serviceDetails.addAll(foundServiceDetails);
@@ -110,9 +111,12 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     }
 
     @Override
-    public Page<ServiceRequest> getServiceRequestOrganizationByOrganizationId(Integer id){
+    public Page<ServiceRequest> getServiceRequestOrganizationByOrganizationId(Integer id, PageParamsRequestDTO pageParamsRequestDTO){
         ServiceRequestSearchCriteria criteria = new  ServiceRequestSearchCriteria();
         criteria.setOrganizationId(id);
+
+        Optional.ofNullable(pageParamsRequestDTO.getPage()).ifPresent(criteria::setPage);
+        Optional.ofNullable(pageParamsRequestDTO.getSize()).ifPresent(criteria::setSize);
 
         Specification<ServiceRequest> spec = ServiceRequestSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());

@@ -1,10 +1,7 @@
 package com.example.backprojectpapo.util.specification;
 
 import com.example.backprojectpapo.dto.search.BaseEntitySearchCriteria;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
@@ -20,6 +17,21 @@ public class BaseEntitySpecifications {
         }
         if (criteria.getDistinct()) {
             query.distinct(true);
+        }
+        if (criteria.getSortBy() != null && !criteria.getSortBy().isEmpty()) {
+            String sortBy = criteria.getSortBy().trim();
+            boolean descending = sortBy.startsWith("-");
+            if (descending) {
+                sortBy = sortBy.substring(1);
+            }
+
+            try {
+                Order order = descending ? criteriaBuilder.desc(root.get(sortBy)) : criteriaBuilder.asc(root.get(sortBy));
+                query.orderBy(order);
+            } catch (IllegalArgumentException e) {
+                // Поле для сортировки не найдено
+                throw new RuntimeException("Invalid sortBy field: " + sortBy);
+            }
         }
         return predicates;
     }

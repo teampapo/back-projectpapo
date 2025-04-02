@@ -24,7 +24,7 @@ public class ServiceDetailController {
         this.serviceDetailService = serviceDetailService;
     }
 
-    @GetMapping("/get_all_services")
+    @PostMapping("/get_all_services")
     public ResponseEntity<ResponseDto<ServiceDetailWithOrganizationAllResponseDTO>> getServiceDetailByCriteria(@RequestBody(required = false) ServiceDetailSearchCriteria criteria, @RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
         if (criteria == null) {
             criteria = new ServiceDetailSearchCriteria();
@@ -45,8 +45,8 @@ public class ServiceDetailController {
 
 
     @DeleteMapping()
-    public ResponseEntity<String> deleteService(@RequestParam(name = "serviceId") Integer serviceId){
-        serviceDetailService.deleteById(serviceId);
+    public ResponseEntity<String> deleteService(@RequestParam(name = "serviceId") Integer serviceId,@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
+        serviceDetailService.deleteById(serviceId,token.split(" ")[1]);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

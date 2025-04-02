@@ -74,15 +74,20 @@ public class WebSecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(configurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
+
+                        .requestMatchers("/api/type_of_service/get").hasAnyAuthority(Role.ADMIN.name(), Role.CUSTOMER.name(), Role.ORGANIZATION.name())
+                        .requestMatchers("/api/service_detail/get_all_services").hasAnyAuthority(Role.CUSTOMER.name(), Role.ORGANIZATION.name())
+
                         .requestMatchers(
                                 "/api/aggregator/**",
                                 "/api/connection_request/**",
                                 "/api/type_of_service/**"
                         ).hasAuthority(Role.ADMIN.name())
-                        .requestMatchers("/api/customer/**","/api/service_detail/get_all_services").hasAuthority(Role.CUSTOMER.name())
+
+                        .requestMatchers("/api/customer/**").hasAuthority(Role.CUSTOMER.name())
+
                         .requestMatchers("/api/organization/**","/api/service_detail/**").hasAuthority(Role.ORGANIZATION.name())
-                        .requestMatchers(HttpMethod.GET,"/api/type_of_service/**").hasAuthority(Role.CUSTOMER.name())
-                        .requestMatchers(HttpMethod.GET,"/api/type_of_service/**").hasAuthority(Role.ORGANIZATION.name())
+
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

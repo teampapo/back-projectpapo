@@ -22,7 +22,7 @@ public class ConnectionRequestController {
         this.connectionRequestService = connectionRequestService;
     }
 
-    @GetMapping("/by_status")
+    @PostMapping("/by_status")
     public ResponseEntity<ResponseDto<ConnectionRequestResponseDTO>> getByStatus(@RequestBody(required = false) ConnectionRequestSearchCriteria criteria) {
         criteria = criteria == null ? new ConnectionRequestSearchCriteria() : criteria;
         criteria.setStatus(criteria.getStatus() == null ? Status.NEW : criteria.getStatus());

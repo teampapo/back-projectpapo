@@ -3,6 +3,7 @@ package com.example.backprojectpapo.service;
 import com.example.backprojectpapo.dto.ResponseDto;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.CustomerPutDTO;
+import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
@@ -33,7 +34,7 @@ public interface CustomerService {
                                                                      ServiceRequestSearchCriteria criteria);
     CustomerResponseDTO update(Integer id, CustomerPutDTO dto);
 
-    ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId);
+    ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO);
 
     void deleteById(Integer id);
 

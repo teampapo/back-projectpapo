@@ -136,6 +136,19 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
         if (jwtData.getRole() == Role.ORGANIZATION){
             criteria.setOrganizationId(jwtData.getId());
         }
+        else if (jwtData.getRole() == Role.CUSTOMER) {
+            if (criteria.getOrganizationId() == null) {
+                throw new InvalidRequestException("Organization is required");
+            }
+
+            if (criteria.getTypeId() == null) {
+                if (criteria.getCode() == null || criteria.getName() == null ||
+                        criteria.getCode().isEmpty() || criteria.getName().isEmpty()) {
+                    throw new InvalidRequestException("Type of service are required");
+                }
+            }
+        }
+
 
         Specification<ServiceDetail> spec = ServiceDetailSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
@@ -147,7 +160,12 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id,String token) {
+        Integer organizationId = jwtService.extractId(token);
+        ServiceDetail serviceDetail = serviceDetailRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Service not found"));
+        if (! serviceDetail.getOrganization().getId().equals(organizationId)){
+            throw new InvalidRequestException("Wrong service");
+        }
         serviceDetailRepository.deleteById(id);
     }
 }

@@ -21,5 +21,5 @@ public class ConnectionRequestSearchCriteria extends BaseEntitySearchCriteria{
     private LocalDate toDateEnd;
     private Status status;
     private Integer aggregatorSpecialistId;
-    private String sortBy;
+
 }

@@ -17,7 +17,7 @@ public class ServiceDetailSpecification {
               predicates.add(criteriaBuilder.equal(root.get("organization").get("id"), criteria.getOrganizationId()));
           }
           if (criteria.getTypeId() != null){
-              predicates.add(criteriaBuilder.equal(root.get("typeOfService").get("id"), criteria.getTypeId()));
+              predicates.add(criteriaBuilder.equal(root.get("type").get("id"), criteria.getTypeId()));
           }
           if (criteria.getCode() != null && !criteria.getCode().isEmpty()){
               predicates.add(criteriaBuilder.like(root.get("code"), "%"+criteria.getCode()+"%"));
@@ -32,10 +32,10 @@ public class ServiceDetailSpecification {
               predicates.add(criteriaBuilder.equal(root.get("duration"), criteria.getDuration()));
           }
           if (criteria.getTypeName() != null && !criteria.getTypeName().isEmpty()){
-              predicates.add(criteriaBuilder.like(root.get("typeOfService").get("name"), "%"+criteria.getTypeName()+"%"));
+              predicates.add(criteriaBuilder.like(root.get("type").get("name"), "%"+criteria.getTypeName()+"%"));
           }
           if (criteria.getTypeCode() != null && !criteria.getTypeCode().isEmpty()){
-              predicates.add(criteriaBuilder.like(root.get("typeOfService").get("code"), "%"+criteria.getTypeName()+"%"));
+              predicates.add(criteriaBuilder.like(root.get("type").get("code"), "%"+criteria.getTypeName()+"%"));
           }
 
           predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
