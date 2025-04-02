@@ -23,7 +23,7 @@ public class TypeOfServiceController {
     }
 
 
-    @GetMapping
+    @GetMapping("/get_type")
     public ResponseEntity<List<TypeOfServiceResponseDTO>> getTypeOfService() {
         return ResponseEntity.ok().body(typeOfServiceService.findAll());
     }
