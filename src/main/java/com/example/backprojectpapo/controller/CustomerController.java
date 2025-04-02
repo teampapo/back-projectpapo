@@ -28,7 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
-    private final UserService userService;
+
     private final CustomerService customerService;
     private final JwtService jwtService;
 
@@ -39,8 +39,7 @@ public class CustomerController {
     }
 
     @Autowired
-    public CustomerController(UserService userService, CustomerService customerService, JwtService jwtService) {
-        this.userService = userService;
+    public CustomerController(CustomerService customerService, JwtService jwtService) {
         this.customerService = customerService;
         this.jwtService = jwtService;
     }
