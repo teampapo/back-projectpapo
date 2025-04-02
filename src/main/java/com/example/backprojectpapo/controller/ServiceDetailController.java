@@ -45,8 +45,8 @@ public class ServiceDetailController {
 
 
     @DeleteMapping()
-    public ResponseEntity<String> deleteService(@RequestParam(name = "serviceId") Integer serviceId){
-        serviceDetailService.deleteById(serviceId);
+    public ResponseEntity<String> deleteService(@RequestParam(name = "serviceId") Integer serviceId,@RequestHeader(HttpHeaders.AUTHORIZATION) String token){
+        serviceDetailService.deleteById(serviceId,token.split(" ")[1]);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

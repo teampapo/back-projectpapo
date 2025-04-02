@@ -160,7 +160,12 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Integer id,String token) {
+        Integer organizationId = jwtService.extractId(token);
+        ServiceDetail serviceDetail = serviceDetailRepository.findById(id).orElseThrow(()-> new UserNotFoundException("Service not found"));
+        if (! serviceDetail.getOrganization().getId().equals(organizationId)){
+            throw new InvalidRequestException("Wrong service");
+        }
         serviceDetailRepository.deleteById(id);
     }
 }
