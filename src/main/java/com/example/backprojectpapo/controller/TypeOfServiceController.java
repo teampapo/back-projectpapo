@@ -5,6 +5,7 @@ import com.example.backprojectpapo.dto.response.TypeOfServiceResponseDTO;
 import com.example.backprojectpapo.model.TypeOfService;
 import com.example.backprojectpapo.service.TypeOfServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class TypeOfServiceController {
 
 
     @GetMapping("/get")
-    public ResponseEntity<List<TypeOfServiceResponseDTO>> getTypeOfService() {
-        return ResponseEntity.ok().body(typeOfServiceService.findAll());
+    public ResponseEntity<List<TypeOfServiceResponseDTO>> getTypeOfService(@RequestHeader(HttpHeaders.AUTHORIZATION) String token) {
+        return ResponseEntity.ok().body(typeOfServiceService.findAll(token.split(" ")[1]));
     }
     @PostMapping()
     public ResponseEntity<TypeOfServiceResponseDTO> createTypeOfService(@RequestBody TypeOfServiceRequestDTO requestDTO) {

@@ -86,6 +86,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
+    @ExceptionHandler(OrganizationConnectionRequestNotApprovedException.class)
+    public ResponseEntity<String> handleOrganizationConnectionRequestNotApprovedException(OrganizationConnectionRequestNotApprovedException exception){
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(exception.getMessage());
+    }
+
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<String> handleNotFoundException(NotFoundException exception){
