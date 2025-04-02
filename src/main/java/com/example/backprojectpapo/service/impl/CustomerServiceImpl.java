@@ -11,6 +11,7 @@ import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
+import com.example.backprojectpapo.exception.InvalidRequestException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.ServiceRequest;
@@ -162,5 +163,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public ServiceRequestCustomerResponseDTO setServiceRequestForCustomer(ServiceRequestCustomerCreateRequestDTO requestDTO,String token){
         return serviceRequestService.save(requestDTO,token);
+    }
+    @Override
+    public void deleteServiceRequest(String token, Integer serviceRequestId){
+        Integer customerId = jwtService.extractId(token);
+        ServiceRequest serviceRequest = serviceRequestRepository.findById(serviceRequestId).orElseThrow(() -> new UserNotFoundException("This service request not found"));
+        if (!customerId.equals(serviceRequest.getCustomer().getId())) {
+            throw new InvalidRequestException("This service request does not belong to the customer " + customerId);
+        }
+        serviceRequestRepository.delete(serviceRequest);
     }
 }

@@ -97,4 +97,9 @@ public class CustomerController {
         customerService.deleteById(jwtData.getId());
         return ResponseEntity.status(HttpStatus.OK).body("");
     }
+    @DeleteMapping("/delete/request")
+    public ResponseEntity<String> deleteServiceRequest(@RequestHeader(HttpHeaders.AUTHORIZATION) String token,@RequestParam("serviceRequestId") Integer serviceRequestId){
+        customerService.deleteServiceRequest(token.split(" ")[1],serviceRequestId);
+        return ResponseEntity.status(HttpStatus.OK).body("");
+    }
 }

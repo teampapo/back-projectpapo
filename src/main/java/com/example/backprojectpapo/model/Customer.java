@@ -36,6 +36,6 @@ public class Customer extends User {
     @Column(name = "add_info")
     private String addInfo;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
     private Set<ServiceRequest> serviceRequests = new HashSet<>();
 }
