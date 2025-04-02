@@ -14,6 +14,6 @@ public interface TypeOfServiceService {
     TypeOfServiceResponseDTO update(TypeOfServiceRequestDTO requestDTO);
 
     Optional<TypeOfService> findById(Integer id);
-    List<TypeOfServiceResponseDTO> findAll();
+    List<TypeOfServiceResponseDTO> findAll(String token);
     void deleteById(Integer id);
 }

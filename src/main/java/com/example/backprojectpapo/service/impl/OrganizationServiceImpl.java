@@ -13,6 +13,7 @@ import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
 import com.example.backprojectpapo.exception.InvalidRequestException;
 import com.example.backprojectpapo.exception.NotFoundException;
+import com.example.backprojectpapo.exception.OrganizationConnectionRequestNotApprovedException;
 import com.example.backprojectpapo.model.Address;
 import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
@@ -135,6 +136,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         Integer id = jwtService.extractId(token);
         Organization organization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException("Organization not found"));
 
+        // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
+        List<ConnectionRequest> connReqOrganization=organization.getConnectionRequests().stream().toList();
+        if(!connReqOrganization.get(connReqOrganization.size()-1).getStatus().equals(Status.COMPLETED)){
+            throw new OrganizationConnectionRequestNotApprovedException("The organization's connection request was " +
+                    "not approved");
+        }
+        //
+
         List<Address> addressOrganization = organization.getAddresses().stream().toList();
         Integer addressOrganizationId = addressOrganization.get(0).getId();
 
@@ -206,6 +215,15 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token,PageParamsRequestDTO pageParamsRequestDTO){
         Integer id = jwtService.extractId(token);
+        Organization organization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException("Organization not found"));
+
+        // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
+        List<ConnectionRequest> connReqOrganization=organization.getConnectionRequests().stream().toList();
+        if(!connReqOrganization.get(connReqOrganization.size()-1).getStatus().equals(Status.COMPLETED)){
+            throw new OrganizationConnectionRequestNotApprovedException("The organization's connection request was " +
+                    "not approved");
+        }
+        //
 
         Page<ServiceRequest> serviceRequestsPage = serviceRequestService.getServiceRequestOrganizationByOrganizationId(id,pageParamsRequestDTO);
         Page<ServiceRequestOrganizationResponseDTO> dtoPage = serviceRequestsPage.map(ServiceRequestOrganizationResponseDTO::toDTO);
@@ -234,6 +252,16 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public void deleteById(Integer id) {
+        Organization organization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException("Organization not found"));
+
+        // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
+        List<ConnectionRequest> connReqOrganization=organization.getConnectionRequests().stream().toList();
+        if(!connReqOrganization.get(connReqOrganization.size()-1).getStatus().equals(Status.COMPLETED)){
+            throw new OrganizationConnectionRequestNotApprovedException("The organization's connection request was " +
+                    "not approved");
+        }
+        //
+
         organizationRepository.deleteById(id);
     }
 }

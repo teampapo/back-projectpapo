@@ -8,11 +8,15 @@ import com.example.backprojectpapo.dto.response.ServiceDetailResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceDetailWithOrganizationAllResponseDTO;
 import com.example.backprojectpapo.dto.search.ServiceDetailSearchCriteria;
 import com.example.backprojectpapo.exception.InvalidRequestException;
+import com.example.backprojectpapo.exception.NotFoundException;
+import com.example.backprojectpapo.exception.OrganizationConnectionRequestNotApprovedException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
+import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.model.Organization;
 import com.example.backprojectpapo.model.ServiceDetail;
 import com.example.backprojectpapo.model.TypeOfService;
 import com.example.backprojectpapo.model.enums.Role;
+import com.example.backprojectpapo.model.enums.Status;
 import com.example.backprojectpapo.model.jwt.JwtData;
 import com.example.backprojectpapo.repository.OrganizationRepository;
 import com.example.backprojectpapo.repository.ServiceDetailRepository;
@@ -53,6 +57,14 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
         }
 
         Organization organization_ = organizationRepository.findById(id).orElseThrow(() -> new UserNotFoundException("Organization not found"));
+        // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
+        List<ConnectionRequest> connReqOrganization=organization_.getConnectionRequests().stream().toList();
+        if(!connReqOrganization.get(connReqOrganization.size()-1).getStatus().equals(Status.COMPLETED)){
+            throw new OrganizationConnectionRequestNotApprovedException("The organization's connection request was " +
+                    "not approved");
+        }
+        //
+
         TypeOfService typeOfService_ = typeOfServiceRepository.findById(postRequestDTO.getTypeOfService()).orElseThrow(() -> new UserNotFoundException("Type not found"));
 
         ServiceDetail serviceDetail_ = new ServiceDetail();
@@ -72,6 +84,15 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
     @Override
     public ServiceDetailResponseDTO update(ServiceDetailPutRequestDTO dto,String token){
         Integer organizationId = jwtService.extractId(token);
+        // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
+        Organization organization = organizationRepository.findById(organizationId).orElseThrow(() -> new NotFoundException(
+                "Organization not found"));
+        List<ConnectionRequest> connReqOrganization=organization.getConnectionRequests().stream().toList();
+        if(!connReqOrganization.get(connReqOrganization.size()-1).getStatus().equals(Status.COMPLETED)){
+            throw new OrganizationConnectionRequestNotApprovedException("The organization's connection request was " +
+                    "not approved");
+        }
+        //
 
         ServiceDetail serviceDetail = serviceDetailRepository.findById(dto.getId()).orElseThrow(()-> new UserNotFoundException("Service not found"));
 
@@ -115,6 +136,17 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
     @Override
     public ResponseDto<ServiceDetailOrganizationDTO> getOrganizationServices(String token) {
         Integer id = jwtService.extractId(token);
+
+        // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
+        Organization organization = organizationRepository.findById(id).orElseThrow(() -> new NotFoundException(
+                "Organization not found"));
+        List<ConnectionRequest> connReqOrganization=organization.getConnectionRequests().stream().toList();
+        if(!connReqOrganization.get(connReqOrganization.size()-1).getStatus().equals(Status.COMPLETED)){
+            throw new OrganizationConnectionRequestNotApprovedException("The organization's connection request was " +
+                    "not approved");
+        }
+        //
+
         ServiceDetailSearchCriteria criteria = new ServiceDetailSearchCriteria();
         criteria.setOrganizationId(id);
 
@@ -134,6 +166,15 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
         JwtData jwtData = jwtService.extractData(token);
 
         if (jwtData.getRole() == Role.ORGANIZATION){
+            // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
+            Organization organization = organizationRepository.findById(jwtData.getId()).orElseThrow(() -> new NotFoundException("Organization not found"));
+            List<ConnectionRequest> connReqOrganization=organization.getConnectionRequests().stream().toList();
+            if(!connReqOrganization.get(connReqOrganization.size()-1).getStatus().equals(Status.COMPLETED)){
+                throw new OrganizationConnectionRequestNotApprovedException("The organization's connection request was " +
+                        "not approved");
+            }
+            //
+
             criteria.setOrganizationId(jwtData.getId());
         }
         else if (jwtData.getRole() == Role.CUSTOMER) {
