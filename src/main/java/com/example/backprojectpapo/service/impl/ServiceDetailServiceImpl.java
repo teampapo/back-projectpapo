@@ -136,6 +136,11 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
         if (jwtData.getRole() == Role.ORGANIZATION){
             criteria.setOrganizationId(jwtData.getId());
         }
+        else if (jwtData.getRole() == Role.CUSTOMER){
+            if (criteria.getOrganizationId() == null || criteria.getTypeId() == null || criteria.getCode() == null || criteria.getName() == null){
+                throw new InvalidRequestException("Organization and Type of service are required");
+            }
+        }
 
         Specification<ServiceDetail> spec = ServiceDetailSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
