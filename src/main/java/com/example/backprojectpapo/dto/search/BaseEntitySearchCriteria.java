@@ -20,4 +20,6 @@ public class BaseEntitySearchCriteria {
 
     @Builder.Default
     private Boolean distinct = false;
+
+    private String sortBy;
 }

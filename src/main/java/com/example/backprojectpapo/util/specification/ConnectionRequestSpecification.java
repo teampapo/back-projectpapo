@@ -42,23 +42,7 @@ public class ConnectionRequestSpecification {
                 predicates.add(criteriaBuilder.equal(join.get("id"), criteria.getAggregatorSpecialistId()));
             }
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
-
-            if (criteria.getSortBy() != null && !criteria.getSortBy().isEmpty()) {
-                String sortBy = criteria.getSortBy().trim();
-                boolean descending = sortBy.startsWith("-");
-                if (descending) {
-                    sortBy = sortBy.substring(1);
-                }
-
-                try {
-                    Order order = descending ? criteriaBuilder.desc(root.get(sortBy)) : criteriaBuilder.asc(root.get(sortBy));
-                    query.orderBy(order);
-                } catch (IllegalArgumentException e) {
-                    // Поле для сортировки не найдено
-                    throw new RuntimeException("Invalid sortBy field: " + sortBy);
-                }
-            }
-
+            
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
