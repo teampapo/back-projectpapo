@@ -30,6 +30,7 @@ public class OrganizationResponseDTO {
     private String email;
     private Set<AddressDTO> addresses;
     private Status connectionRequestStatus;
+    private String connectionRequestAddInfo;
     private String jwtToken;
 
 

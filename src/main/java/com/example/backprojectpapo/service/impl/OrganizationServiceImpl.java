@@ -128,6 +128,7 @@ public class OrganizationServiceImpl implements OrganizationService {
         //criteria.setSortBy("dateBegin");
         ArrayList<ConnectionRequest> connectionRequest = connectionRequestService.findByOrganization(criteria);
         organizationResponseDTO.setConnectionRequestStatus(connectionRequest.get(connectionRequest.size()-1).getStatus());
+        organizationResponseDTO.setConnectionRequestAddInfo(connectionRequest.get(connectionRequest.size()-1).getAddInfo());
         return organizationResponseDTO;
     }
 
