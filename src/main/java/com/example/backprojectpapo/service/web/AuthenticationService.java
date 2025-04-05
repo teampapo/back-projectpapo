@@ -9,6 +9,7 @@ public interface AuthenticationService {
     User signUpAggregatorSpecialist(AuthAggregatorSpecialistRequestDTO dto);
     User signUpCustomer(AuthCustomerRequestDTO dto);
     User signUpOrganization(AuthOrganizationRequestDTO dto);
+    Boolean checkIsValidCodeByEmail(String email, String verifyCode);
     String signInWithCode(String email, String verifyCode);
     String signInWithPasswordAndCode(String email, String verifyCode, String password);
     void sendVerificationCode(String email);
