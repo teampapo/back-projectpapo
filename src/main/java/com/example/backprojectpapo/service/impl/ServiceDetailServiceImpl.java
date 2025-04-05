@@ -165,6 +165,8 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
 
         JwtData jwtData = jwtService.extractData(token);
 
+        System.out.println(criteria.getTypeCode());
+
         if (jwtData.getRole() == Role.ORGANIZATION){
             // проверка статуса заявки на подключение у организации, если не выполнена, то исключение
             Organization organization = organizationRepository.findById(jwtData.getId()).orElseThrow(() -> new NotFoundException("Organization not found"));
@@ -183,9 +185,11 @@ public class ServiceDetailServiceImpl implements ServiceDetailService {
             }
 
             if (criteria.getTypeId() == null) {
-                if (criteria.getCode() == null || criteria.getName() == null ||
-                        criteria.getCode().isEmpty() || criteria.getName().isEmpty()) {
-                    throw new InvalidRequestException("Type of service are required");
+                System.out.println("hhhh");
+                if (criteria.getTypeCode() == null  || criteria.getTypeCode().isEmpty() ) {
+                    if (criteria.getTypeName() == null || criteria.getTypeName().isEmpty()){
+                        throw new InvalidRequestException("Type name is required");
+                    }
                 }
             }
         }

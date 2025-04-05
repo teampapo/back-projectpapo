@@ -233,10 +233,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO){
+    public ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId,String typeOfServiceCode, PageParamsRequestDTO pageParamsRequestDTO){
 
         OrganizationSearchCriteria criteria = new OrganizationSearchCriteria();
         criteria.setTypeOfServiceId(serviceTypeId);
+        criteria.setTypeOfServiceCode(typeOfServiceCode);
         criteria.setDistinct(true);
 
         Optional.ofNullable(pageParamsRequestDTO.getPage()).ifPresent(criteria::setPage);

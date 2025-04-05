@@ -53,9 +53,9 @@ public class CustomerController {
     }
 
     @GetMapping("/service_type/organizations")
-    public ResponseEntity<ResponseDto<OrganizationCustomerResponseDTO>> getOrganizationsByType(@RequestParam(name = "typeOfServiceId") Integer typeOfServiceId, PageParamsRequestDTO pageParamsRequestDTO){
+    public ResponseEntity<ResponseDto<OrganizationCustomerResponseDTO>> getOrganizationsByType(@RequestParam(name = "typeOfServiceId",required = false) Integer typeOfServiceId, @RequestParam(name = "typeOfServiceCode",required = false) String typeOfServiceCode, PageParamsRequestDTO pageParamsRequestDTO){
 
-        return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId,pageParamsRequestDTO));
+        return ResponseEntity.status(HttpStatus.OK).body(customerService.responceDtoOrganizationsByTypeOfService(typeOfServiceId,typeOfServiceCode,pageParamsRequestDTO));
     }
 
     @PostMapping("/service_request/create")
