@@ -33,4 +33,8 @@ public class AuthAggregatorSpecialistRequestDTO extends UserDto {
     private String phoneNumber;
     @Size(max = 250, message = "\"addInfo\" field should be no more than 20 characters long")
     private String addInfo;
+    @Pattern(regexp = "[0-9]+", message = "Invalid code format")
+    @Size(min = 6,max = 6,message = "code must contain 6 characters")
+    @NotBlank(message = "Code cannot be null or empty")
+    private String code;
 }
