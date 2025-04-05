@@ -4,7 +4,6 @@ import com.example.backprojectpapo.model.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.NonNull;
 
@@ -26,7 +25,7 @@ public class ConnectionRequest {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "organiztion_id",nullable = false)
+    @JoinColumn(name = "organization_id",nullable = false)
     private Organization organization;
 
     @Column(name = "reg_number",nullable = false)
