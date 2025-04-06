@@ -8,6 +8,7 @@ import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.request.ServiceRequestCustomerCreateRequestDTO;
 import com.example.backprojectpapo.dto.response.CustomerResponseDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
+import com.example.backprojectpapo.dto.response.ServiceDetailResponseDTO;
 import com.example.backprojectpapo.dto.response.ServiceRequestCustomerResponseDTO;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.ServiceRequestSearchCriteria;
@@ -15,9 +16,11 @@ import com.example.backprojectpapo.exception.InvalidRequestException;
 import com.example.backprojectpapo.exception.UserNotFoundException;
 import com.example.backprojectpapo.model.Customer;
 import com.example.backprojectpapo.model.ServiceRequest;
+import com.example.backprojectpapo.model.jwt.JwtData;
 import com.example.backprojectpapo.repository.CustomerRepository;
 import com.example.backprojectpapo.repository.ServiceRequestRepository;
 import com.example.backprojectpapo.service.CustomerService;
+import com.example.backprojectpapo.service.email.EmailService;
 import com.example.backprojectpapo.service.web.CustomUserDetailsService;
 import com.example.backprojectpapo.service.web.JwtService;
 import com.example.backprojectpapo.util.specification.CustomerSpecification;
@@ -41,15 +44,17 @@ public class CustomerServiceImpl implements CustomerService {
     private final ServiceRequestRepository serviceRequestRepository;
     private final OrganizationServiceImpl organizationService;
     private final ServiceRequestServiceImpl serviceRequestService;
+    private final EmailService emailService;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService, ServiceRequestRepository serviceRequestRepository, OrganizationServiceImpl organizationService, ServiceRequestServiceImpl serviceRequestService) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, CustomUserDetailsService customUserDetailsService, JwtService jwtService, ServiceRequestRepository serviceRequestRepository, OrganizationServiceImpl organizationService, ServiceRequestServiceImpl serviceRequestService, EmailService emailService) {
         this.customerRepository = customerRepository;
         this.customUserDetailsService = customUserDetailsService;
         this.jwtService = jwtService;
         this.serviceRequestRepository = serviceRequestRepository;
         this.organizationService = organizationService;
         this.serviceRequestService = serviceRequestService;
+        this.emailService = emailService;
     }
 
     @Override
@@ -63,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
         Optional<Customer> customer = customerRepository.findById(id);
         return Optional.of(
                 customerRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException("Customer not found"))
+                        .orElseThrow(() -> new UserNotFoundException("Customer not found"))
         );
     }
 
@@ -120,7 +125,7 @@ public class CustomerServiceImpl implements CustomerService {
         CustomerResponseDTO customerResponseDTO = CustomerResponseDTO.toDto(customer_);
 
         String newToken = null;
-        if(emailChanged){
+        if (emailChanged) {
             CustomUserDetails customUserDetails = (CustomUserDetails) customUserDetailsService.loadUserByUsername(customer_.getEmail());
             newToken = jwtService.generateToken(customUserDetails);
             customerResponseDTO.setJwtToken(newToken);
@@ -134,10 +139,10 @@ public class CustomerServiceImpl implements CustomerService {
         Specification<Customer> spec = CustomerSpecification.byCriteria(criteria);
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
-        Page<Customer> customers = customerRepository.findAll(spec,pageable);
+        Page<Customer> customers = customerRepository.findAll(spec, pageable);
         Page<CustomerGetAggregatorDTO> dtoPage = customers.map(this::convertToDto);
         return new ResponseDto<>(dtoPage);
-        
+
     }
 
     private CustomerGetAggregatorDTO convertToDto(Customer customer) {
@@ -152,20 +157,43 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO){
-        return organizationService.getOrganizationsByServiceType(serviceTypeId,pageParamsRequestDTO);
+    public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO) {
+        return organizationService.getOrganizationsByServiceType(serviceTypeId, pageParamsRequestDTO);
     }
+
     @Override
     public void deleteById(Integer id) {
         customerRepository.deleteById(id);
     }
 
     @Override
-    public ServiceRequestCustomerResponseDTO setServiceRequestForCustomer(ServiceRequestCustomerCreateRequestDTO requestDTO,String token){
-        return serviceRequestService.save(requestDTO,token);
+    public ServiceRequestCustomerResponseDTO setServiceRequestForCustomer(ServiceRequestCustomerCreateRequestDTO requestDTO, String token) {
+
+        ServiceRequestCustomerResponseDTO serviceRequestCustomerResponseDTO = serviceRequestService.save(requestDTO,
+                token);
+        JwtData jwtData = jwtService.extractData(token);
+        StringBuilder message = new StringBuilder();
+        message.append("Заявка на услугу создана.\n");
+        message.append("Дата и Время начала:\n").append(serviceRequestCustomerResponseDTO.getDateService()).append(
+                "\n\n");
+        message.append("Услуги:\n");
+        List<ServiceDetailResponseDTO> serviceDetailResponseDTOList =
+                serviceRequestCustomerResponseDTO.getServiceDetails().stream().toList();
+        for(int i =0;i<serviceDetailResponseDTOList.size()-1;i++){
+            ServiceDetailResponseDTO serviceDetail = serviceDetailResponseDTOList.get(i);
+            message.append(i).append(". ")
+                    .append(serviceDetail.getName())
+                    .append("(").append(serviceDetail.getCost()).append("р).\n");
+        }
+        message.append("\n");
+
+        emailService.sendSimpleEmail(jwtData.getEmail(), "Pioneer", message.toString());
+
+        return serviceRequestCustomerResponseDTO;
     }
+
     @Override
-    public void deleteServiceRequest(String token, Integer serviceRequestId){
+    public void deleteServiceRequest(String token, Integer serviceRequestId) {
         Integer customerId = jwtService.extractId(token);
         ServiceRequest serviceRequest = serviceRequestRepository.findById(serviceRequestId).orElseThrow(() -> new UserNotFoundException("This service request not found"));
         if (!customerId.equals(serviceRequest.getCustomer().getId())) {
