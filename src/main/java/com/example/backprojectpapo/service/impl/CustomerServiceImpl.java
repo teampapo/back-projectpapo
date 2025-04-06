@@ -162,10 +162,6 @@ public class CustomerServiceImpl implements CustomerService {
 
         return organizationService.getOrganizationsByServiceType(serviceTypeId,typeOfServiceCode,pageParamsRequestDTO);
     }
-    public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO) {
-        return organizationService.getOrganizationsByServiceType(serviceTypeId, pageParamsRequestDTO);
-
-    }
 
     @Override
     public void deleteById(Integer id) {
