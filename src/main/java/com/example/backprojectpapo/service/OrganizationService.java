@@ -32,7 +32,7 @@ public interface OrganizationService {
 
     ResponseDto<ServiceRequestOrganizationResponseDTO> getServiceRequestOrganization(String token,PageParamsRequestDTO pageParamsRequestDTO);
 
-    ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO);
+    ResponseDto<OrganizationCustomerResponseDTO> getOrganizationsByServiceType(Integer serviceTypeId,String typeOfServiceCode, PageParamsRequestDTO pageParamsRequestDTO);
 
     void deleteById(Integer id);
 

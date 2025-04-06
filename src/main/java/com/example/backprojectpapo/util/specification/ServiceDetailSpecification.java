@@ -35,7 +35,7 @@ public class ServiceDetailSpecification {
               predicates.add(criteriaBuilder.like(root.get("type").get("name"), "%"+criteria.getTypeName()+"%"));
           }
           if (criteria.getTypeCode() != null && !criteria.getTypeCode().isEmpty()){
-              predicates.add(criteriaBuilder.like(root.get("type").get("code"), "%"+criteria.getTypeName()+"%"));
+              predicates.add(criteriaBuilder.like(root.get("type").get("code"), "%"+criteria.getTypeCode()+"%"));
           }
 
           predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));

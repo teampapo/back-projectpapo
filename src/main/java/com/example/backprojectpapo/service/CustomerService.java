@@ -34,7 +34,7 @@ public interface CustomerService {
                                                                      ServiceRequestSearchCriteria criteria);
     CustomerResponseDTO update(Integer id, CustomerPutDTO dto);
 
-    ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO);
+    ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId,String typeOfServiceCode, PageParamsRequestDTO pageParamsRequestDTO);
 
     void deleteById(Integer id);
 

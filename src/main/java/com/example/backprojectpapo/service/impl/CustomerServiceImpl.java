@@ -157,8 +157,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+
+    public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId,String typeOfServiceCode, PageParamsRequestDTO pageParamsRequestDTO){
+
+        return organizationService.getOrganizationsByServiceType(serviceTypeId,typeOfServiceCode,pageParamsRequestDTO);
+    }
     public ResponseDto<OrganizationCustomerResponseDTO> responceDtoOrganizationsByTypeOfService(Integer serviceTypeId, PageParamsRequestDTO pageParamsRequestDTO) {
         return organizationService.getOrganizationsByServiceType(serviceTypeId, pageParamsRequestDTO);
+
     }
 
     @Override
