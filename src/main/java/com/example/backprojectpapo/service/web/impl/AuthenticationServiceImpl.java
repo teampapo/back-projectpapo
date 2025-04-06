@@ -50,19 +50,32 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public User signUpAggregatorSpecialist(AuthAggregatorSpecialistRequestDTO dto) {
 
+        checkIsValidCodeByEmail(dto.getEmail(), dto.getCode());
         return userService.registerAggregatorSpecialist(dto);
     }
 
     @Override
     public User signUpCustomer(AuthCustomerRequestDTO dto) {
 
+        checkIsValidCodeByEmail(dto.getEmail(), dto.getCode());
         return userService.registerCustomer(dto);
     }
 
     @Override
     public User signUpOrganization(AuthOrganizationRequestDTO dto) {
 
+        checkIsValidCodeByEmail(dto.getEmail(), dto.getCode());
         return userService.registerOrganization(dto);
+    }
+
+    @Override
+    public Boolean checkIsValidCodeByEmail(String email, String verifyCode) {
+        String storedCode = verificationCodes.get(email);
+        if(storedCode == null || !storedCode.equals(verifyCode)){
+            throw new InvalidVerificationCodeException("Invalid verification code");
+        }
+        verificationCodes.remove(email);
+        return true;
     }
 
     @Override
