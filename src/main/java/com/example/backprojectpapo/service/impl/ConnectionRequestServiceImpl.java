@@ -64,7 +64,7 @@ public class ConnectionRequestServiceImpl implements ConnectionRequestService {
     }
 
     @Override
-    public ResponseDto<ConnectionRequestResponseDTO> search(ConnectionRequestSearchCriteria criteria, String token) {
+    public ResponseDto<ConnectionRequestResponseDTO> getAggregatorConnectionRequest(ConnectionRequestSearchCriteria criteria, String token) {
         Integer aggregatorId = jwtService.extractId(token);
         criteria.setAggregatorSpecialistId(aggregatorId);
 

@@ -10,7 +10,6 @@ import com.example.backprojectpapo.dto.response.ConnectionRequestResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;
 import com.example.backprojectpapo.dto.search.OrganizationSearchCriteria;
-import com.example.backprojectpapo.model.ConnectionRequest;
 import com.example.backprojectpapo.service.AggregatorSpecialistService;
 import com.example.backprojectpapo.service.ConnectionRequestService;
 import com.example.backprojectpapo.service.CustomerService;
@@ -100,7 +99,7 @@ public class AggregatorSpecialistController {
         if (criteria == null) {
             criteria = new ConnectionRequestSearchCriteria();
         }
-        ResponseDto<ConnectionRequestResponseDTO> responseDto = connectionRequestService.search(criteria,token.split(" ")[1]);
+        ResponseDto<ConnectionRequestResponseDTO> responseDto = connectionRequestService.getAggregatorConnectionRequest(criteria,token.split(" ")[1]);
         return ResponseEntity.status(HttpStatus.OK).body(responseDto);
     }
 

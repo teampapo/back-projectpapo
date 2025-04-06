@@ -21,7 +21,7 @@ public interface ConnectionRequestService {
     Optional<ConnectionRequest> findById(Integer id);
     List<ConnectionRequest> findAll();
     Page<ConnectionRequest> findAll(Pageable pageable);
-    ResponseDto<ConnectionRequestResponseDTO> search(ConnectionRequestSearchCriteria criteria, String token);
+    ResponseDto<ConnectionRequestResponseDTO> getAggregatorConnectionRequest(ConnectionRequestSearchCriteria criteria, String token);
     ResponseDto<ConnectionRequestResponseDTO> findByStatus(ConnectionRequestSearchCriteria criteria);
 
 
