@@ -16,7 +16,7 @@ public class ServiceDetailResponseDTO {
     private Integer cost;
     private Integer duration;
     private String addInfo;
-    private String TypeOfServiceName;
+    private String typeOfServiceName;
 
     public static ServiceDetailResponseDTO toDto(ServiceDetail serviceDetail){
         return ServiceDetailResponseDTO.builder()
@@ -26,7 +26,7 @@ public class ServiceDetailResponseDTO {
                 .cost(serviceDetail.getCost())
                 .duration(serviceDetail.getDuration())
                 .addInfo(serviceDetail.getAddInfo())
-                .TypeOfServiceName(serviceDetail.getType().getName())
+                .typeOfServiceName(serviceDetail.getType().getName())
                 .build();
     }
 }

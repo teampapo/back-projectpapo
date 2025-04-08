@@ -18,6 +18,7 @@ public class ServiceDetailWithOrganizationAllResponseDTO {
     private Integer duration;
     private String addInfo;
     private OrganizationCustomerResponseDTO organization;
+    private String typeOfServiceName;
 
     public static ServiceDetailWithOrganizationAllResponseDTO toDTO(ServiceDetail serviceDetail) {
         OrganizationCustomerResponseDTO organizationCustomerResponseDTO = OrganizationCustomerResponseDTO.toDto(serviceDetail.getOrganization());
@@ -30,6 +31,7 @@ public class ServiceDetailWithOrganizationAllResponseDTO {
                 .duration(serviceDetail.getDuration())
                 .addInfo(serviceDetail.getAddInfo())
                 .organization(organizationCustomerResponseDTO)
+                .typeOfServiceName(serviceDetail.getType().getName())
                 .build();
     }
 }
