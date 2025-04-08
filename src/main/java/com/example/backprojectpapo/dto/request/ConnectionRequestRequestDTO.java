@@ -12,4 +12,5 @@ import lombok.*;
 public class ConnectionRequestRequestDTO {
     private Integer id;
     private Status status;
+    private String addInfo;
 }
