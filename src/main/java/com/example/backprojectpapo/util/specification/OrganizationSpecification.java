@@ -51,6 +51,10 @@ public class OrganizationSpecification {
                 predicates.add(criteriaBuilder.equal(root.get("serviceDetails").get("type").get("code") , criteria.getTypeOfServiceCode()));
             }
 
+            if (criteria.getConnectionRequestStatus() != null){
+                predicates.add(criteriaBuilder.equal(root.get("connectionRequests").get("status") , criteria.getConnectionRequestStatus()));
+            }
+
             predicates.addAll(BaseEntitySpecifications.byBaseCriteria(root,query,criteriaBuilder,criteria));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };

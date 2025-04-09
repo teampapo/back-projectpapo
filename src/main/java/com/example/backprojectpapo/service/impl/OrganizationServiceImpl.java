@@ -90,6 +90,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public ResponseDto<OrganizationGetAggregatorDTO> getOrganizationForAggregator(OrganizationSearchCriteria criteria){
         Specification<Organization> spec = OrganizationSpecification.byCriteria(criteria);
+
+
+
+        Optional.ofNullable(criteria.getConnectionRequestStatus())
+                .ifPresentOrElse(
+                        criteria::setConnectionRequestStatus,
+                        () -> criteria.setConnectionRequestStatus(Status.COMPLETED)
+                );
+
+
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
         Page<Organization> organizations = organizationRepository.findAll(spec,pageable);
