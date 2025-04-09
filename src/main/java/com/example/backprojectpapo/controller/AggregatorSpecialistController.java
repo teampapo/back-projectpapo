@@ -5,7 +5,7 @@ import com.example.backprojectpapo.dto.AggregatorSpecialistDTO;
 import com.example.backprojectpapo.dto.request.ConnectionRequestRequestDTO;
 import com.example.backprojectpapo.dto.request.CustomerGetAggregatorDTO;
 
-import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
+import com.example.backprojectpapo.dto.response.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.response.ConnectionRequestResponseDTO;
 import com.example.backprojectpapo.dto.search.ConnectionRequestSearchCriteria;
 import com.example.backprojectpapo.dto.search.CustomerSearchCriteria;

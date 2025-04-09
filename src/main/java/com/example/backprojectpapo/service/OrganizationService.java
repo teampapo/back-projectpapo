@@ -1,7 +1,7 @@
 package com.example.backprojectpapo.service;
 
 import com.example.backprojectpapo.dto.ResponseDto;
-import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
+import com.example.backprojectpapo.dto.response.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;

@@ -1,5 +1,6 @@
 package com.example.backprojectpapo.dto.search;
 
+import com.example.backprojectpapo.model.enums.Status;
 import lombok.*;
 
 @Getter
@@ -20,4 +21,5 @@ public class OrganizationSearchCriteria extends BaseEntitySearchCriteria{
     private String responsiblePersonPhoneNumber;
     private Integer typeOfServiceId;
     private String typeOfServiceCode;
+    private Status connectionRequestStatus;
 }
