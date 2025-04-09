@@ -3,7 +3,7 @@ package com.example.backprojectpapo.service.impl;
 import com.example.backprojectpapo.config.security.components.CustomUserDetails;
 import com.example.backprojectpapo.dto.AddressDTO;
 import com.example.backprojectpapo.dto.ResponseDto;
-import com.example.backprojectpapo.dto.request.OrganizationGetAggregatorDTO;
+import com.example.backprojectpapo.dto.response.OrganizationGetAggregatorDTO;
 import com.example.backprojectpapo.dto.request.OrganizationPostRequestDTO;
 import com.example.backprojectpapo.dto.request.PageParamsRequestDTO;
 import com.example.backprojectpapo.dto.response.OrganizationCustomerResponseDTO;
@@ -93,29 +93,10 @@ public class OrganizationServiceImpl implements OrganizationService {
         Pageable pageable = PageRequest.of(criteria.getPage(), criteria.getSize());
 
         Page<Organization> organizations = organizationRepository.findAll(spec,pageable);
-        Page<OrganizationGetAggregatorDTO> dtoPage = organizations.map(this::convertToDto);
+        Page<OrganizationGetAggregatorDTO> dtoPage = organizations.map(OrganizationGetAggregatorDTO::toDTO);
         return new ResponseDto<>(dtoPage);
     }
 
-    private OrganizationGetAggregatorDTO convertToDto(Organization organization) {
-
-        List<ConnectionRequest> connectionRequest = organization.getConnectionRequests().stream().toList();
-        Status status = connectionRequest.get(connectionRequest.size()-1).getStatus();
-        return new OrganizationGetAggregatorDTO(
-                organization.getId(),
-                organization.getFullName(),
-                organization.getShortName(),
-                organization.getInn(),
-                organization.getKpp(),
-                organization.getOgrn(),
-                organization.getResponsiblePersonSurname(),
-                organization.getResponsiblePersonName(),
-                organization.getResponsiblePersonPatronymic(),
-                organization.getResponsiblePersonEmail(),
-                organization.getResponsiblePersonPhoneNumber(),
-                status
-        );
-    }
 
     @Override
     public OrganizationResponseDTO getOrganization(String token){
