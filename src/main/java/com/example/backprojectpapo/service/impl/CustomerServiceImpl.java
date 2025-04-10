@@ -181,12 +181,14 @@ public class CustomerServiceImpl implements CustomerService {
         message.append("Услуги:\n");
         List<ServiceDetailResponseDTO> serviceDetailResponseDTOList =
                 serviceRequestCustomerResponseDTO.getServiceDetails().stream().toList();
-        for(int i =0;i<serviceDetailResponseDTOList.size()-1;i++){
+
+        for (int i = 0; i < serviceDetailResponseDTOList.size(); i++) {
             ServiceDetailResponseDTO serviceDetail = serviceDetailResponseDTOList.get(i);
-            message.append(i).append(". ")
+            message.append(i + 1).append(". ") // чтобы было с 1, а не с 0
                     .append(serviceDetail.getName())
-                    .append("(").append(serviceDetail.getCost()).append("р).\n");
+                    .append(" (").append(serviceDetail.getCost()).append("р).\n");
         }
+
         message.append("\n");
 
         emailService.sendSimpleEmail(jwtData.getEmail(), "Pioneer", message.toString());
