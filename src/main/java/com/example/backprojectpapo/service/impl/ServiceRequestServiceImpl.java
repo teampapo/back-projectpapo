@@ -114,6 +114,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     public Page<ServiceRequest> getServiceRequestOrganizationByOrganizationId(Integer id, PageParamsRequestDTO pageParamsRequestDTO){
         ServiceRequestSearchCriteria criteria = new  ServiceRequestSearchCriteria();
         criteria.setOrganizationId(id);
+        criteria.setFromDateService(LocalDateTime.now());
 
         Optional.ofNullable(pageParamsRequestDTO.getPage()).ifPresent(criteria::setPage);
         Optional.ofNullable(pageParamsRequestDTO.getSize()).ifPresent(criteria::setSize);
